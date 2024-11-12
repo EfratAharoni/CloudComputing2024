@@ -26,6 +26,14 @@ app.get('/recipes', (req, res) => {
   res.render('pages/recipes')
 })
 
+app.get('/logIn', (req, res) => {
+  res.render('pages/logIn') 
+})
+
+app.get('/signUp', (req, res) => {
+  res.render('pages/signUp') 
+})
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
