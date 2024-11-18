@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - HealthyLife</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <style>
+        .image-analysis-container {
+            background-color: #ffffff;
+            padding: 2rem;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            border: 1px solid #c4c4c4;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 0.8rem;
+            margin-top: 1rem;
+            background-color: #A0496C;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .submit-button:hover {
+            background-color: #c48aa0;
+        }
+
+        .results-container {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div id="page">
+        <div id="header">
+            <!-- העתק את התפריט מהדף הראשי -->
+        </div>
+        <div id="content">
+            <div class="image-analysis-container">
+                <h2>Analyze Food Image</h2>
+                <form id="imageAnalysisForm">
+                    <input 
+                        type="text" 
+                        id="imageUrl" 
+                        class="form-input"
+                        placeholder="Enter image URL"
+                        required
+                    >
+                    <button type="submit" class="submit-button">Analyze Image</button>
+                </form>
+                <div id="results" class="results-container"></div>
+            </div>
+        </div>
+        <div id="footer">
+            <!-- העתק את הפוטר מהדף הראשי -->
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('imageAnalysisForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const imageUrl = document.getElementById('imageUrl').value;
+            const resultsDiv = document.getElementById('results');
+            
+            try {
+                const response = await fetch('/api/images/upload-url', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ imageUrl })
+                });
+                
+                const data = await response.json();
+                resultsDiv.innerHTML = `
+                    <h4>${data.message}</h4>
+                    ${data.ingredients ? '<ul>' + data.ingredients.map(item => `<li>${item}</li>`).join('') + '</ul>' : ''}
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = '<p style="color: red;">Error analyzing image</p>';
+            }
+        });
+    </script>
+</body>
+</html>

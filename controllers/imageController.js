@@ -1,27 +1,41 @@
-const { analyzeImage } = require('../models/imaggaModel');
+const ImageModel = require('../models/imageModel');
 
-/**
- * מטפל בבקשת העלאת תמונה וניתוחה.
- * @param {object} req - הבקשה שמגיעה מהלקוח
- * @param {object} res - התשובה שתשלח ללקוח
- */
-exports.uploadImage = async (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ message: 'No file uploaded.' });
-    }
+class ImageController {
+    static async uploadImageByUrl(req, res) {
+        const { imageUrl } = req.body;
 
-    try {
-        // ניתוח התמונה באמצעות Imagga
-        const ingredients = await analyzeImage(req.file.path);
-
-        // החזרת תגובה ללקוח
-        if (ingredients.length > 0) {
-            res.json({ message: 'Food items detected:', ingredients });
-        } else {
-            res.json({ message: 'No food items detected with sufficient confidence.' });
+        if (!imageUrl) {
+            return res.status(400).json({ 
+                status: 'error', 
+                message: 'No image URL provided.' 
+            });
         }
-    } catch (error) {
-        console.error('Error processing the image:', error.message);
-        res.status(500).send('Error processing the image');
+
+        try {
+            const imagePath = await ImageModel.downloadImageFromUrl(imageUrl);
+            const ingredients = await ImageModel.analyzeImage(imagePath);
+            ImageModel.deleteTemporaryImage(imagePath);
+
+            if (ingredients.length > 0) {
+                res.json({ 
+                    status: 'success',
+                    message: 'Food items detected', 
+                    ingredients 
+                });
+            } else {
+                res.json({ 
+                    status: 'warning',
+                    message: 'No food items detected with sufficient confidence.' 
+                });
+            }
+        } catch (error) {
+            console.error('Error:', error.message);
+            res.status(500).json({ 
+                status: 'error',
+                message: 'Error processing the image'
+            });
+        }
     }
-};
+}
+
+module.exports = ImageController;
