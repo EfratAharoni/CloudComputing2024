@@ -1,4 +1,4 @@
-const Meal = require('../models/meal');
+const Meal = require('../models/mealModel'); // שם מתאים לקובץ
 const axios = require('axios');
 const multer = require('multer');
 

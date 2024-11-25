@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = 5000;
 
-const { sequelize } = require('./models/user');
+const { sequelize } = require('./models/userModel');
 const userController = require('./controllers/userController');
 const imageRoutes = require('./routes/imageRoutes');
 

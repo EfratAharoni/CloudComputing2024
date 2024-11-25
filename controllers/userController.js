@@ -1,5 +1,5 @@
 // controllers/userController.js
-const User = require('../models/user');
+const User = require('../models/userModel');
 
 // פונקציה להוספת משתמש חדש
 exports.createUser = async (req, res) => {
