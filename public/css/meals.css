@@ -1,0 +1,335 @@
+#header {
+	height: 130px;
+	margin: 0 auto;
+	overflow: hidden;
+	width: 960px;
+}
+
+#header div {
+	float: left;
+	height: 130px;
+	width: 316px;
+}
+
+#header ul {
+	background: url(../images/bg-navigation.gif) no-repeat top center;
+	float: left;
+	height: 50px;
+	list-style: none;
+	margin: 80px 0 0;
+	padding: 0;
+	width: 644px;
+}
+
+#header ul li {
+	float: left;
+	width: 129px;
+}
+
+#header ul li.first {
+	width: 128px;
+}
+
+#header ul li.last {
+	width: 128px;
+}
+
+#header ul li a {
+	color: #fffbff;
+	display: block;
+	line-height: 50px;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: 1px 1px 0 #cc0850;
+	text-transform: capitalize;
+}
+
+#header ul li a:hover, #header ul li.selected a {
+	background: url(../images/sprites-icons.gif) no-repeat 0 -370px;
+	color: #7c0032;
+	text-shadow: 1px 1px 0 #fde8f7;
+}
+
+#header ul li.first a:hover, #header ul li.current a {
+	background: url(../images/sprites-icons.gif) no-repeat 0 -250px;
+	color: #7c0032;
+	text-shadow: 1px 1px 0 #fde8f7;	
+}
+
+#header ul li.last a:hover, #header ul li.select a  {
+	background: url(../images/sprites-icons.gif) no-repeat 0 -310px;
+	color: #7c0032;
+	text-shadow: 1px 1px 0 #fde8f7;	
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  
+  button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  table th {
+    background-color: #f2f2f2;
+    color: #333;
+  }
+  
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    border-radius: 10px;
+  }
+  
+  /* עיצוב הטופס */
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* רווח בין השדות */
+  }
+  
+  /* עיצוב קבוצות שדות */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  .form-group input,
+  .form-group select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  /* שדות במספר עמודות */
+  .inline-fields {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .inline-fields .form-group {
+    flex: 1; /* כל שדה תופס חלק שווה */
+  }
+  
+  /* עיצוב הכפתור */
+  .modal-content button[type="submit"] {
+    align-self: center; /* ממורכז */
+    background-color: #28a745;
+    color: #fff;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .modal-content button[type="submit"]:hover {
+    background-color: #218838;
+  }
+
+  
+  .close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close-button:hover,
+  .close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  #footer {
+	background: #f2e1e9 url(../images/bg-footer2.gif) repeat-x top center;
+	height: auto;
+	width: 100%;
+}
+
+#footer div {
+	background:  url(../images/bg-footer.jpg) no-repeat top center;
+}
+
+#footer div div {
+	margin: 0 auto 10px;
+	width: 960px;
+}
+
+#footer div div ul {
+	clear: both;
+	list-style: none;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+}
+
+#footer div div ul li {
+	float: left;
+	width: 320px;
+}
+
+#footer div div ul li h2 {
+	font-size: 20px;
+	font-style: italic;
+	margin: 0 0 0 25px;
+	width: 283px;
+}
+
+#footer div div ul li h2 a {
+	color: #f63c85;
+	display: block;
+	text-decoration: none;
+}
+
+#footer div div ul li p {
+	margin-left: 25px;
+    width: 283px;
+}
+
+#footer div div div {
+	background: none;
+	overflow: hidden;
+	padding-top: 65px;
+    width: auto;
+}
+
+#footer div div div div {
+	float: left;
+    height: auto;
+    margin-left: 35px;
+    width: 282px;
+}
+
+#footer div div div div.first {
+	margin-left: 21px;
+}
+
+#footer div div div div h3 {
+	color: #F63C85;
+	font-size: 18px;
+	font-style: italic;
+	margin: 0;
+}
+
+#footer div div div div h3 a:hover, 
+#footer div div ul li h2 a:hover,
+#content div div.aside ul li a:hover {
+	color: #ab3d69;
+}
+
+
+#footer div div div div ul {
+	list-style: none;
+	margin: 0;
+    overflow: hidden;
+    padding: 10px 0 0 10px;
+}
+
+#footer div div div div ul li {
+	float: left;
+    padding: 5px 0;
+    width: 125px;
+}
+
+#footer div div div div ul li a {
+	color: #584549;
+	display: block;
+	height: 22px;
+	line-height: 22px;
+	text-decoration: none;
+	text-indent: 30px;
+}
+
+#footer div div div div ul li a:hover {
+	color: #A0496C;
+}
+
+#footer div div div div ul li a.facebook {
+	background: url(../images/sprites-icons.gif) no-repeat 0 -990px;
+}
+
+#footer div div div div ul li a.support {
+	background: url(../images/sprites-icons.gif) no-repeat 43px -1266px;
+	padding-left: 40px;
+}
+
+#footer div div div div ul li a.twitter {
+	background: url(../images/sprites-icons.gif) no-repeat 0 -1300px;
+}
+
+#footer div div div div ul li a.flicker {
+	background: url(../images/sprites-icons.gif) no-repeat 43px -1052px;
+	padding-left: 40px;
+}
+
+#footer div div div div span {
+	background: url(../images/sprites-icons.gif) no-repeat 0 -1114px;
+	display: block;
+	color: #584549;
+	font-family: Georgia;
+	font-size: 30px;
+    height: 40px;
+    line-height: 40px;
+    margin-top: 40px;
+    text-indent: 60px;
+}
+
+#footer div p.footnote {
+	background: url(../images/bg-copyright.gif) no-repeat top center;
+	color: #c48aa0;
+	display: block;
+	height: 60px;
+	line-height: 60px;
+	margin: 0;
+	text-align: center;
+}
+
+
+  

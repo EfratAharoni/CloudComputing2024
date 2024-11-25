@@ -53,3 +53,13 @@ app.get('/signUp', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
+
+
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' }); // שמירת קבצים בתיקייה 'uploads'
+const mealsController = require('./controllers/mealsController');
+
+app.post('/api/meals', upload.single('description'), (req, res, next) => {
+  console.log('Request received:', req.body, req.file); // לוג כדי לבדוק את הבקשה
+  next(); // העבר את הבקשה ל-Controller
+}, mealsController.createMeal);
