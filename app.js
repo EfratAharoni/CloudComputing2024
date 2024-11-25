@@ -2,58 +2,68 @@ const express = require('express');
 const app = express();
 const port = 5000;
 
-const { sequelize } = require('./models/user'); // Import sequelize instance and user model
-
+const { sequelize } = require('./models/user');
 const userController = require('./controllers/userController');
+const imageRoutes = require('./routes/imageRoutes');
 
-app.use(express.json()); // Middleware לקריאת JSON
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.post('/users', userController.createUser); // נתיב ליצירת משתמש חדש
+// הוספת נתיב עבור ניתוח תמונות
+app.use('/api/images', imageRoutes);
 
-// בדיקת חיבור למסד הנתונים
+app.post('/users', userController.createUser);
+
+
 sequelize.authenticate()
-    .then(() => console.log('Connection has been established successfully.'))
-    .catch(err => console.error('Unable to connect to the database:', err));
+   .then(() => console.log('Connection has been established successfully.'))
+   .catch(err => console.error('Unable to connect to the database:', err));
 
 app.set("view engine", "ejs");
 app.use(express.static('public'));
 
+// נתיבים קיימים
 app.get('/', (req, res) => {
-  res.render('pages/index');
+ res.render('pages/index');
 });
 
 app.get('/about', (req, res) => {
-  res.render('pages/about');
+ res.render('pages/about');
 });
 
 app.get('/blog', (req, res) => {
-  res.render('pages/blog');
+ res.render('pages/blog');
 });
 
 app.get('/contact', (req, res) => {
-  res.render('pages/contact');
+ res.render('pages/contact');
 });
 
 app.get('/index', (req, res) => {
-  res.render('pages/index');
+ res.render('pages/index');
 });
 
 app.get('/recipes', (req, res) => {
-  res.render('pages/recipes');
+ res.render('pages/recipes');
 });
 
 app.get('/logIn', (req, res) => {
-  res.render('pages/logIn');
+ res.render('pages/logIn');
 });
 
 app.get('/signUp', (req, res) => {
-  res.render('pages/signUp');
+ res.render('pages/signUp');
 });
 
+// הוספת נתיב לדף הדשבורד
+// הוספת נתיב לדף הדשבורד
+app.get('/dashboard', (req, res) => {
+   res.render('pages/dashboard');
+  });
+  
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+ console.log(`Example app listening on port ${port}`);
 });
-
 
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' }); // שמירת קבצים בתיקייה 'uploads'
