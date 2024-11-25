@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('./db'); // חיבור למסד הנתונים
+const { Sequelize, DataTypes } = require('sequelize');
+const { sequelize } = require('./userModel');
 const axios = require('axios'); // לשימוש ב-APIs
 
 // הגדרת מודל הארוחה

@@ -1,90 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log In</title>
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        /* עיצוב כללי של הדף */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7; /* צבע רקע כללי */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Log In - HealthyLife</title>
+   <link rel="stylesheet" href="css/style.css">
+   <style>
+       body {
+           font-family: Arial, sans-serif;
+           background-color: #f7f7f7;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           height: 100vh;
+           margin: 0;
+       }
 
-        /* עיצוב של תיבת הרישום */
-        .login-container {
-            background-color: #ffffff; /* צבע הרקע של התיבה */
-            padding: 2rem;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            width: 320px;
-            text-align: center;
-        }
+       .login-container {
+           background-color: #ffffff;
+           padding: 2rem;
+           box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+           border-radius: 8px;
+           width: 320px;
+           text-align: center;
+       }
 
-        .login-container h2 {
-            margin-bottom: 1rem;
-            color: #F63C85; /* צבע ורוד */
-        }
+       .login-container h2 {
+           margin-bottom: 1rem;
+           color: #F63C85;
+       }
 
-        /* עיצוב של שדות קלט */
-        .login-container input[type="text"],
-        .login-container input[type="password"] {
-            width: 100%;
-            padding: 0.8rem;
-            margin: 0.5rem 0;
-            border: 1px solid #c4c4c4;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
+       .login-container input[type="text"],
+       .login-container input[type="password"] {
+           width: 100%;
+           padding: 0.8rem;
+           margin: 0.5rem 0;
+           border: 1px solid #c4c4c4;
+           border-radius: 4px;
+           box-sizing: border-box;
+       }
 
-        /* עיצוב של כפתור התחברות */
-        .login-container .login-button {
-            width: 100%;
-            padding: 0.8rem;
-            margin-top: 1rem;
-            background-color: #A0496C; /* צבע ורוד כהה */
-            border: none;
-            color: white; /* צבע טקסט לבן */
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
+       .login-container .login-button {
+           width: 100%;
+           padding: 0.8rem;
+           margin-top: 1rem;
+           background-color: #A0496C;
+           border: none;
+           color: white;
+           font-size: 1rem;
+           font-weight: bold;
+           cursor: pointer;
+           border-radius: 4px;
+           transition: background-color 0.3s;
+       }
 
-        .login-container .login-button:hover {
-            background-color: #c48aa0; /* צבע ורוד בהיר יותר בעת מעבר */
-        }
+       .login-container .login-button:hover {
+           background-color: #c48aa0;
+       }
 
-        /* עיצוב של קישור לרישום */
-        .login-container .signup-link {
-            display: block;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: #A0496C; /* צבע הקישור */
-            text-decoration: none;
-        }
+       .login-container .signup-link {
+           display: block;
+           margin-top: 1rem;
+           font-size: 0.9rem;
+           color: #A0496C;
+           text-decoration: none;
+       }
 
-        .login-container .signup-link:hover {
-            text-decoration: underline;
-        }
-    </style>
+       .login-container .signup-link:hover {
+           text-decoration: underline;
+       }
+
+       .error-message {
+           color: red;
+           margin-top: 10px;
+           font-size: 14px;
+       }
+   </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Log In</h2>
-        <form action="dashboard.html" method="POST">
-            <input type="text" placeholder="Username" required>
-            <input type="password" placeholder="Password" required>
-            <button class="login-button" type="submit">Log In</button>
-        </form>
-        <a class="signup-link" href="signup">Create a New Account</a>
-    </div>
+   <div class="login-container">
+       <h2>Log In</h2>
+       <form action="/dashboard" method="GET">
+           <input type="text" name="username" placeholder="Username" required>
+           <input type="password" name="password" placeholder="Password" required>
+           <button class="login-button" type="submit">Log In</button>
+       </form>
+       <div id="error-message" class="error-message"></div>
+       <a class="signup-link" href="/signup">Create a New Account</a>
+   </div>
+
+   <script>
+       document.querySelector('form').addEventListener('submit', async (e) => {
+           e.preventDefault();
+           const username = document.querySelector('input[name="username"]').value;
+           const password = document.querySelector('input[name="password"]').value;
+
+           try {
+               const response = await fetch('/login', {
+                   method: 'POST',
+                   headers: {
+                       'Content-Type': 'application/json'
+                   },
+                   body: JSON.stringify({ username, password })
+               });
+
+               if (response.ok) {
+                   window.location.href = '/dashboard';
+               } else {
+                   const data = await response.json();
+                   document.getElementById('error-message').textContent = data.message || 'Login failed';
+               }
+           } catch (error) {
+               document.getElementById('error-message').textContent = 'An error occurred';
+           }
+       });
+   </script>
 </body>
 </html>
