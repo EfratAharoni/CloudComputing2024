@@ -1,33 +1,19 @@
-const { Sequelize, DataTypes } = require('sequelize');
-
-const sequelize = new Sequelize('HealthyLifeDB', 'EfratAharoni_SQLLogin_2', 'wlstybw2ax', {
-   host: 'HealthyLifeDB.mssql.somee.com',
-   dialect: 'mssql',
-   dialectOptions: {
-       options: {
-           encrypt: true,
-           trustServerCertificate: true,
-           packetSize: 4096
-       }
-   },
-   pool: {
-       max: 5,
-       min: 0,
-       idle: 10000
-   },
-   logging: false
-});
+const { DataTypes } = require('sequelize');
+const sequelize = require('../dal/db'); // חיבור למסד הנתונים
 
 const User = sequelize.define('User', {
-   username: {
-       type: DataTypes.STRING,
-       allowNull: false,
-       unique: true
-   },
-   password: {
-       type: DataTypes.STRING,
-       allowNull: false
-   }
+    username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        primaryKey: true, // הפוך את username למפתח הראשי
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+}, {
+    tableName: 'users', // שם הטבלה במסד הנתונים
+    timestamps: false, // ביטול עמודות createdAt ו-updatedAt
 });
 
-module.exports = { sequelize, User };
+module.exports = User;

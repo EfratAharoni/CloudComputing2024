@@ -32,7 +32,7 @@ Meal.getDescriptionFromImage = async (imagePath) => {
   try {
     const response = await axios.post('https://api.imagga.com/v2/tags', null, {
       headers: {
-        Authorization: 'Basic YOUR_IMAGGA_API_KEY',
+        Authorization: 'acc_705510e873a5cad',
       },
       params: {
         image: imagePath,

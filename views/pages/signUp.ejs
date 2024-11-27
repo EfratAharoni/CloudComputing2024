@@ -4,7 +4,7 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Sign Up - HealthyLife</title>
-   <link rel="stylesheet" href="css/style.css">
+   <link rel="stylesheet" href="/css/style.css">
    <style>
        body {
            font-family: Arial, sans-serif;
@@ -31,7 +31,6 @@
        }
 
        .signup-container input[type="text"],
-       .signup-container input[type="email"],
        .signup-container input[type="password"] {
            width: 100%;
            padding: 0.8rem;
@@ -88,7 +87,7 @@
            <button class="signup-button" type="submit">Sign Up</button>
        </form>
        <div id="error-message" class="error-message"></div>
-       <a class="login-link" href="/login">Already have an account? Log In</a>
+       <a class="login-link" href="/logIn">Already have an account? Log In</a>
    </div>
 
    <script>
@@ -97,14 +96,14 @@
            const username = document.querySelector('input[name="username"]').value;
            const password = document.querySelector('input[name="password"]').value;
            const confirmPassword = document.querySelector('input[name="confirmPassword"]').value;
-           
+
            if (password !== confirmPassword) {
                document.getElementById('error-message').textContent = 'Passwords do not match';
                return;
            }
 
            try {
-               const response = await fetch('/users', {
+               const response = await fetch('/users/signup', {
                    method: 'POST',
                    headers: {
                        'Content-Type': 'application/json'
