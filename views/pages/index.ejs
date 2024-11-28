@@ -25,6 +25,100 @@
         .login-button:hover {
             background-color: #c48aa0; /* צבע ורוד בהיר יותר בעת מעבר */
         }
+
+        /* עיצוב לכותרת */
+        .main-header {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .main-header h1 {
+            font-size: 36px;
+            color: #FF007F;
+            white-space: nowrap;
+            display: inline;
+        }
+
+        .main-header p {
+            font-size: 18px;
+            color: #333;
+        }
+
+        /* עיצוב לתיבות התוכן */
+        .content-section {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+            gap: 20px; /* רווח בין הקופסאות */
+        }
+
+        .content-box {
+            flex: 1;
+            background-color: #ffffff; /* צבע רקע לבן */
+            padding: 20px;
+            border-radius: 15px; /* פינות מעוגלות */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* צל מתחת לכל קופסה */
+            text-align: center; /* מרכז את הטקסט */
+            transition: transform 0.2s ease, box-shadow 0.2s ease; /* אנימציה */
+        }
+
+        .content-box h3 {
+            color: #FF007F;
+            font-size: 22px;
+            margin-bottom: 15px; /* ריווח מתחת לכותרת */
+        }
+
+        .content-box p {
+            color: #555; /* צבע טקסט אפור כהה */
+            font-size: 16px;
+            line-height: 1.5; /* ריווח בין השורות */
+        }
+
+        /* אפקט של ריחוף על קופסה */
+        .content-box:hover {
+            transform: translateY(-5px); /* אפקט הרמה בעת מעבר */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* צל חזק יותר */
+        }
+
+        /* עיצוב לתוכן הטקסט */
+        .text-content {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .text-content p {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .text-content a {
+            color: #FF007F;
+            text-decoration: none;
+        }
+
+        /* סגנון לתמונות עיגול */
+        .circle-image {
+            width: 50px;  /* גודל התמונה */
+            height: 50px;
+            border-radius: 50%;  /* הפיכת התמונה לעיגול */
+            object-fit: cover;  /* חיתוך התמונה כך שהיא תתמלא בעיגול */
+            margin-right: 10px;  /* מרווח בין התמונה לטקסט */
+        }
+
+        /* סגנון ל-ul של האסייד */
+        .aside ul {
+            display: flex;
+            flex-direction: column;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        /* סגנון לכל אלמנט li */
+        .aside ul li {
+            display: flex;
+            align-items: center;  /* סידור התמונה והטקסט לצד אחד */
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -42,29 +136,61 @@
                 <li><a href="/recipes">Recipes</a></li>
                 <li><a href="/about">About us</a></li>
                 <li><a href="/blog">Blog</a></li>
-                <li class="last"><a href="/contact">Contact Us</a></li>
+                <li><a href="/contact">Contact Us</a></li>
             </ul>
         </div>
+
         <div id="content">
             <span class="background"></span>
             <div id="home">
-                <ul>
-                    <li class="first">
-                        <a href="/"><img src="/images/vegetables.jpg" alt="Image"/></a>
-                        <p>Lorem ipsum dolor sit</p>
-                    </li>
-                    <li>
-                        <a href="/"><img src="/images/pastries.jpg" alt="Image"/></a>
-                        <p>Mirum est notare quam</p>
-                    </li>
-                </ul>
-                <div>
-                    <a href="/"><img src="/images/strawberry-pastry.jpg" alt="Image" /></a>
-                    <h1><a href="/"><span>Secrets of</span> <br />Healthy eating</a></h1>
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat... <a class="more" href="/">Read more</a></p>
+                <!-- כותרת עמוד הבית -->
+                <div class="main-header" style="text-align: center; margin: 20px;">
+                    <br><br>
+                    <h1 style="font-size: 36px; color: #FF007F; white-space: nowrap; display: inline;">
+                        The Healthy Life
+                    </h1>
+                    <p style="font-size: 18px; color: #333;">
+                        The easy way to healthy, balanced living. Our platform is here to help you create a healthy and balanced routine tailored to your needs.
+                    </p>
+                </div>
+
+                <!-- תיבות תוכן -->
+                <div class="content-section">
+                    <div class="content-box">
+                        <h3>Track Your Meals</h3>
+                        <p>Easily track your meals and analyze the most important nutritional values.</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Personalized Insights</h3>
+                        <p>Get personalized insights that guide you toward smarter decisions.</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Smart Tools</h3>
+                        <p>Enjoy smart tools, detailed reports, and notifications to maintain a healthy lifestyle.</p>
+                    </div>
+                </div>
+
+                <!-- תוכן נוסף -->
+                <div class="text-content">
+                    <p>Advanced tools for you: Our website combines advanced technology with a simple and intuitive user experience. Everything is built to make it easier for you – from integrating external services to ensuring easy access from any device, anytime.</p>
+                    <p>The journey to better health starts here! <a href="about">Learn more</a></p>
                 </div>
             </div>
         </div>
+
+        <div class="aside">
+            <ul>
+                <li>
+                    <a href="index.html"><img src="images/homePic.jpg" alt="Image" class="circle-image" /></a>
+                    <a href="index.html">Pastry Fruit Desserts</a>
+                </li>
+                <li>
+                    <a href="index.html"><img src="images/homePictu.jpg" alt="Image" class="circle-image" /></a>
+                    <a href="index.html">Fruity Recipes</a>
+                </li>
+            </ul>
+        </div>
+
         <div id="footer">
             <div>
                 <div>

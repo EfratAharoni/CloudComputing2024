@@ -5,7 +5,7 @@ const path = require('path');
 class ImageModel {
     static apiKey = 'acc_705510e873a5cad';
     static apiSecret = 'c3ce3258c1198596acc18d6e8aadb36a';
-    static CONFIDENCE_THRESHOLD = 70;
+    static CONFIDENCE_THRESHOLD = 90;
 
     static async analyzeImage(imagePath) {
         try {

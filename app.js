@@ -31,6 +31,10 @@ app.get('/', (req, res) => {
     res.render('pages/index'); // עמוד הבית
 });
 
+app.get('/index', (req, res) => {
+    res.render('pages/index'); // אותו עמוד הבית
+});
+
 app.get('/about', (req, res) => {
     res.render('pages/about'); // עמוד "About Us"
 });
