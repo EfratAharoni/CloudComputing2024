@@ -53,8 +53,8 @@
         }
 
         .content-box {
+            background: none; /* אם יש רקע לבן, נוודא שהוא לא מפריע */
             flex: 1;
-            background-color: #ffffff; /* צבע רקע לבן */
             padding: 20px;
             border-radius: 15px; /* פינות מעוגלות */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* צל מתחת לכל קופסה */
@@ -82,6 +82,7 @@
 
         /* עיצוב לתוכן הטקסט */
         .text-content {
+            background: none; /* אם יש רקע לבן, נוודא שהוא לא מפריע */
             text-align: center;
             margin: 20px;
         }
@@ -98,8 +99,9 @@
 
         /* סגנון לתמונות עיגול */
         .circle-image {
-            width: 50px;  /* גודל התמונה */
-            height: 50px;
+            background: none; /* אם יש רקע לבן, נוודא שהוא לא מפריע */
+            width: 250px;  /* גודל התמונה */
+            height: 250px;
             border-radius: 50%;  /* הפיכת התמונה לעיגול */
             object-fit: cover;  /* חיתוך התמונה כך שהיא תתמלא בעיגול */
             margin-right: 10px;  /* מרווח בין התמונה לטקסט */
@@ -111,6 +113,7 @@
             flex-direction: column;
             list-style-type: none;
             padding: 0;
+            margin-top: -50px; /* התאמת הערך כדי למקם את התמונות למעלה */
         }
 
         /* סגנון לכל אלמנט li */
@@ -119,6 +122,11 @@
             align-items: center;  /* סידור התמונה והטקסט לצד אחד */
             margin-bottom: 15px;
         }
+
+
+
+
+
     </style>
 </head>
 <body>
@@ -153,7 +161,7 @@
                         The easy way to healthy, balanced living. Our platform is here to help you create a healthy and balanced routine tailored to your needs.
                     </p>
                 </div>
-
+        
                 <!-- תיבות תוכן -->
                 <div class="content-section">
                     <div class="content-box">
@@ -169,27 +177,27 @@
                         <p>Enjoy smart tools, detailed reports, and notifications to maintain a healthy lifestyle.</p>
                     </div>
                 </div>
-
+        
                 <!-- תוכן נוסף -->
                 <div class="text-content">
                     <p>Advanced tools for you: Our website combines advanced technology with a simple and intuitive user experience. Everything is built to make it easier for you – from integrating external services to ensuring easy access from any device, anytime.</p>
                     <p>The journey to better health starts here! <a href="about">Learn more</a></p>
                 </div>
             </div>
+        
+            <!-- תפריט צדדי -->
+            <div class="aside">
+                <ul>
+                    <li>
+                        <a href="index.html"><img src="images/homePic.jpg" alt="Image" class="circle-image" /></a>
+                    </li>
+                    <li>
+                        <a href="index.html"><img src="images/homePictu.jpg" alt="Image" class="circle-image" /></a>
+                    </li>
+                </ul>
+            </div>
         </div>
-
-        <div class="aside">
-            <ul>
-                <li>
-                    <a href="index.html"><img src="images/homePic.jpg" alt="Image" class="circle-image" /></a>
-                    <a href="index.html">Pastry Fruit Desserts</a>
-                </li>
-                <li>
-                    <a href="index.html"><img src="images/homePictu.jpg" alt="Image" class="circle-image" /></a>
-                    <a href="index.html">Fruity Recipes</a>
-                </li>
-            </ul>
-        </div>
+        
 
         <div id="footer">
             <div>
