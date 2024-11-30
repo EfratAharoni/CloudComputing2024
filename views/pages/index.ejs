@@ -100,8 +100,8 @@
         /* סגנון לתמונות עיגול */
         .circle-image {
             background: none; /* אם יש רקע לבן, נוודא שהוא לא מפריע */
-            width: 250px;  /* גודל התמונה */
-            height: 250px;
+            width: 180px;  /* גודל התמונה */
+            height: 180px;
             border-radius: 50%;  /* הפיכת התמונה לעיגול */
             object-fit: cover;  /* חיתוך התמונה כך שהיא תתמלא בעיגול */
             margin-right: 10px;  /* מרווח בין התמונה לטקסט */
@@ -152,17 +152,18 @@
             <span class="background"></span>
             <div id="home">
                 <!-- כותרת עמוד הבית -->
-                <div class="main-header" style="text-align: center; margin: 20px;">
+                <div class="main-header" style=" margin: 5% 15%; position:relative">
                     <br><br>
-                    <h1 style="font-size: 36px; color: #FF007F; white-space: nowrap; display: inline;">
+                    <h1 style="margin-top: 50px; padding-top: 30px; font-size: 36px; color: #FF007F; white-space: nowrap; display: inline; ">
                         The Healthy Life
                     </h1>
-                    <p style="font-size: 18px; color: #333;">
+                    <p style="margin-top: 15px;  font-size: 18px; color: #333;">
                         The easy way to healthy, balanced living. Our platform is here to help you create a healthy and balanced routine tailored to your needs.
                     </p>
                 </div>
-        
+                <div id="containers" style="display: flex; gap: 40%; width:100%" >
                 <!-- תיבות תוכן -->
+                 <section  style=" background-color: transparent; position: absolute; margin-right: 18%;">
                 <div class="content-section">
                     <div class="content-box">
                         <h3>Track Your Meals</h3>
@@ -177,14 +178,14 @@
                         <p>Enjoy smart tools, detailed reports, and notifications to maintain a healthy lifestyle.</p>
                     </div>
                 </div>
-        
                 <!-- תוכן נוסף -->
-                <div class="text-content">
+                <div style="margin-top: 25px;"class="text-content">
                     <p>Advanced tools for you: Our website combines advanced technology with a simple and intuitive user experience. Everything is built to make it easier for you – from integrating external services to ensuring easy access from any device, anytime.</p>
                     <p>The journey to better health starts here! <a href="about">Learn more</a></p>
                 </div>
-            </div>
-        
+            
+        </section>
+        <section id="side_menu" style="float:left; background-color: transparent;  position: relative;">
             <!-- תפריט צדדי -->
             <div class="aside">
                 <ul>
@@ -197,6 +198,9 @@
                 </ul>
             </div>
         </div>
+    </section>
+</div>
+</div>
         
 
         <div id="footer">
