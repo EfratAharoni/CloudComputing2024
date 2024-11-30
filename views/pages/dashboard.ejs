@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <title>Dashboard - HealthyLife</title>
     <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     <style>
-        .image-analysis-container {
+        .container {
             background-color: #ffffff;
             padding: 2rem;
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
@@ -56,7 +59,7 @@
             <!-- העתק את התפריט מהדף הראשי -->
         </div>
         <div id="content">
-            <div class="image-analysis-container">
+            <div class="container">
                 <h2>Analyze Food Image</h2>
                 <form id="imageAnalysisForm">
                     <input 
@@ -70,6 +73,21 @@
                 </form>
                 <div id="results" class="results-container"></div>
             </div>
+
+            <div class="container">
+                <h2>Check Date Info</h2>
+                <form id="datePickerForm">
+                    <input 
+                        type="text" 
+                        id="datepicker" 
+                        class="form-input"
+                        placeholder="Choose a date"
+                        required
+                    >
+                    <button type="button" class="submit-button" onclick="submitDate()">Check Date</button>
+                </form>
+                <div id="selected-date" class="results-container"></div>
+            </div>
         </div>
         <div id="footer">
             <!-- העתק את הפוטר מהדף הראשי -->
@@ -77,6 +95,7 @@
     </div>
 
     <script>
+        // Image Analysis Form
         document.getElementById('imageAnalysisForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const imageUrl = document.getElementById('imageUrl').value;
@@ -100,6 +119,42 @@
                 resultsDiv.innerHTML = '<p style="color: red;">Error analyzing image</p>';
             }
         });
+
+        // Date Picker Form
+        $(function () {
+            $("#datepicker").datepicker({
+                dateFormat: "yy-mm-dd", 
+                showAnim: "slideDown"
+            });
+        });
+
+        async function submitDate() {
+            const selectedDate = document.getElementById("datepicker").value;
+            const resultsDiv = document.getElementById("selected-date");
+
+            try {
+                const response = await fetch('/api/hebcal/check-date', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ date: selectedDate })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultsDiv.innerHTML = `
+                        <p>You selected: <strong>${selectedDate}</strong></p>
+                        <p>${data.message}</p>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `<p style="color: red;">${data.message}</p>`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = '<p style="color: red;">Error checking the date</p>';
+            }
+        }
     </script>
 </body>
 </html>
