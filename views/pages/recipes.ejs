@@ -7,6 +7,29 @@
   <link rel="stylesheet" type="text/css" href="css/meals.css" />
   <script src="/js/mealsTable.js" defer></script>
 </head>
+
+<style>
+	/* עיצוב לכפתור ה-Log In */
+	.addMeal-button {
+		top: 10px;
+		right: 10px;
+		padding: 10px 20px;
+		background-color: #A0496C; /* צבע ורוד כהה */
+		color: white; /* צבע טקסט */
+		border: none;
+		cursor: pointer;
+		font-size: 16px;
+		border-radius: 5px; /* עיגול פינות */
+		transition: background-color 0.3s; /* אפקט מעבר */
+	}
+
+	/* אפקט כשעוברים מעל הכפתור */
+	.addMeal-button:hover {
+		background-color: #c48aa0; /* צבע ורוד בהיר יותר בעת מעבר */
+	}
+</style>
+
+
 <body>
   <div id="page">
     <div id="header">
@@ -23,7 +46,8 @@
     </div>
     <div id="content">
       <!-- כפתור להוספת ארוחה -->
-      <button id="addMealButton">Add Meal</button>
+      <button class="addMeal-button" id="addMealButton">Add Meal</button>
+
 
       <!-- טבלה להצגת נתוני הארוחות -->
       <table>
@@ -120,7 +144,7 @@
             </div>
           </div>
         </div>
-        <p class="footnote">&copy; 2011 Healthy Life. All Rights Reserved.</p>
+        <p class="footnote">&copy; 2024 Healthy Life. All Rights Reserved.</p>
       </div>
     </div>
   </div>
