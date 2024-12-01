@@ -27,6 +27,8 @@ app.use('/users', userRoutes); // נתיבים למשתמשים (Login, Signup �
 app.use('/api/images', imageRoutes); // נתיבים לניתוח תמונות
 app.use('/api/meals', mealRoutes); // נתיבים לארוחות
 app.use('/api/hebcal', hebcalRoutes); // נתיבים ל-Hebcal
+app.use('/api/usda', usdaRoutes); // נתיב לחישוב הגרם
+
 
 // Routes של עמודים
 app.get('/', (req, res) => {
