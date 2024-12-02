@@ -6,6 +6,68 @@
   <title>Meals - HealthyLife</title>
   <link rel="stylesheet" type="text/css" href="css/meals.css" />
   <script src="/js/mealsTable.js" defer></script>
+  <style>
+    /* עיצוב המודאל */
+    .modal {
+        display: none; /* מוסתר ברירת מחדל */
+        position: fixed;
+        z-index: 1; /* לוודא שהמודאל מעל התוכן */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* רקע חצי שקוף */
+        overflow: auto; /* מאפשר גלילה אם התוכן גדול מדי */
+    }
+
+    /* תוכן המודאל – הצרת המודאל */
+    .modal-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 40%; /* הקטנת רוחב המודאל (40% מהמסך) */
+        border-radius: 10px; /* פינות מעוגלות */
+    }
+
+    /* כפתור סגירה */
+    .close-button {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .close-button:hover,
+    .close-button:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* Flexbox לשדות שצריכים להיות בשורה אחת */
+    .inline-fields {
+        display: flex;
+        gap: 20px; /* מרווח בין השדות */
+    }
+
+    /* עיצוב לכל שדה */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    /* עיצוב להודעה */
+    .no-history-message {
+        text-align: center;
+        font-size: 20px;
+        color: #FF007F;
+        margin-top: 50px;
+        margin-bottom: 200px;
+    }
+
+  </style>
 </head>
 <body>
   <div id="page">
@@ -15,26 +77,64 @@
       </div>
       <ul>
         <li class="first"><a href="index">Home</a></li>
-        <li class="selected"><a href="meals">Maels</a></li>
+        <li class="selected"><a href="meals">Meals</a></li>
         <li><a href="about">About us</a></li>
         <li><a href="blog">Blog</a></li>
         <li class="last"><a href="contact">Contact Us</a></li>
       </ul>
     </div>
     <div id="content">
-      <!-- כפתור להוספת ארוחה -->
-      <button id="addMealButton">Add Meal</button>
+      <!-- כפתור לפתיחת המודאל -->
+      <button id="addMealButton" style="display:none;">Add Meal</button>
 
-      <!-- טבלה להצגת נתוני הארוחות -->
-      <table>
+      <!-- מודאל להוספת ארוחה -->
+      <div id="mealModal" class="modal">
+        <div class="modal-content">
+          <span class="close-button">&times;</span>
+          <h2>Add New Meal</h2>
+          <form id="mealForm" enctype="multipart/form-data" method="POST" action="/addMeal">
+            <div class="form-group">
+                <label for="mealType">Meal Type:</label>
+                <select id="mealType" name="mealType" required>
+                    <option value="breakfast">Breakfast</option>
+                    <option value="lunch">Lunch</option>
+                    <option value="dinner">Dinner</option>
+                    <option value="snack">Snack</option>
+                </select>
+            </div>
+
+            <!-- Flexbox - שדה Date ו-Holiday יהיו בשורה אחת -->
+            <div class="inline-fields">
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="datetime-local" id="date" name="date" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description (Image):</label>
+                <input type="file" id="descriptionImage" name="descriptionImage" accept="image/*" required>
+            </div>
+
+            <button type="submit">Add Meal</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- הודעה אם אין משתמש מחובר -->
+      <div id="noHistoryMessage" class="no-history-message" style="display:none;">
+        No meals history, need to connect.
+      </div>
+
+      <!-- טבלה להארוחות -->
+      <table id="mealTable" style="display:none;">
         <thead>
           <tr>
             <th style="display: none;">Username</th>
             <th>Meal Type</th>
             <th>Date & Time</th>
             <th>Description</th>
-            <th>Gram</th>
-            <th>Calories</th>
+            <th>Blood glucose level</th>
             <th>Holiday</th>
           </tr>
         </thead>
@@ -42,59 +142,6 @@
           <!-- שורות דינמיות יתווספו כאן -->
         </tbody>
       </table>
-
-      <!-- Modal להוספת ארוחה -->
-      <div id="mealModal" class="modal">
-        <div class="modal-content">
-          <span class="close-button">&times;</span>
-          <h2>הוסף ארוחה</h2>
-          <form id="addMealForm">
-            <!-- קבוצת שדות לסוג הארוחה -->
-            <div class="form-group">
-              <label for="mealType">Meal Type:</label>
-              <select id="mealType" name="mealType">
-                <option value="breakfast">Breakfast</option>
-                <option value="lunch">Lunch</option>
-                <option value="dinner">Dinner</option>
-                <option value="snack">Snack</option>
-              </select>
-            </div>
-
-            <!-- קבוצת שדות לתאריך ושעה -->
-            <div class="inline-fields">
-              <div class="form-group">
-                <label for="dateTime">Date & Time:</label>
-                <input type="datetime-local" id="dateTime" name="dateTime">
-              </div>
-              <div class="form-group">
-                <label for="description">Description:</label>
-                <input type="file" id="descriptionImage" name="descriptionImage" accept="image/*">
-              </div>
-            </div>
-
-            <!-- קבוצת שדות לגרם וקלוריות -->
-            <div class="inline-fields">
-              <div class="form-group">
-                <label for="gram">Gram:</label>
-                <input type="number" id="gram" name="gram" min="0">
-              </div>
-              <div class="form-group">
-                <label for="calories">Calories:</label>
-                <input type="number" id="calories" name="calories" min="0">
-              </div>
-            </div>
-
-            <!-- קבוצת שדה לחג -->
-            <div class="form-group">
-              <label for="holiday">Holiday:</label>
-              <input type="text" id="holiday" name="holiday">
-            </div>
-
-            <!-- כפתור שמירה -->
-            <button type="submit">שמור</button>
-          </form>
-        </div>
-      </div>
     </div>
 
     <div id="footer">
@@ -103,11 +150,11 @@
           <div>
             <div class="first">
               <h3>Newsletter</h3>
-			  <p>Stay updated with the latest news and healthy recipes! Subscribe to our newsletter for tips and updates directly to your inbox. <a class="more" href="/signUp">Subscribe now</a></p>
+              <p>Stay updated with the latest news and healthy recipes! Subscribe to our newsletter for tips and updates directly to your inbox. <a class="more" href="/signUp">Subscribe now</a></p>
             </div>
             <div>
               <h3>Address</h3>
-			  <p>Lustig Campus, Aluf David St. 187<br />P.O. Box 953, Ramat Gan<br />5210901</p>
+              <p>Lustig Campus, Aluf David St. 187<br />P.O. Box 953, Ramat Gan<br />5210901</p>
             </div>
             <div>
               <h3>Follow us</h3>
@@ -117,7 +164,7 @@
                 <li><a href="http://twitter.com/fwtemplates" target="_blank" class="twitter">Twitter</a></li>
                 <li><a href="http://www.flickr.com/freewebsitetemplates/" target="_blank" class="flicker">Flicker</a></li>
               </ul>
-			  <b>03-630-7109</b>
+              <b>03-630-7109</b>
             </div>
           </div>
         </div>
@@ -125,5 +172,45 @@
       </div>
     </div>
   </div>
+
+  <script>
+    // JavaScript לפתיחת וסגירת המודאל
+    const addMealButton = document.getElementById('addMealButton');
+    const mealModal = document.getElementById('mealModal');
+    const closeButton = document.querySelector('.close-button');
+    const mealTable = document.getElementById('mealTable');
+    const noHistoryMessage = document.getElementById('noHistoryMessage');
+    
+    // בדיקת אם יש שם משתמש ב-sessionStorage
+    const username = sessionStorage.getItem('username');
+    
+    // אם יש שם משתמש, הצג את הטבלה
+    if (username) {
+        mealTable.style.display = "table";
+        addMealButton.style.display = "block"
+        noHistoryMessage.style.display = "none";
+    } else {
+        mealTable.style.display = "none";
+        addMealButton.style.display = "none"
+        noHistoryMessage.style.display = "block";
+    }
+
+    // פתיחת המודאל כשנלחץ על כפתור ה-"Add Meal"
+    addMealButton.onclick = function() {
+        mealModal.style.display = "block";
+    }
+
+    // סגירת המודאל כאשר לוחצים על כפתור ה-X
+    closeButton.onclick = function() {
+        mealModal.style.display = "none";
+    }
+
+    // סגירת המודאל אם לוחצים מחוץ לו
+    window.onclick = function(event) {
+        if (event.target == mealModal) {
+            mealModal.style.display = "none";
+        }
+    }
+  </script>
 </body>
 </html>

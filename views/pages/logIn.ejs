@@ -105,7 +105,8 @@
                });
 
                if (response.ok) {
-                   window.location.href = '/dashboard';
+                   sessionStorage.setItem('username', username);
+                   window.location.href = '/index';
                } else {
                    const data = await response.json();
                    document.getElementById('error-message').textContent = data.message || 'Login failed';
