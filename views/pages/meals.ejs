@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meals - HealthyLife</title>
+  <link rel="stylesheet" type="text/css" href="css/meals.css" />
+  <script src="/js/mealsTable.js" defer></script>
+</head>
+<body>
+  <div id="page">
+    <div id="header">
+      <div>
+        <a href="index.html"><img src="images/logo.gif" alt="Logo" /></a>
+      </div>
+      <ul>
+        <li class="first"><a href="index">Home</a></li>
+        <li class="selected"><a href="meals">Maels</a></li>
+        <li><a href="about">About us</a></li>
+        <li><a href="blog">Blog</a></li>
+        <li class="last"><a href="contact">Contact Us</a></li>
+      </ul>
+    </div>
+    <div id="content">
+      <!-- כפתור להוספת ארוחה -->
+      <button id="addMealButton">Add Meal</button>
+
+      <!-- טבלה להצגת נתוני הארוחות -->
+      <table>
+        <thead>
+          <tr>
+            <th style="display: none;">Username</th>
+            <th>Meal Type</th>
+            <th>Date & Time</th>
+            <th>Description</th>
+            <th>Gram</th>
+            <th>Calories</th>
+            <th>Holiday</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- שורות דינמיות יתווספו כאן -->
+        </tbody>
+      </table>
+
+      <!-- Modal להוספת ארוחה -->
+      <div id="mealModal" class="modal">
+        <div class="modal-content">
+          <span class="close-button">&times;</span>
+          <h2>הוסף ארוחה</h2>
+          <form id="addMealForm">
+            <!-- קבוצת שדות לסוג הארוחה -->
+            <div class="form-group">
+              <label for="mealType">Meal Type:</label>
+              <select id="mealType" name="mealType">
+                <option value="breakfast">Breakfast</option>
+                <option value="lunch">Lunch</option>
+                <option value="dinner">Dinner</option>
+                <option value="snack">Snack</option>
+              </select>
+            </div>
+
+            <!-- קבוצת שדות לתאריך ושעה -->
+            <div class="inline-fields">
+              <div class="form-group">
+                <label for="dateTime">Date & Time:</label>
+                <input type="datetime-local" id="dateTime" name="dateTime">
+              </div>
+              <div class="form-group">
+                <label for="description">Description:</label>
+                <input type="file" id="descriptionImage" name="descriptionImage" accept="image/*">
+              </div>
+            </div>
+
+            <!-- קבוצת שדות לגרם וקלוריות -->
+            <div class="inline-fields">
+              <div class="form-group">
+                <label for="gram">Gram:</label>
+                <input type="number" id="gram" name="gram" min="0">
+              </div>
+              <div class="form-group">
+                <label for="calories">Calories:</label>
+                <input type="number" id="calories" name="calories" min="0">
+              </div>
+            </div>
+
+            <!-- קבוצת שדה לחג -->
+            <div class="form-group">
+              <label for="holiday">Holiday:</label>
+              <input type="text" id="holiday" name="holiday">
+            </div>
+
+            <!-- כפתור שמירה -->
+            <button type="submit">שמור</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer">
+      <div>
+        <div>
+          <div>
+            <div class="first">
+              <h3>Newsletter</h3>
+			  <p>Stay updated with the latest news and healthy recipes! Subscribe to our newsletter for tips and updates directly to your inbox. <a class="more" href="/signUp">Subscribe now</a></p>
+            </div>
+            <div>
+              <h3>Address</h3>
+			  <p>Lustig Campus, Aluf David St. 187<br />P.O. Box 953, Ramat Gan<br />5210901</p>
+            </div>
+            <div>
+              <h3>Follow us</h3>
+              <ul>
+                <li><a href="http://facebook.com/freewebsitetemplates" target="_blank" class="facebook">Facebook</a></li>
+                <li><a href="#" class="support">Support</a></li>
+                <li><a href="http://twitter.com/fwtemplates" target="_blank" class="twitter">Twitter</a></li>
+                <li><a href="http://www.flickr.com/freewebsitetemplates/" target="_blank" class="flicker">Flicker</a></li>
+              </ul>
+			  <b>03-630-7109</b>
+            </div>
+          </div>
+        </div>
+        <p class="footnote">&copy; 2011 Healthy Life. All Rights Reserved.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
