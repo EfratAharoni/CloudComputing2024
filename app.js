@@ -20,11 +20,15 @@ app.use((req, res, next) => {
 const userRoutes = require('./routes/userRoutes');
 const imageRoutes = require('./routes/imageRoutes');
 const mealRoutes = require('./routes/mealsRoutes');
+const hebcalRoutes = require('./routes/hebcalRoutes');
+const usdaRoutes = require('./routes/usdaRoutes'); // USDA Routes
 
 // חיבור הנתיבים לשרת
 app.use('/users', userRoutes); // נתיבים למשתמשים (Login, Signup וכו')
 app.use('/api/images', imageRoutes); // נתיבים לניתוח תמונות
 app.use('/api/meals', mealRoutes); // נתיבים לארוחות
+app.use('/api/hebcal', hebcalRoutes); // נתיבים ל-Hebcal
+app.use('/api/usda', usdaRoutes); // נתיבים ל-USDA
 
 // Routes של עמודים
 app.get('/', (req, res) => {
