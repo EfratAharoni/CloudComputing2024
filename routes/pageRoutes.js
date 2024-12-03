@@ -18,6 +18,7 @@ router.get('/meals', (req, res) => {
 });
 
 router.get('/blog', (req, res) => {
+    console.log('Blog page requested');
     res.render('pages/blog'); // עמוד "Blog"
 });
 
@@ -37,8 +38,6 @@ router.get('/dashboard', (req, res) => {
     res.render('pages/dashboard'); // עמוד "Dashboard"
 });
 
-router.get('/addMeal', (req, res) => {
-    res.render('mealRoutes'); // עמוד "Add Meal"
-});
+
 
 module.exports = router;

@@ -1,34 +1,13 @@
 <!DOCTYPE html>
-<!-- Website template by freewebsitetemplates.com -->
 <html>
 <head>
 	<meta charset="UTF-8" />
 	<title>Blog - HealthyLife</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
-	<!--[if IE 9]>
-		<link rel="stylesheet" type="text/css" href="css/ie9.css" />
-	<![endif]-->
-	<!--[if IE 7]>
-		<link rel="stylesheet" type="text/css" href="css/ie7.css" />
-	<![endif]-->
-	<!--[if IE 6]>
-		<link rel="stylesheet" type="text/css" href="css/ie6.css" />
-	<![endif]-->
 </head>
 <body>
 	<div id="page">
-		<div id="header">
-			<div>
-				<a href="index.html"><img src="images/logo.gif" alt="Logo" /></a>
-			</div>
-			<ul>
-				<li class="first"><a href="index">Home</a></li>
-				<li><a href="meals">Meals</a></li>
-				<li><a href="about">About us</a></li>
-				<li class="selected"><a href="blog">Blog</a></li>
-				<li class="last"><a href="contact">Contact Us</a></li>
-			</ul>
-		</div>
+		<%- include('../partial/header') %>
 		<div id="content">
 			<div id="blog">
 				<div class="aside">
@@ -46,7 +25,6 @@
 								<p>May <span>(8)</span></p>
 								<p>April <span>(7)</span></p>
 								<p>March <span>(7)</span></p>
-								<p>April <span>(7)</span></p>
 								<p>February <span>(10)</span></p>
 								<p>January <span>(1)</span></p>
 							</div>
@@ -71,6 +49,7 @@
 						</li>
 					</ul>
 				</div>
+
 				<div>
 					<ul>
 						<li>
@@ -90,8 +69,8 @@
 							<b>5 teaspoon Suspendisse potenti</b>
 							<br/><br/>
 							<h2>Let's bake!</h2>
-							<p>Mirum est notare quam gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem anitatis per seacula quarta decima et quinta decima.</p>
-							<p>Aenean quis viverra neque. Nulla facilisi. In hac habitasse platea dictumst. Curabitur lorem velit, suscipit a convallis vel, lobortis sit amet risus. Duis luctus aliquet pharetra. Donec suscipit nisl et sem scelerisque faucibus tempus dolor sodales. Nunc sodales nisl a quam egestas pretium non a leo.</p>
+							<p>Mirum est notare quam gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima.</p>
+							<p>Aenean quis viverra neque. Nulla facilisi. In hac habitasse platea dictumst. Curabitur lorem velit, suscipit a convallis vel, lobortis sit amet risus.</p>
 						</li>
 						<li>
 							<span id="date">Nov 03</span>
@@ -102,7 +81,7 @@
 							</span>
 							<h1><a href="index.html">Christmas is coming!</a></h1>
 							<h2>Christmas Recipes on the go...</h2>
-							<p>Aenean nec velit nec justo malesuada fermentum. class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptops himenaeos. Donec eget nisl lobortis nisi congue ornare eu at nulla. In in ipsum nisi, quis luctus enim. Fusce fringilla molestie purus sed convallis. Aliquam nibh neque, placerat id faucibus vel, tincidunt quis ante. Curabitur tincidunt ultrices metus et volutpat. Nullam ut luctus eros.</p>
+							<p>Aenean nec velit nec justo malesuada fermentum. class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptops himenaeos.</p>
 						</li>
 					</ul>
 					<div class="section">
@@ -114,34 +93,8 @@
 			</div>
 		</div>
 
-		<div id="footer">
-			<div>
-				<div>
-					<div>
-						<div class="first">
-							<h3>Newsletter</h3>
-							<p>Stay updated with the latest news and healthy recipes! Subscribe to our newsletter for tips and updates directly to your inbox. <a class="more" href="/signUp">Subscribe now</a></p>
-						</div>
-						<div>
-							<h3>Address</h3>
-							<p>Lustig Campus, Aluf David St. 187<br />P.O. Box 953, Ramat Gan<br />5210901</p>
-						</div>
-						<div>
-							<h3>Follow us</h3>
-							<ul>
-								<li><a href="http://facebook.com/freewebsitetemplates" target="_blank" class="facebook">Facebook</a></li>
-								<li><a href="#" class="support">Support</a></li>
-								<li><a href="http://twitter.com/fwtemplates" target="_blank" class="twitter">Twitter</a></li>
-								<li><a href="http://www.flickr.com/freewebsitetemplates/" target="_blank" class="flicker">Flicker</a></li>
-							</ul>
-							<b>03-630-7109</b>
-						</div>
-					</div>
-				</div>
-				<p class="footnote">&copy; 2024 Healthy Life. All Rights Reserved.</p>
-			</div>
-		</div>
+		<%- include('../partial/footer') %> 
 
-	</div>	
+	</div>
 </body>
 </html>

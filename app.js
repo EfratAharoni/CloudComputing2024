@@ -1,14 +1,16 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 const port = 5000;
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(express.static('public')); // לתמונות, קבצים סטטיים
 
 // הגדרת מנוע התצוגה
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views')); // אם יש לך תיקיית views
 
 // לוגים עבור כל בקשה שמגיעה לשרת
 app.use((req, res, next) => {
@@ -24,11 +26,11 @@ const hebcalRoutes = require('./routes/hebcalRoutes');
 const usdaRoutes = require('./routes/usdaRoutes');
 
 // חיבור הנתיבים לשרת
-app.use('/users', userRoutes); // נתיבים למשתמשים (Login, Signup וכו')
-app.use('/api/images', imageRoutes); // נתיבים לניתוח תמונות
-app.use('/api/meals', mealRoutes); // נתיבים לארוחות
-app.use('/api/hebcal', hebcalRoutes); // נתיבים ל-Hebcal
-app.use('/api/usda', usdaRoutes); // נתיבים ל-USDA
+app.use('/users', userRoutes);
+app.use('/api/images', imageRoutes);
+app.use('/api/meals', mealRoutes);
+app.use('/api/hebcal', hebcalRoutes);
+app.use('/api/usda', usdaRoutes);
 
 // Routes של עמודים
 const pageRoutes = require('./routes/pageRoutes');
@@ -49,3 +51,6 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+
+
+  

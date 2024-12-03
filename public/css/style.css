@@ -776,3 +776,179 @@ p a:hover {
 	text-align: center;
 }
 
+
+
+
+     /* עיצוב לכפתור ה-Log In */
+	 .login_out-button {
+		position: fixed;
+		display: inline-block; /* הופך את הכפתור לאלמנט בלוק */            top: 15px;
+		right: 15px;
+		padding: 10px 20px;
+		background-color: #A0496C; /* צבע ורוד כהה */
+		color: white; /* צבע טקסט */
+		border: none;
+		cursor: pointer;
+		font-size: 16px;
+		border-radius: 5px; /* עיגול פינות */
+		transition: background-color 0.3s; /* אפקט מעבר */
+	}
+
+	/* אפקט כשעוברים מעל הכפתור */
+	.login_out-button:hover {
+		background-color: #c48aa0; /* צבע ורוד בהיר יותר בעת מעבר */
+	}
+
+	#greeting {
+		position: absolute;
+		font-size: 18px; /* גודל פונט יפה וקריא */
+		font-weight: bold; /* גודל פונט בולט */
+		color: #333; /* צבע טקסט כהה וברור */
+		margin-left: 1005px; /* רווח בין הברכה לכפתור */
+		margin-top: 25px;
+	}
+
+	/* עיצוב לכותרת */
+	.main-header {
+		text-align: center;
+		margin: 20px;
+	}
+
+	.main-header h1 {
+		font-size: 36px;
+		color: #FF007F;
+		white-space: nowrap;
+		display: inline;
+	}
+
+	.main-header p {
+		font-size: 18px;
+		color: #333;
+	}
+
+	/* עיצוב לתיבות התוכן */
+	.content-section {
+		display: flex;
+		justify-content: space-between;
+		margin: 20px;
+		gap: 20px; /* רווח בין הקופסאות */
+	}
+
+	.content-box {
+		background: none; /* אם יש רקע לבן, נוודא שהוא לא מפריע */
+		flex: 1;
+		padding: 20px;
+		border-radius: 15px; /* פינות מעוגלות */
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* צל מתחת לכל קופסה */
+		text-align: center; /* מרכז את הטקסט */
+		transition: transform 0.2s ease, box-shadow 0.2s ease; /* אנימציה */
+	}
+
+	.content-box h3 {
+		color: #FF007F;
+		font-size: 22px;
+		margin-bottom: 15px; /* ריווח מתחת לכותרת */
+	}
+
+	.content-box p {
+		color: #555; /* צבע טקסט אפור כהה */
+		font-size: 16px;
+		line-height: 1.5; /* ריווח בין השורות */
+	}
+
+	/* אפקט של ריחוף על קופסה */
+	.content-box:hover {
+		transform: translateY(-5px); /* אפקט הרמה בעת מעבר */
+		box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* צל חזק יותר */
+	}
+
+	/* עיצוב לתוכן הטקסט */
+	.text-content {
+		background: none; /* אם יש רקע לבן, נוודא שהוא לא מפריע */
+		text-align: center;
+		margin: 20px;
+	}
+
+	.text-content p {
+		font-size: 18px;
+		color: #333;
+	}
+
+	.text-content a {
+		color: #FF007F;
+		text-decoration: none;
+	}
+
+	/* סגנון לתמונות עיגול */
+	.circle-image {
+		background: none; /* אם יש רקע לבן, נוודא שהוא לא מפריע */
+		width: 180px;  /* גודל התמונה */
+		height: 180px;
+		border-radius: 50%;  /* הפיכת התמונה לעיגול */
+		object-fit: cover;  /* חיתוך התמונה כך שהיא תתמלא בעיגול */
+		margin-right: 10px;  /* מרווח בין התמונה לטקסט */
+	}
+
+	/* סגנון ל-ul של האסייד */
+	.aside ul {
+		display: flex;
+		flex-direction: column;
+		list-style-type: none;
+		padding: 0;
+		margin-top: -50px; /* התאמת הערך כדי למקם את התמונות למעלה */
+	}
+
+	/* סגנון לכל אלמנט li */
+	.aside ul li {
+		display: flex;
+		align-items: center;  /* סידור התמונה והטקסט לצד אחד */
+		margin-bottom: 15px;
+	}
+
+	.container {
+		background-color: #ffffff;
+		padding: 2rem;
+		box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+		border-radius: 8px;
+		width: 80%;
+		max-width: 600px;
+		margin: 20px auto;
+	}
+
+	.form-input {
+		width: 100%;
+		padding: 0.8rem;
+		margin: 0.5rem 0;
+		border: 1px solid #c4c4c4;
+		border-radius: 4px;
+		box-sizing: border-box;
+	}
+
+	.submit-button {
+		width: 100%;
+		padding: 0.8rem;
+		margin-top: 1rem;
+		background-color: #A0496C;
+		border: none;
+		color: white;
+		font-size: 1rem;
+		font-weight: bold;
+		cursor: pointer;
+		border-radius: 4px;
+		transition: background-color 0.3s;
+	}
+
+	.submit-button:hover {
+		background-color: #c48aa0;
+	}
+
+	.results-container {
+		margin-top: 20px;
+		padding: 15px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+	}
+
+	
+
+	
