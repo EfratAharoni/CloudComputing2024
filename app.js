@@ -43,8 +43,8 @@ app.get('/about', (req, res) => {
     res.render('pages/about'); // עמוד "About Us"
 });
 
-app.get('/recipes', (req, res) => {
-    res.render('pages/recipes'); // עמוד "Recipes"
+app.get('/meals', (req, res) => {
+    res.render('pages/meals'); // עמוד "Meals"
 });
 
 app.get('/blog', (req, res) => {
@@ -66,6 +66,10 @@ app.get('/signUp', (req, res) => {
 // הוספת נתיב ל-Dashboard
 app.get('/dashboard', (req, res) => {
     res.render('pages/dashboard'); // עמוד "Dashboard"
+});
+
+app.get('/addMeal', (req, res) => {
+    res.render('mealRoutes'); // עמוד "Dashboard"
 });
 
 // טיפול בשגיאות (404)

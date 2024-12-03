@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meals - HealthyLife</title>
+  <link rel="stylesheet" type="text/css" href="css/meals.css" />
+  <script src="/js/mealsTable.js" defer></script>
+  <style>
+        /* עיצוב לכפתור ה-Log In */
+        .login_out-button {
+            position: fixed;
+            display: inline-block; /* הופך את הכפתור לאלמנט בלוק */            top: 15px;
+            right: 15px;
+            padding: 10px 20px;
+            background-color: #A0496C; /* צבע ורוד כהה */
+            color: white; /* צבע טקסט */
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px; /* עיגול פינות */
+            transition: background-color 0.3s; /* אפקט מעבר */
+        }
+
+        /* אפקט כשעוברים מעל הכפתור */
+        .login_out-button:hover {
+            background-color: #c48aa0; /* צבע ורוד בהיר יותר בעת מעבר */
+        }
+
+        #greeting {
+            position: absolute;
+            font-size: 18px; /* גודל פונט יפה וקריא */
+            font-weight: bold; /* גודל פונט בולט */
+            color: #333; /* צבע טקסט כהה וברור */
+            margin-left: 1005px; /* רווח בין הברכה לכפתור */
+            margin-top: 25px;
+        }
+
+        /* עיצוב לכותרת */
+        .main-header {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .main-header h1 {
+            font-size: 36px;
+            color: #FF007F;
+            white-space: nowrap;
+            display: inline;
+        }
+
+        .main-header p {
+            font-size: 18px;
+            color: #333;
+        }
+
+        /* עיצוב לתיבות התוכן */
+        .content-section {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+            gap: 20px; /* רווח בין הקופסאות */
+        }
+
+        .content-box {
+            background: none; /* אם יש רקע לבן, נוודא שהוא לא מפריע */
+            flex: 1;
+            padding: 20px;
+            border-radius: 15px; /* פינות מעוגלות */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* צל מתחת לכל קופסה */
+            text-align: center; /* מרכז את הטקסט */
+            transition: transform 0.2s ease, box-shadow 0.2s ease; /* אנימציה */
+        }
+
+        .content-box h3 {
+            color: #FF007F;
+            font-size: 22px;
+            margin-bottom: 15px; /* ריווח מתחת לכותרת */
+        }
+
+        .content-box p {
+            color: #555; /* צבע טקסט אפור כהה */
+            font-size: 16px;
+            line-height: 1.5; /* ריווח בין השורות */
+        }
+
+        /* אפקט של ריחוף על קופסה */
+        .content-box:hover {
+            transform: translateY(-5px); /* אפקט הרמה בעת מעבר */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* צל חזק יותר */
+        }
+
+        /* עיצוב לתוכן הטקסט */
+        .text-content {
+            background: none; /* אם יש רקע לבן, נוודא שהוא לא מפריע */
+            text-align: center;
+            margin: 20px;
+        }
+
+        .text-content p {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .text-content a {
+            color: #FF007F;
+            text-decoration: none;
+        }
+
+        /* סגנון לתמונות עיגול */
+        .circle-image {
+            background: none; /* אם יש רקע לבן, נוודא שהוא לא מפריע */
+            width: 180px;  /* גודל התמונה */
+            height: 180px;
+            border-radius: 50%;  /* הפיכת התמונה לעיגול */
+            object-fit: cover;  /* חיתוך התמונה כך שהיא תתמלא בעיגול */
+            margin-right: 10px;  /* מרווח בין התמונה לטקסט */
+        }
+
+        /* סגנון ל-ul של האסייד */
+        .aside ul {
+            display: flex;
+            flex-direction: column;
+            list-style-type: none;
+            padding: 0;
+            margin-top: -50px; /* התאמת הערך כדי למקם את התמונות למעלה */
+        }
+
+        /* סגנון לכל אלמנט li */
+        .aside ul li {
+            display: flex;
+            align-items: center;  /* סידור התמונה והטקסט לצד אחד */
+            margin-bottom: 15px;
+        }
+
+    /* עיצוב המודאל */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        overflow: auto;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 40%;
+        border-radius: 10px;
+    }
+
+    .close-button {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .close-button:hover,
+    .close-button:focus {
+        color: black;
+        cursor: pointer;
+    }
+
+    .inline-fields {
+        display: flex;
+        gap: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .no-history-message {
+        text-align: center;
+        font-size: 20px;
+        color: #FF007F;
+        margin-top: 50px;
+    }
+
+    /* עיצוב לחלק של סינון */
+.filter-section {
+    margin: 20px 10% 0px ;
+    display: flex;
+    gap: 10px; /* מרווח קטן בין השדות והכפתור */
+    align-items: center;
+}
+
+.filter-section input {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.filter-section button {
+    padding: 7px 15px;
+    font-size: 14px;
+    background-color: #cdc5c8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    border-bottom: #555;
+    border-width: 2px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 0;
+    margin-bottom: 24px;
+    margin-top: 2.7%;
+}
+
+.filter-section button:hover {
+    background-color: #c48aa0;
+}
+
+   
+  </style>
+</head>
+<body>
+  <div id="page">
+    <div id="header">
+      <!-- כפתור ה-Log In -->
+      <button id="login-button" class="login_out-button"  onclick="window.location.href='/logIn';">Log in</button>
+      <button id="logout-button" class="login_out-button" style="display:none;" onclick="window.location.href='/index';">Log Out</button>
+      <div id="greeting">
+          <!-- ברכת "שלום, שם משתמש" תוצג כאן -->
+      </div>
+      <div>
+          <a href="/"><img src="/images/logo.gif" alt="Logo" /></a>
+      </div>
+      <ul>
+          <li><a href="/index">Home</a></li>
+          <li class="selected"><a href="/meals">Meals</a></li>
+          <li><a href="/about">About us</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/contact">Contact Us</a></li>
+      </ul>
+      <script>
+      window.onload = function() {
+          const username = sessionStorage.getItem('username');
+          
+          if (username) {
+              document.getElementById('greeting').textContent = `Hi, ${username}`;
+              document.getElementById('login-button').style.display = 'none'; 
+              document.getElementById('logout-button').style.display = 'block';
+          } else {
+              document.getElementById('login-button').style.display = 'block';
+              document.getElementById('logout-button').style.display = 'none';
+          }
+      };
+      
+      document.getElementById('logout-button').addEventListener('click', function() {
+          document.getElementById('greeting').textContent = "";
+          document.getElementById('login-button').style.display = 'block'; 
+          document.getElementById('logout-button').style.display = 'none';
+          sessionStorage.removeItem('username');
+          window.location.href = '/index'; 
+      });
+  </script>
+  </div>
+    <div id="content">
+      <!-- כפתור לפתיחת המודאל -->
+      <button id="addMealButton" style="display:none;">Add Meal</button>
+
+      <!-- סינון לפי טווח תאריכים -->
+      <div class="filter-section">
+        <div class="form-group">
+          <label for="startDate">Start Date:</label>
+          <input type="datetime-local" id="startDate">
+        </div>
+        <div class="form-group">
+          <label for="endDate">End Date:</label>
+          <input type="datetime-local" id="endDate">
+        </div>
+        <button onclick="filterMeals()">Filter</button>
+      </div>
+
+      <!-- מודאל להוספת ארוחה -->
+      <div id="mealModal" class="modal">
+        <div class="modal-content">
+          <span class="close-button">&times;</span>
+          <h2>Add New Meal</h2>
+          <form id="mealForm" enctype="multipart/form-data" method="POST" action="/addMeal">
+            <div class="form-group">
+                <label for="mealType">Meal Type:</label>
+                <select id="mealType" name="mealType" required>
+                    <option value="breakfast">Breakfast</option>
+                    <option value="lunch">Lunch</option>
+                    <option value="dinner">Dinner</option>
+                    <option value="snack">Snack</option>
+                </select>
+            </div>
+
+            <div class="inline-fields">
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="datetime-local" id="date" name="date" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description (Image):</label>
+                <input type="file" id="descriptionImage" name="descriptionImage" accept="image/*" required>
+            </div>
+
+            <button type="submit">Add Meal</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- הודעה אם אין משתמש מחובר -->
+      <div id="noHistoryMessage" class="no-history-message" style="display:none;">
+        No meals history, need to connect.
+      </div>
+
+      <!-- טבלה להארוחות -->
+      <table id="mealTable" style="display:none;">
+        <thead>
+            <tr>
+                <th style="display: none;">Username</th>
+                <th>Meal Type</th>
+                <th>Date & Time</th>
+                <th>Description</th>
+                <th>Blood glucose level</th>
+                <th>Holiday</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- שורות דינמיות יתווספו כאן -->
+          
+        </tbody>
+    </table>
+    
+    </div>
+
+    <p class="footnote">&copy; 2011 Healthy Life. All Rights Reserved.</p>
+
+  </div>
+
+  <script>
+    // JavaScript לפתיחת וסגירת המודאל
+    const addMealButton = document.getElementById('addMealButton');
+    const mealModal = document.getElementById('mealModal');
+    const closeButton = document.querySelector('.close-button');
+    const mealTable = document.getElementById('mealTable');
+    const noHistoryMessage = document.getElementById('noHistoryMessage');
+    
+    // בדיקת אם יש שם משתמש ב-sessionStorage
+    const username = sessionStorage.getItem('username');
+    
+    if (username) {
+        mealTable.style.display = "table";
+        addMealButton.style.display = "block"
+        noHistoryMessage.style.display = "none";
+    } else {
+        mealTable.style.display = "none";
+        addMealButton.style.display = "none"
+        noHistoryMessage.style.display = "block";
+    }
+
+    // פתיחת המודאל כשנלחץ על כפתור ה-"Add Meal"
+    addMealButton.onclick = function() {
+        mealModal.style.display = "block";
+    }
+
+    // סגירת המודאל כאשר לוחצים על כפתור ה-X
+    closeButton.onclick = function() {
+        mealModal.style.display = "none";
+    }
+
+    // סגירת המודאל אם לוחצים מחוץ לו
+    window.onclick = function(event) {
+        if (event.target == mealModal) {
+            mealModal.style.display = "none";
+        }
+    }
+
+    // פונקציה לסינון הארוחות לפי טווח תאריכים
+    function filterMeals() {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+
+        const rows = mealTable.getElementsByTagName('tr');
+        
+        for (let i = 1; i < rows.length; i++) {  // התחל מהשורה השנייה (הראשונה היא הכותרות)
+            const dateCell = rows[i].getElementsByTagName('td')[2]; // תא התאריך הוא בעמודה 3 (ה-index הוא 2)
+            if (dateCell) {
+                const mealDate = new Date(dateCell.textContent);
+                
+                // אם לא נמצא תאריך התחלתי או סופי, הצג את כל השורות
+                if (
+                    (startDate && mealDate < new Date(startDate)) || 
+                    (endDate && mealDate > new Date(endDate))
+                ) {
+                    rows[i].style.display = 'none'; // מסתיר את השורה אם התאריך לא מתאים
+                } else {
+                    rows[i].style.display = ''; // מציג את השורה אם התאריך מתאים
+                }
+            }
+        }
+    }
+  </script>
+</body>
+</html>

@@ -107,8 +107,9 @@ p a:hover {
 
 #content span.background {
 	background: url(../images/wellcome.jpg) no-repeat top center;
+	border-radius: 10px;
 	display: block;
-	height: 500px;
+	height: auto;
 }
 
 #content div#home {
