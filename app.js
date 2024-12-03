@@ -21,7 +21,7 @@ const userRoutes = require('./routes/userRoutes');
 const imageRoutes = require('./routes/imageRoutes');
 const mealRoutes = require('./routes/mealsRoutes');
 const hebcalRoutes = require('./routes/hebcalRoutes');
-const usdaRoutes = require('./routes/usdaRoutes'); // USDA Routes
+const usdaRoutes = require('./routes/usdaRoutes');
 
 // חיבור הנתיבים לשרת
 app.use('/users', userRoutes); // נתיבים למשתמשים (Login, Signup וכו')
@@ -31,46 +31,8 @@ app.use('/api/hebcal', hebcalRoutes); // נתיבים ל-Hebcal
 app.use('/api/usda', usdaRoutes); // נתיבים ל-USDA
 
 // Routes של עמודים
-app.get('/', (req, res) => {
-    res.render('pages/index'); // עמוד הבית
-});
-
-app.get('/index', (req, res) => {
-    res.render('pages/index'); // אותו עמוד הבית
-});
-
-app.get('/about', (req, res) => {
-    res.render('pages/about'); // עמוד "About Us"
-});
-
-app.get('/meals', (req, res) => {
-    res.render('pages/meals'); // עמוד "Meals"
-});
-
-app.get('/blog', (req, res) => {
-    res.render('pages/blog'); // עמוד "Blog"
-});
-
-app.get('/contact', (req, res) => {
-    res.render('pages/contact'); // עמוד "Contact Us"
-});
-
-app.get('/logIn', (req, res) => {
-    res.render('pages/logIn'); // עמוד "Log In"
-});
-
-app.get('/signUp', (req, res) => {
-    res.render('pages/signUp'); // עמוד "Sign Up"
-});
-
-// הוספת נתיב ל-Dashboard
-app.get('/dashboard', (req, res) => {
-    res.render('pages/dashboard'); // עמוד "Dashboard"
-});
-
-app.get('/addMeal', (req, res) => {
-    res.render('mealRoutes'); // עמוד "Dashboard"
-});
+const pageRoutes = require('./routes/pageRoutes');
+app.use('/', pageRoutes);
 
 // טיפול בשגיאות (404)
 app.use((req, res) => {
