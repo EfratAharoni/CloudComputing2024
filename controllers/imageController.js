@@ -12,15 +12,20 @@ class ImageController {
         }
 
         try {
+            // הורדת התמונה מכתובת URL
             const imagePath = await ImageModel.downloadImageFromUrl(imageUrl);
-            const ingredients = await ImageModel.analyzeImage(imagePath);
+
+            // ניתוח התמונה לקבלת תגית ראשונה
+            const description = await ImageModel.analyzeImage(imagePath);
+
+            // מחיקת התמונה הזמנית
             ImageModel.deleteTemporaryImage(imagePath);
 
-            if (ingredients.length > 0) {
+            if (description) {
                 res.json({ 
                     status: 'success',
-                    message: 'Food items detected', 
-                    ingredients 
+                    message: 'Food item detected', 
+                    description, // מחזיר את התיאור הראשון
                 });
             } else {
                 res.json({ 

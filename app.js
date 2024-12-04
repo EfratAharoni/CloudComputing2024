@@ -1,22 +1,27 @@
 const express = require('express');
 const multer = require('multer');
-const path = require('path');
+const path = require('path'); // שמירה רק על שורה אחת
 const app = express();
-const path = require('path');
 const port = 5000;
+const session = require('express-session'); // הוספת express-session לניהול session
+
+app.use(
+    session({
+        secret: 'your-secret-key', // מפתח סודי כלשהו
+        resave: false, // לא לשמור מחדש אם אין שינוי
+        saveUninitialized: true, // לשמור סשנים ריקים
+        cookie: { secure: false }, // אם אתם על HTTPS, יש להחליף ל-true
+    })
+);
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-<<<<<<< HEAD
-app.use(express.static('public'));  // מאפשר גישה לקבצים סטטיים מתוך תיקיית 'public'
-=======
-app.use(express.static('public')); // לתמונות, קבצים סטטיים
->>>>>>> cf5fb258b6b9a6adb00b38c084f360f8a757c0ae
+app.use(express.static('public'));
 
 // הגדרת מנוע התצוגה
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views')); // אם יש לך תיקיית views
+app.set('views', path.join(__dirname, 'views'));
 
 // לוגים עבור כל בקשה שמגיעה לשרת
 app.use((req, res, next) => {
@@ -27,11 +32,11 @@ app.use((req, res, next) => {
 // הגדרת multer לטיפול בקובץ התמונה
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/');  // היכן שהקובץ יישמר
+        cb(null, 'uploads/');
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname));  // יצירת שם קובץ ייחודי
-    }
+        cb(null, Date.now() + path.extname(file.originalname));
+    },
 });
 const upload = multer({ storage: storage });
 
@@ -56,22 +61,18 @@ app.use('/', pageRoutes);
 // נתיב ה־POST שמטפל בהוספת ארוחה (כולל קובץ)
 app.post('/submit-meal', upload.single('descriptionImage'), async (req, res) => {
     try {
-        // שליפת הנתונים מהבקשה
         const mealType = req.body.mealType;
         const date = req.body.date;
-        const descriptionImage = req.file ? req.file.path : null;  // אם יש קובץ, נשמור את הנתיב שלה
-        
-        // כאן נשלח את הנתונים לקונטרולר שיטפל ביצירת הארוחה
-        const mealController = require('./controllers/mealsController');
-        
-        // אנחנו מפנים את הבקשה לקונטרולר, שמטפל בהוספת הארוחה
-        await mealController.createMeal(req, res, mealType, date, descriptionImage);
-        console.log('i am in app file');
+        const descriptionImage = req.file ? req.file.path : null;
 
+        const mealController = require('./controllers/mealsController');
+        await mealController.createMeal(req, res, mealType, date, descriptionImage);
+        console.log('Meal processed successfully!');
     } catch (error) {
         res.status(500).json({ message: 'Error processing the meal', error: error.message });
     }
 });
+
 // טיפול בשגיאות (404)
 app.use((req, res) => {
     res.status(404).send('Page not found');
@@ -87,26 +88,3 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
-
-<<<<<<< HEAD
-const session = require('express-session');
-
-app.use(session({
-    secret: '1234', // מחרוזת סודית לחתימה על הסשן
-    resave: false,           // לא לשמור מחדש את הסשן אם אין שינוי
-    saveUninitialized: true, // לשמור סשנים ריקים
-    cookie: { secure: false } // אם אתה עובד עם HTTPS, שנה ל-true
-}));
-
-app.get('/set', (req, res) => {
-    req.session.myGlobalVariable = { key: 'value' };
-    res.send('Variable has been set');
-});
-
-app.get('/get', (req, res) => {
-    res.send(req.session.myGlobalVariable || 'No variable found');
-});
-=======
-
-  
->>>>>>> cf5fb258b6b9a6adb00b38c084f360f8a757c0ae

@@ -19,10 +19,19 @@ module.exports = {
                 return res.status(401).json({ message: 'Invalid username or password' });
             }
 
+            // וודא ש-session מוגדר
+            if (!req.session) {
+                console.error('Session is not defined');
+                return res.status(500).json({ message: 'Session not initialized' });
+            }
+
+            // שמירת שם המשתמש ב-session
+            req.session.username = user.username;
+
             console.log('Login successful for user:', username);
-            res.status(200).json({ 
-                message: 'Login successful', 
-                user: { username: user.username } 
+            res.status(200).json({
+                message: 'Login successful',
+                user: { username: user.username },
             });
         } catch (error) {
             console.error('Login error:', error);
@@ -45,9 +54,9 @@ module.exports = {
 
             const newUser = await createUser(username, password);
             console.log('User created successfully:', username);
-            res.status(201).json({ 
-                message: 'User created successfully', 
-                user: { username: newUser.username } 
+            res.status(201).json({
+                message: 'User created successfully',
+                user: { username: newUser.username },
             });
         } catch (error) {
             console.error('Signup error:', error);

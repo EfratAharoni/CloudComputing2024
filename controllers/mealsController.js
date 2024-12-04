@@ -1,34 +1,53 @@
 const { Meal } = require('../models/mealModel');
 const { getHolidayFromHebcal } = require('../models/hebcalModel');
-const { getDescriptionFromImage } = require('../models/imageModel');
+const ImageModel = require('../models/imageModel');
 const { getGlucoseFromUSDA } = require('../models/usdaModel');
 
 module.exports = {
     createMeal: async (req, res, mealType, date, descriptionImage) => {
         try {
-            
-            const username = req.session.username;  // קבלת שם המשתמש
-            console.log('Meal initialized:');
+            const username = req.session?.username || 'guest';
 
-            // יצירת אובייקט Meal
-            const meal = new Meal(username, mealType, date, descriptionImage);
+            console.log(`Creating meal for user: ${username}`);
+            console.log('Session username:', req.session.username);
+            // המרת תאריך ובדיקה
+            const parsedDate = new Date(date);
+            if (isNaN(parsedDate)) {
+                console.error('Invalid date format received:', date);
+                return res.status(400).json({ message: 'Invalid date format' });
+            }
 
-            // קריאה למודלים ולקביעת הערכים המתאימים
-            await meal.initializeMeal();
+            // בדיקת חג
+            const holiday = await getHolidayFromHebcal(parsedDate);
+            console.log('Holiday result:', holiday);
 
-            // הדפסת הערכים של הארוחה
-            console.log('Meal initialized:');
-            console.log('Username:', meal.username);
-            console.log('Meal Type:', meal.mealType);
-            console.log('Date:', meal.date);
-            console.log('Description:', meal.description);
-            console.log('Glucose Level:', meal.glucoseLevel);
-            console.log('Holiday:', meal.holiday);
+            // ניתוח תמונה
+            const description = await ImageModel.getDescriptionFromImage(descriptionImage);
+            console.log('Image description:', description);
 
-            // מחזירים תשובה עם הנתונים
-            res.status(201).json({ message: 'Meal added successfully!', meal: meal });
+            // בדיקת גלוקוז
+            const glucoseLevel = await getGlucoseFromUSDA(description);
+            console.log('Glucose level:', glucoseLevel);
+
+            // שמירת ארוחה
+            const savedMeal = await Meal.create({
+                username,
+                mealType,
+                date: parsedDate,
+                description,
+                glucoseLevel,
+                holiday,
+            });
+
+            console.log('Meal saved successfully:', savedMeal);
+            res.status(201).json({ message: 'Meal added successfully!', meal: savedMeal });
         } catch (error) {
-            // טיפול בשגיאות
+            console.error('Error creating meal:', error.message);
+            
+            if (error.message.includes('Failed to fetch')) {
+                return res.status(500).json({ message: 'External service error', error: error.message });
+            }
+            
             res.status(500).json({ message: 'Error adding meal', error: error.message });
         }
     },

@@ -9,7 +9,8 @@ class HebcalController {
         }
 
         try {
-            const result = await HebcalModel.getDayInfo(date);
+            // שימוש בפונקציה getHolidayFromHebcal
+            const result = await HebcalModel.getHolidayFromHebcal(date);
             res.json({ message: result });
         } catch (error) {
             console.error('Error checking date:', error.message);

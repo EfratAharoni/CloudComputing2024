@@ -5,19 +5,37 @@ class USDAController {
     static async checkGlucose(req, res) {
         const { description } = req.body;
 
-        if (!description) {
-            return res.status(400).json({ message: 'Food description is required' });
+        if (!description || description.trim().length === 0) {
+            return res.status(400).json({ message: 'Invalid or empty food description.' });
         }
 
         try {
-            const glucoseData = await USDAService.getGlucoseLevel(description);
+            console.log('Checking glucose for description:', description);
+
+            const glucoseData = await USDAService.getGlucoseFromUSDA(description);
+            console.log('Glucose data received from USDA:', glucoseData);
+
+            if (!glucoseData || !glucoseData.glucoseLevel) {
+                console.log('No glucose data found for:', description);
+                return res.status(404).json({ 
+                    message: 'No glucose data found for the given description.', 
+                    foodName: description 
+                });
+            }
+
             res.json({
-                foodName: glucoseData.foodName,
-                glucoseLevel: glucoseData.glucoseLevel
+                success: true,
+                data: {
+                    foodName: glucoseData.foodName || description,
+                    glucoseLevel: glucoseData.glucoseLevel || 'No data available',
+                },
             });
         } catch (error) {
             console.error('Error checking glucose level:', error.message);
-            res.status(500).json({ message: 'Error fetching glucose data' });
+            res.status(500).json({ 
+                message: 'Error fetching glucose data', 
+                error: error.message 
+            });
         }
     }
 }
