@@ -1,11 +1,13 @@
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
 const app = express();
 const port = 5000;
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(express.static('public'));  // מאפשר גישה לקבצים סטטיים מתוך תיקיית 'public'
 
 // הגדרת מנוע התצוגה
 app.set('view engine', 'ejs');
@@ -15,6 +17,17 @@ app.use((req, res, next) => {
     console.log(`Request received: ${req.method} ${req.url}`);
     next();
 });
+
+// הגדרת multer לטיפול בקובץ התמונה
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/');  // היכן שהקובץ יישמר
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));  // יצירת שם קובץ ייחודי
+    }
+});
+const upload = multer({ storage: storage });
 
 // ייבוא של הנתיבים (Routes)
 const userRoutes = require('./routes/userRoutes');
@@ -34,6 +47,25 @@ app.use('/api/usda', usdaRoutes); // נתיבים ל-USDA
 const pageRoutes = require('./routes/pageRoutes');
 app.use('/', pageRoutes);
 
+// נתיב ה־POST שמטפל בהוספת ארוחה (כולל קובץ)
+app.post('/submit-meal', upload.single('descriptionImage'), async (req, res) => {
+    try {
+        // שליפת הנתונים מהבקשה
+        const mealType = req.body.mealType;
+        const date = req.body.date;
+        const descriptionImage = req.file ? req.file.path : null;  // אם יש קובץ, נשמור את הנתיב שלה
+        
+        // כאן נשלח את הנתונים לקונטרולר שיטפל ביצירת הארוחה
+        const mealController = require('./controllers/mealsController');
+        
+        // אנחנו מפנים את הבקשה לקונטרולר, שמטפל בהוספת הארוחה
+        await mealController.createMeal(req, res, mealType, date, descriptionImage);
+        console.log('i am in app file');
+
+    } catch (error) {
+        res.status(500).json({ message: 'Error processing the meal', error: error.message });
+    }
+});
 // טיפול בשגיאות (404)
 app.use((req, res) => {
     res.status(404).send('Page not found');
@@ -48,4 +80,22 @@ app.use((err, req, res, next) => {
 // הרצת השרת
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
+});
+
+const session = require('express-session');
+
+app.use(session({
+    secret: '1234', // מחרוזת סודית לחתימה על הסשן
+    resave: false,           // לא לשמור מחדש את הסשן אם אין שינוי
+    saveUninitialized: true, // לשמור סשנים ריקים
+    cookie: { secure: false } // אם אתה עובד עם HTTPS, שנה ל-true
+}));
+
+app.get('/set', (req, res) => {
+    req.session.myGlobalVariable = { key: 'value' };
+    res.send('Variable has been set');
+});
+
+app.get('/get', (req, res) => {
+    res.send(req.session.myGlobalVariable || 'No variable found');
 });

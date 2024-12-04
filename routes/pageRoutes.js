@@ -5,8 +5,18 @@ router.get('/', (req, res) => {
     res.render('pages/index'); // עמוד הבית
 });
 
+router.get('/db', (req, res) => {
+    res.render('dal/db'); // עמוד הבית
+});
+
 router.get('/index', (req, res) => {
     res.render('pages/index'); // אותו עמוד הבית
+});
+
+router.get('/header', (req, res) => {
+    console.log('hello');
+
+    res.render('partial/header'); // header
 });
 
 router.get('/about', (req, res) => {

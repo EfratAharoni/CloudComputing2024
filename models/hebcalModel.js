@@ -1,23 +1,24 @@
 const axios = require('axios');
 
-class HebcalModel {
-    static async getDayInfo(date) {
-        try {
-            const url = `https://www.hebcal.com/converter?cfg=json&gy=${date.split('-')[0]}&gm=${date.split('-')[1]}&gd=${date.split('-')[2]}&g2h=1`;
-            const response = await axios.get(url);
+// פונקציה לחישוב אם זה חג או לא באמצעות Hebcal
+const getHolidayFromHebcal = async (date) => {
+    try {
+        const response = await axios.get('https://www.hebcal.com/converter', {
+            params: {
+                cfg: 'json',
+                gy: date.getFullYear(),
+                gm: date.getMonth() + 1,
+                gd: date.getDate(),
+                g2h: 1,
+            },
+        });
 
-            if (response.data.events && response.data.events.length > 0) {
-                return `The date falls on: ${response.data.events.join(', ')}`;
-            } else if (response.data.weekday === "Saturday") {
-                return "The selected date is Shabbat.";
-            } else {
-                return "The selected date is a regular weekday.";
-            }
-        } catch (error) {
-            console.error('Error fetching Hebcal data:', error.message);
-            throw new Error('Unable to fetch date information');
-        }
+        const holidays = response.data.holidays || [];
+        return holidays.length > 0 ? "Holiday" : "Regular Day";
+    } catch (error) {
+        console.error('Error fetching holiday from Hebcal:', error.message);
+        throw new Error('Failed to fetch holiday');
     }
-}
+};
 
-module.exports = HebcalModel;
+module.exports = { getHolidayFromHebcal };

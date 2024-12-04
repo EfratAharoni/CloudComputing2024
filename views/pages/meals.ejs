@@ -288,31 +288,26 @@
         <div class="modal-content">
           <span class="close-button">&times;</span>
           <h2>Add New Meal</h2>
-          <form id="mealForm" enctype="multipart/form-data" method="POST" action="/addMeal">
-            <div class="form-group">
-                <label for="mealType">Meal Type:</label>
-                <select id="mealType" name="mealType" required>
-                    <option value="breakfast">Breakfast</option>
-                    <option value="lunch">Lunch</option>
-                    <option value="dinner">Dinner</option>
-                    <option value="snack">Snack</option>
-                </select>
-            </div>
-
-            <div class="inline-fields">
-                <div class="form-group">
-                    <label for="date">Date:</label>
-                    <input type="datetime-local" id="date" name="date" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="description">Description (Image):</label>
-                <input type="file" id="descriptionImage" name="descriptionImage" accept="image/*" required>
-            </div>
-
-            <button type="submit">Add Meal</button>
-          </form>
+          <form id="mealForm" enctype="multipart/form-data">
+            <!-- שדה Select -->
+            <label for="mealType">Meal Type:</label>
+            <select id="mealType" name="mealType" required>
+                <option value="breakfast">Breakfast</option>
+                <option value="lunch">Lunch</option>
+                <option value="dinner">Dinner</option>
+            </select>
+            <br><br>
+    
+            <!-- שדה לקבלת קובץ תמונה (jpg) -->
+            <label for="descriptionImage">Upload Image:</label>
+            <input type="file" id="descriptionImage" name="descriptionImage" accept="image/jpeg" required>    
+            <!-- שדה תאריך ושעה -->
+            <label for="date">Date and Time:</label>
+            <input type="datetime-local" id="date" name="date" required>
+    
+            <!-- כפתור לשליחת הטופס -->
+            <button type="submit">Submit Meal</button>
+        </form>
         </div>
       </div>
 
@@ -407,6 +402,36 @@
             }
         }
     }
+
+    document.getElementById('mealForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            console.log('uhvfdi');
+
+            
+            // שליפת הערכים מהשדות
+            const descriptionImage = document.getElementById('descriptionImage').files[0];
+            const date = document.getElementById('date').value;
+            const mealType = document.getElementById('mealType').value;
+
+            // יצירת אובייקט FormData עם הנתונים
+            const formData = new FormData();
+            formData.append('descriptionImage', descriptionImage);
+            formData.append('date', date);
+            formData.append('mealType', mealType);
+
+            // שליחה לשרת
+            const response = await fetch('/submit-meal', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                console.log('Data sent successfully');
+            } else {
+                console.log('Error:', response.status);
+            }
+        });
+  
   </script>
 </body>
 </html>

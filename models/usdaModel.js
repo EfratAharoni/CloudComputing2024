@@ -1,35 +1,28 @@
 const axios = require('axios');
 
-class USDAService {
-    static apiKey = 'dmEABHQgm4n37dIWD7qzKZus7FlseVu449tQAtdU'; // ה-Key שלך
+// פונקציה לחישוב כמות הגלוקוז/קלוריות באמצעות USDA
+const getGlucoseFromUSDA = async (description) => {
+    try {
+        const response = await axios.get('https://api.nal.usda.gov/fdc/v1/foods/search', {
+            params: {
+                query: description,
+                dataType: ['Foundation', 'SR Legacy'],
+                api_key: 'dmEABHQgm4n37dIWD7qzKZus7FlseVu449tQAtdU',
+            },
+        });
 
-    static async getGlucoseLevel(description) {
-        try {
-            const response = await axios.get(
-                `https://api.nal.usda.gov/fdc/v1/foods/search?query=${encodeURIComponent(description)}&api_key=${this.apiKey}`
-            );
+        const food = response.data.foods?.[0];
+        if (!food) throw new Error('No food found for the given description');
 
-            console.log('Response from USDA API:', response.data); // הצג את כל התשובה בקונסול
-            const food = response.data.foods[0]; // המוצר הראשון ברשימה
+        const glucoseNutrient = food.foodNutrients.find(
+            (nutrient) => nutrient.nutrientName === 'Energy'  // כאן תוכל להתאים את החישוב לפי הצורך
+        );
 
-            if (!food) {
-                throw new Error('No food found for the given description');
-            }
-
-            const glucoseNutrient = food.foodNutrients.find(nutrient => 
-                nutrient.nutrientName.toLowerCase().includes('sugar') || 
-                nutrient.nutrientName.toLowerCase().includes('glucose')
-            );
-
-            return {
-                foodName: food.description,
-                glucoseLevel: glucoseNutrient ? glucoseNutrient.value : 0
-            };
-        } catch (error) {
-            console.error('Error fetching glucose data:', error.response?.data || error.message);
-            throw new Error('Failed to fetch glucose data from USDA API');
-        }
+        return glucoseNutrient ? glucoseNutrient.value : 0;
+    } catch (error) {
+        console.error('Error fetching glucose from USDA:', error.message);
+        throw new Error('Failed to fetch glucose');
     }
-}
+};
 
-module.exports = USDAService;
+module.exports = { getGlucoseFromUSDA };

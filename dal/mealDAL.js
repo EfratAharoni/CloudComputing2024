@@ -2,9 +2,9 @@ const Meal = require('../models/mealModel');
 
 module.exports = {
     // יצירת ארוחה חדשה
-    createMeal: async (mealData) => {
+    createMeal: async (mealData, imagePath) => {
         try {
-            const newMeal = await Meal.create(mealData);
+            const newMeal = await Meal.addMeal(mealData, imagePath);
             return newMeal;
         } catch (error) {
             console.error('Error creating meal:', error);
