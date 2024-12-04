@@ -7,15 +7,16 @@ module.exports = {
     createMeal: async (req, res, mealType, date, descriptionImage) => {
         try {
             const username = req.session?.username || 'guest';
-
             console.log(`Creating meal for user: ${username}`);
             console.log('Session username:', req.session.username);
+
             // המרת תאריך ובדיקה
             const parsedDate = new Date(date);
             if (isNaN(parsedDate)) {
                 console.error('Invalid date format received:', date);
                 return res.status(400).json({ message: 'Invalid date format' });
             }
+            console.log('Parsed date:', parsedDate);
 
             // בדיקת חג
             const holiday = await getHolidayFromHebcal(parsedDate);
@@ -30,12 +31,22 @@ module.exports = {
             console.log('Glucose level:', glucoseLevel);
 
             // שמירת ארוחה
+            console.log('Attempting to save meal with the following data:');
+            console.log({
+                username,
+                mealType,
+                date: parsedDate,
+                description,
+                glucoseLevel: glucoseLevel.glucoseLevel,
+                holiday,
+            });
+
             const savedMeal = await Meal.create({
                 username,
                 mealType,
                 date: parsedDate,
                 description,
-                glucoseLevel,
+                glucoseLevel: glucoseLevel.glucoseLevel,
                 holiday,
             });
 
@@ -43,11 +54,12 @@ module.exports = {
             res.status(201).json({ message: 'Meal added successfully!', meal: savedMeal });
         } catch (error) {
             console.error('Error creating meal:', error.message);
-            
+            console.error('Error details:', error);
+
             if (error.message.includes('Failed to fetch')) {
                 return res.status(500).json({ message: 'External service error', error: error.message });
             }
-            
+
             res.status(500).json({ message: 'Error adding meal', error: error.message });
         }
     },

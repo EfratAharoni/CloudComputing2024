@@ -19,14 +19,16 @@ module.exports = {
                 return res.status(401).json({ message: 'Invalid username or password' });
             }
 
+              // שמירת שם המשתמש ב-session
+              req.session.username = user.username;
+
             // וודא ש-session מוגדר
             if (!req.session) {
                 console.error('Session is not defined');
                 return res.status(500).json({ message: 'Session not initialized' });
             }
 
-            // שמירת שם המשתמש ב-session
-            req.session.username = user.username;
+          
 
             console.log('Login successful for user:', username);
             res.status(200).json({
