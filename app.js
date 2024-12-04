@@ -2,15 +2,21 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const app = express();
+const path = require('path');
 const port = 5000;
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+<<<<<<< HEAD
 app.use(express.static('public'));  // מאפשר גישה לקבצים סטטיים מתוך תיקיית 'public'
+=======
+app.use(express.static('public')); // לתמונות, קבצים סטטיים
+>>>>>>> cf5fb258b6b9a6adb00b38c084f360f8a757c0ae
 
 // הגדרת מנוע התצוגה
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views')); // אם יש לך תיקיית views
 
 // לוגים עבור כל בקשה שמגיעה לשרת
 app.use((req, res, next) => {
@@ -37,11 +43,11 @@ const hebcalRoutes = require('./routes/hebcalRoutes');
 const usdaRoutes = require('./routes/usdaRoutes');
 
 // חיבור הנתיבים לשרת
-app.use('/users', userRoutes); // נתיבים למשתמשים (Login, Signup וכו')
-app.use('/api/images', imageRoutes); // נתיבים לניתוח תמונות
-app.use('/api/meals', mealRoutes); // נתיבים לארוחות
-app.use('/api/hebcal', hebcalRoutes); // נתיבים ל-Hebcal
-app.use('/api/usda', usdaRoutes); // נתיבים ל-USDA
+app.use('/users', userRoutes);
+app.use('/api/images', imageRoutes);
+app.use('/api/meals', mealRoutes);
+app.use('/api/hebcal', hebcalRoutes);
+app.use('/api/usda', usdaRoutes);
 
 // Routes של עמודים
 const pageRoutes = require('./routes/pageRoutes');
@@ -82,6 +88,7 @@ app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
 
+<<<<<<< HEAD
 const session = require('express-session');
 
 app.use(session({
@@ -99,3 +106,7 @@ app.get('/set', (req, res) => {
 app.get('/get', (req, res) => {
     res.send(req.session.myGlobalVariable || 'No variable found');
 });
+=======
+
+  
+>>>>>>> cf5fb258b6b9a6adb00b38c084f360f8a757c0ae
