@@ -42,11 +42,14 @@ const mealRoutes = require('./routes/mealsRoutes');
 const hebcalRoutes = require('./routes/hebcalRoutes');
 const usdaRoutes = require('./routes/usdaRoutes');
 
+app.use('/api/fetchMeals', mealRoutes);
 app.use('/users', userRoutes);
 app.use('/api/images', imageRoutes);
 app.use('/api/meals', mealRoutes);
 app.use('/api/hebcal', hebcalRoutes);
 app.use('/api/usda', usdaRoutes);
+
+
 
 const pageRoutes = require('./routes/pageRoutes');
 app.use('/', pageRoutes);

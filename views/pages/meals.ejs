@@ -172,6 +172,67 @@
             }
         }
     }
+   // פונקציה להבאת הארוחות מהשרת
+async function fetchMeals() {
+
+    try {
+        const response = await fetch('/api/meals'); // נתיב ה-API לשליפת הארוחות
+        if (!response.ok) {
+            throw new Error(`Failed to fetch meals: ${response.status}`);
+        }
+        const meals = await response.json();
+
+        // בדוק אם יש ארוחות להצגה
+        if (meals.length > 0) {
+            populateMealsTable(meals); // מלא את הטבלה
+            mealTable.style.display = "table";
+            noHistoryMessage.style.display = "none";
+        } else {
+            mealTable.style.display = "none";
+            noHistoryMessage.style.display = "block";
+        }
+    } catch (error) {
+        console.error('Error fetching meals:', error.message);
+        mealTable.style.display = "none";
+        noHistoryMessage.style.display = "block";
+    }
+}
+
+// פונקציה למילוי טבלת הארוחות
+function populateMealsTable(meals) {
+    const tbody = mealTable.querySelector('tbody');
+    tbody.innerHTML = ''; // נקה את התוכן הקיים בטבלה
+
+    meals.forEach(meal => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${meal.mealType}</td>
+            <td>${new Date(meal.date).toLocaleString()}</td>
+            <td>${meal.description || 'N/A'}</td>
+            <td>${meal.glucoseLevel || 'N/A'}</td>
+            <td>${meal.holiday || 'N/A'}</td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+window.onload = function() {
+    const username = sessionStorage.getItem('username');
+   
+    if (username) {
+            document.getElementById('greeting').textContent = `Hi, ${username}`;
+            document.getElementById('login-button').style.display = 'none'; 
+            document.getElementById('logout-button').style.display = 'block';
+            fetchMeals(); // הבאת הארוחות אם המשתמש מחובר
+
+    } else {
+            document.getElementById('login-button').style.display = 'block';
+            document.getElementById('logout-button').style.display = 'none';
+    }
+    
+};
+// קריאה לפונקציה בעת טעינת העמוד
+
+
 
     document.getElementById('mealForm').addEventListener('submit', async (e) => {
             e.preventDefault();

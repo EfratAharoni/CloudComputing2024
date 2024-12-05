@@ -29,4 +29,6 @@ router.get('/meals', (req, res) => {
     mealController.getMeals(req, res);
 });
 
+
+
 module.exports = router;
