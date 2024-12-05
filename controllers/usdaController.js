@@ -37,7 +37,8 @@ class USDAController {
                 error: error.message 
             });
         }
+        console.log("hhhhhh")
     }
 }
 
-module.exports = USDAController;
+module.exports ={ USDAController }

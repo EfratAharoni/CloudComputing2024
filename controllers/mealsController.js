@@ -1,4 +1,5 @@
-const { Meal } = require('../models/mealModel');
+const  Meal  = require('../models/mealModel');
+
 const { getHolidayFromHebcal } = require('../models/hebcalModel');
 const ImageModel = require('../models/imageModel');
 const { getGlucoseFromUSDA } = require('../models/usdaModel');
@@ -40,18 +41,31 @@ module.exports = {
                 glucoseLevel: glucoseLevel.glucoseLevel,
                 holiday,
             });
+            console.log(1)
+            const meal={
 
-            const newMeal = await Meal.create({
                 username,
                 mealType,
                 date: parsedDate.toISOString().split('T')[0], // פורמט YYYY-MM-DD בלבד
                 description: description || null,
-                glucoseLevel: glucoseData?.glucoseLevel || null, // ערך ברירת מחדל לגלוקוז
+                glucoseLevel: glucoseLevel.glucoseLevel, // ערך ברירת מחדל לגלוקוז
                 holiday: holiday || 'Regular Day', // ודא שיש ערך תמיד
-            });
+   
 
-            console.log('Meal saved successfully:', savedMeal);
-            res.status(201).json({ message: 'Meal added successfully!', meal: savedMeal });
+            }
+            console.log(2)
+            const newMeal=await Meal.addMeal(meal)
+            // const newMeal = await Meal.create({
+            //     username,
+            //     mealType,
+            //     date: parsedDate.toISOString().split('T')[0], // פורמט YYYY-MM-DD בלבד
+            //     description: description || null,
+            //     glucoseLevel: glucoseData?.glucoseLevel || null, // ערך ברירת מחדל לגלוקוז
+            //     holiday: holiday || 'Regular Day', // ודא שיש ערך תמיד
+            // });
+
+            console.log('Meal saved successfully:',meal );
+            res.status(201).json({ message: 'Meal added successfully!' });
         } catch (error) {
             console.error('Error creating meal:', error.message);
             console.error('Error details:', error);
