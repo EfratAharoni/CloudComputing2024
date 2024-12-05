@@ -33,4 +33,4 @@ const Meal = sequelize.define('Meal', {
     },
 });
 
-module.exports = Meal;
+module.exports = {Meal};

@@ -41,13 +41,13 @@ module.exports = {
                 holiday,
             });
 
-            const savedMeal = await Meal.create({
+            const newMeal = await Meal.create({
                 username,
                 mealType,
-                date: parsedDate,
-                description,
-                glucoseLevel: glucoseLevel.glucoseLevel,
-                holiday,
+                date: parsedDate.toISOString().split('T')[0], // פורמט YYYY-MM-DD בלבד
+                description: description || null,
+                glucoseLevel: glucoseData?.glucoseLevel || null, // ערך ברירת מחדל לגלוקוז
+                holiday: holiday || 'Regular Day', // ודא שיש ערך תמיד
             });
 
             console.log('Meal saved successfully:', savedMeal);
