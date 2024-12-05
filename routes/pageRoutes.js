@@ -44,9 +44,6 @@ router.get('/signUp', (req, res) => {
     res.render('pages/signUp'); // עמוד "Sign Up"
 });
 
-router.get('/dashboard', (req, res) => {
-    res.render('pages/dashboard'); // עמוד "Dashboard"
-});
 
 router.get('/fetchMeals', (req, res) => {
     res.render('pages/meals'); // עמוד הבית
