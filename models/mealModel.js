@@ -78,8 +78,35 @@ async function addMeal(meal) {
 }
 
 
+async function getMealsByUsername(username) {
+    try {
+        // התחברות למסד הנתונים
+        let pool = await sql.connect(config);
+        console.log('Connected to the database.');
 
+        // שאילתה להחזרת הארוחות של המשתמש
+        const result = await pool.request()
+            .input('username', sql.VarChar, username)
+            .query(`
+                SELECT * 
+                FROM MEALS
+                WHERE username = @username
+            `);
+
+        console.log('Meals fetched successfully:', result.recordset);
+        return result.recordset; // החזרת התוצאות
+    } catch (err) {
+        console.error('Error fetching meals:', err);
+        throw err; // להעביר את השגיאה למעלה במידה וצריך
+    } finally {
+        // נתק את החיבור
+        sql.close();
+    }
+}
+
+// ייצוא הפונקציות כמודול
+module.exports = { addMeal, getMealsByUsername };
 
 //Meal.createMeal=addMeal
 
-module.exports = {addMeal};
+//module.exports = {addMeal};

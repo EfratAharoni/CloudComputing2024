@@ -234,11 +234,11 @@
   <div id="page">
     <%- include('../partial/header') %>
 
-     <!-- כפתור ה-Log In -->
+     <!-- כפתור ה-Log In 
      <button id="login-button" class="login_out-button"  onclick="window.location.href='/logIn';">Log in</button>
      <button id="logout-button" class="login_out-button" style="display:none;" onclick="window.location.href='/index';">Log Out</button>
      <div id="greeting">
-         <!-- ברכת "שלום, שם משתמש" תוצג כאן -->
+          ברכת "שלום, שם משתמש" תוצג כאן 
      </div>
    
 
@@ -263,23 +263,24 @@
           sessionStorage.removeItem('username');
           window.location.href = '/index'; 
       });
-  </script>
+  </script>-->
     <div id="content">
       <!-- כפתור לפתיחת המודאל -->
-      <button id="addMealButton" style="display:none;">Add Meal</button>
+      <button id="addMealButton">Add Meal</button>
 
       <!-- סינון לפי טווח תאריכים -->
-      <div class="filter-section">
+      <div id="filter" class="filter-section" style="display: none;">
         <div class="form-group">
-          <label for="startDate">Start Date:</label>
-          <input type="datetime-local" id="startDate">
+            <label for="startDate">Start Date:</label>
+            <input type="datetime-local" id="startDate">
         </div>
         <div class="form-group">
-          <label for="endDate">End Date:</label>
-          <input type="datetime-local" id="endDate">
+            <label for="endDate">End Date:</label>
+            <input type="datetime-local" id="endDate">
         </div>
         <button onclick="filterMeals()">Filter</button>
-      </div>
+    </div>
+    
 
       <!-- מודאל להוספת ארוחה -->
       <div id="mealModal" class="modal">
@@ -310,7 +311,7 @@
       </div>
 
       <!-- הודעה אם אין משתמש מחובר -->
-      <div id="noHistoryMessage" class="no-history-message" style="display:none;">
+      <div id="noHistoryMessage" class="no-history-message">
         No meals history, need to connect.
       </div>
 
@@ -336,27 +337,16 @@
 
   <script>
     // JavaScript לפתיחת וסגירת המודאל
-    const addMealButton = document.getElementById('addMealButton');
     const mealModal = document.getElementById('mealModal');
     const closeButton = document.querySelector('.close-button');
-    const mealTable = document.getElementById('mealTable');
-    const noHistoryMessage = document.getElementById('noHistoryMessage');
     
     // בדיקת אם יש שם משתמש ב-sessionStorage
-    const username = sessionStorage.getItem('username');
-    
-    if (username) {
-        mealTable.style.display = "table";
-        addMealButton.style.display = "block"
-        noHistoryMessage.style.display = "none";
-    } else {
-        mealTable.style.display = "none";
-        addMealButton.style.display = "none"
-        noHistoryMessage.style.display = "block";
-    }
+    const username = req.session?.username || 'guest';
+   
 
     // פתיחת המודאל כשנלחץ על כפתור ה-"Add Meal"
     addMealButton.onclick = function() {
+        console.log("GBfvdcs");
         mealModal.style.display = "block";
     }
 

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <div id="header">
     <!-- כפתור ה-Log In -->
     <button id="login-button" class="login_out-button"  onclick="window.location.href='/logIn';">Log in</button>
@@ -19,16 +18,79 @@
     <script>
     window.onload = function() {
         const username = sessionStorage.getItem('username');
-        
+        const addMealButton = document.getElementById('addMealButton');
+        const mealModal = document.getElementById('mealModal');
+        const mealTable = document.getElementById('mealTable');
+        const noHistoryMessage = document.getElementById('noHistoryMessage');
+        const filterMeals = document.getElementById('filter');
+    
         if (username) {
+            mealTable.style.display = "table";
+            addMealButton.style.display = "block"
+            noHistoryMessage.style.display = "none";
+            filterMeals.style.display="flex"
             document.getElementById('greeting').textContent = `Hi, ${username}`;
             document.getElementById('login-button').style.display = 'none'; 
             document.getElementById('logout-button').style.display = 'block';
+            fetchMeals(); // הבאת הארוחות אם יש שם משתמש
         } else {
+            mealTable.style.display = "none";
+            filterMeals.style.display="none";
+            addMealButton.style.display = "none";
+            noHistoryMessage.style.display = "block";
             document.getElementById('login-button').style.display = 'block';
             document.getElementById('logout-button').style.display = 'none';
+            document.getElementById('greeting').textContent = "";
+
         }
+
+
     };
+
+    // פונקציה להצגת הארוחות בטבלה
+    function populateMealsTable(meals) {
+        const tbody = mealTable.querySelector('tbody');
+        tbody.innerHTML = ''; // נקה את התוכן הקיים
+
+        meals.forEach(meal => {
+            const row = document.createElement('tr');
+
+            row.innerHTML = `
+                <td>${meal.mealType}</td>
+                <td>${new Date(meal.date).toLocaleString()}</td>
+                <td>${meal.description || 'N/A'}</td>
+                <td>${meal.glucoseLevel || 'N/A'}</td>
+                <td>${meal.holiday || 'N/A'}</td>
+            `;
+
+            tbody.appendChild(row);
+        });
+    }
+
+    // פונקציה להבאת הארוחות מהשרת
+    async function fetchMeals() {
+        try {
+            const response = await fetch('/api/meals');
+            if (response.ok) {
+                const meals = await response.json();
+                if (meals.length > 0) {
+                    mealTable.style.display = "table";
+                    noHistoryMessage.style.display = "none";
+                    populateMealsTable(meals);
+                } else {
+                    mealTable.style.display = "table";
+                }
+            } else {
+                console.error('Error fetching meals:', response.status);
+                mealTable.style.display = "table";
+            }
+        } catch (error) {
+            console.error('Error fetching meals:', error);
+            mealTable.style.display = "none";
+            noHistoryMessage.style.display = "block";
+        }
+    }
+
     
     document.getElementById('logout-button').addEventListener('click', function() {
         document.getElementById('greeting').textContent = "";
@@ -39,8 +101,7 @@
     });
 </script>
 </div>
-=======
-<!-- header.ejs -->
+<!-- header.ejs 
 <div id="header">
 	<div>
 		<a href="index.html"><img src="images/logo.gif" alt="Logo" /></a>
@@ -52,5 +113,4 @@
 		<li class="selected"><a href="blog">Blog</a></li>
 		<li class="last"><a href="contact">Contact Us</a></li>
 	</ul>
-</div>
->>>>>>> cf5fb258b6b9a6adb00b38c084f360f8a757c0ae
+</div>-->

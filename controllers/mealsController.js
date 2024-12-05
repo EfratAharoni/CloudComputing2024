@@ -1,10 +1,10 @@
-const  Meal  = require('../models/mealModel');
-
+const Meal = require('../models/mealModel');
 const { getHolidayFromHebcal } = require('../models/hebcalModel');
 const ImageModel = require('../models/imageModel');
 const { getGlucoseFromUSDA } = require('../models/usdaModel');
 
 module.exports = {
+    // פונקציה להוספת ארוחה
     createMeal: async (req, res, mealType, date, descriptionImage) => {
         try {
             const username = req.session?.username || 'guest';
@@ -41,30 +41,18 @@ module.exports = {
                 glucoseLevel: glucoseLevel.glucoseLevel,
                 holiday,
             });
-            console.log(1)
-            const meal={
 
+            const meal = {
                 username,
                 mealType,
                 date: parsedDate.toISOString().split('T')[0], // פורמט YYYY-MM-DD בלבד
                 description: description || null,
                 glucoseLevel: glucoseLevel.glucoseLevel, // ערך ברירת מחדל לגלוקוז
                 holiday: holiday || 'Regular Day', // ודא שיש ערך תמיד
-   
+            };
 
-            }
-            console.log(2)
-            const newMeal=await Meal.addMeal(meal)
-            // const newMeal = await Meal.create({
-            //     username,
-            //     mealType,
-            //     date: parsedDate.toISOString().split('T')[0], // פורמט YYYY-MM-DD בלבד
-            //     description: description || null,
-            //     glucoseLevel: glucoseData?.glucoseLevel || null, // ערך ברירת מחדל לגלוקוז
-            //     holiday: holiday || 'Regular Day', // ודא שיש ערך תמיד
-            // });
-
-            console.log('Meal saved successfully:',meal );
+            const newMeal = await Meal.addMeal(meal);
+            console.log('Meal saved successfully:', meal);
             res.status(201).json({ message: 'Meal added successfully!' });
         } catch (error) {
             console.error('Error creating meal:', error.message);
@@ -75,6 +63,29 @@ module.exports = {
             }
 
             res.status(500).json({ message: 'Error adding meal', error: error.message });
+        }
+    },
+
+    // פונקציה להחזרת רשימת ארוחות לפי שם משתמש
+    getMeals: async (req, res) => {
+        console.log("try to get the meals");
+        try {
+            const username = req.session?.username || 'guest';
+            console.log(`Fetching meals for user: ${username}`);
+
+            const meals = await Meal.getMealsByUsername(username);
+            if (meals.length === 0) {
+                console.log(`No meals found for user: ${username}`);
+                return res.status(404).json({ message: 'No meals found for this user' });
+            }
+
+            console.log(`Meals fetched successfully for user: ${username}`, meals);
+            res.status(200).json(meals);
+        } catch (error) {
+            console.error('Error fetching meals:', error.message);
+            console.error('Error details:', error);
+
+            res.status(500).json({ message: 'Error fetching meals', error: error.message });
         }
     },
 };
