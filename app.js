@@ -37,17 +37,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 const userRoutes = require('./routes/userRoutes');
-const imageRoutes = require('./routes/imageRoutes');
 const mealRoutes = require('./routes/mealsRoutes');
-const hebcalRoutes = require('./routes/hebcalRoutes');
-const usdaRoutes = require('./routes/usdaRoutes');
 
 app.use('/api/fetchMeals', mealRoutes);
 app.use('/users', userRoutes);
-app.use('/api/images', imageRoutes);
 app.use('/api/meals', mealRoutes);
-app.use('/api/hebcal', hebcalRoutes);
-app.use('/api/usda', usdaRoutes);
 
 
 
