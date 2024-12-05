@@ -9,23 +9,15 @@
 </head>
 <body>
     <div id="page">
-        <div id="header">
-            <!-- כפתור ה-Log In -->
-            <button id="login-button" class="login_out-button"  onclick="window.location.href='/logIn';">Log in</button>
-            <button id="logout-button" class="login_out-button" style="display:none;" onclick="window.location.href='/index';">Log Out</button>
-            <div id="greeting">
-                <!-- ברכת "שלום, שם משתמש" תוצג כאן -->
-            </div>
-            <div>
-                <a href="/"><img src="/images/logo.gif" alt="Logo" /></a>
-            </div>
-            <ul>
-                <li class="first current"><a href="/">Home</a></li>
-                <li><a href="/meals">Meals</a></li>
-                <li><a href="/about">About us</a></li>
-                <li><a href="/blog">Blog</a></li>
-                <li><a href="/contact">Contact Us</a></li>
-            </ul>
+                <!-- כפתור ה-Log In -->
+    <button id="login-button" class="login_out-button"  onclick="window.location.href='/logIn';">Log in</button>
+    <button id="logout-button" class="login_out-button" style="display:none;" onclick="window.location.href='/index';">Log Out</button>
+    <div id="greeting">
+        <!-- ברכת "שלום, שם משתמש" תוצג כאן -->
+    </div>
+        <%- include('../partial/header') %>
+ 
+
             <script>
             window.onload = function() {
                 const username = sessionStorage.getItem('username');
@@ -48,7 +40,6 @@
                 window.location.href = '/index'; 
             });
         </script>
-        </div>
 
         <div id="content">
             <span class="background"></span>
