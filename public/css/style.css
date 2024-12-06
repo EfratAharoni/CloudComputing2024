@@ -87,17 +87,8 @@ p a:hover {
 	text-shadow: 1px 1px 0 #fde8f7;
 }
 
-#header ul li.first a:hover, #header ul li.current a {
-	background: url(../images/sprites-icons.gif) no-repeat 0 -250px;
-	color: #7c0032;
-	text-shadow: 1px 1px 0 #fde8f7;	
-}
 
-#header ul li.last a:hover, #header ul li.select a  {
-	background: url(../images/sprites-icons.gif) no-repeat 0 -310px;
-	color: #7c0032;
-	text-shadow: 1px 1px 0 #fde8f7;	
-}
+
 
 #content {
 	height: auto;
@@ -949,6 +940,7 @@ p a:hover {
 		border-radius: 4px;
 	}
 
+	
 	
 
 	

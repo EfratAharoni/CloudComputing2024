@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,97 +8,105 @@
     <link rel="stylesheet" href="/css/style.css">
 
 </head>
+
 <body>
     <div id="page">
-                <!-- כפתור ה-Log In -->
-    <button id="login-button" class="login_out-button"  onclick="window.location.href='/logIn';">Log in</button>
-    <button id="logout-button" class="login_out-button" style="display:none;" onclick="window.location.href='/index';">Log Out</button>
-    <div id="greeting">
-        <!-- ברכת "שלום, שם משתמש" תוצג כאן -->
-    </div>
+        <!-- כפתור ה-Log In -->
+        <button id="login-button" class="login_out-button" onclick="window.location.href='/logIn';">Log in</button>
+        <button id="logout-button" class="login_out-button" style="display:none;"
+            onclick="window.location.href='/index';">Log Out</button>
+        <div id="greeting">
+            <!-- ברכת "שלום, שם משתמש" תוצג כאן -->
+        </div>
         <%- include('../partial/header') %>
- 
 
             <script>
-            window.onload = function() {
-                const username = sessionStorage.getItem('username');
-                
-                if (username) {
-                    document.getElementById('greeting').textContent = `Hi, ${username}`;
-                    document.getElementById('login-button').style.display = 'none'; 
-                    document.getElementById('logout-button').style.display = 'block';
-                } else {
+                window.onload = function () {
+                    const username = sessionStorage.getItem('username');
+
+                    if (username) {
+                        document.getElementById('greeting').textContent = `Hi, ${username}`;
+                        document.getElementById('login-button').style.display = 'none';
+                        document.getElementById('logout-button').style.display = 'block';
+                    } else {
+                        document.getElementById('login-button').style.display = 'block';
+                        document.getElementById('logout-button').style.display = 'none';
+                    }
+                };
+
+                document.getElementById('logout-button').addEventListener('click', function () {
+                    document.getElementById('greeting').textContent = "";
                     document.getElementById('login-button').style.display = 'block';
                     document.getElementById('logout-button').style.display = 'none';
-                }
-            };
-            
-            document.getElementById('logout-button').addEventListener('click', function() {
-                document.getElementById('greeting').textContent = "";
-                document.getElementById('login-button').style.display = 'block'; 
-                document.getElementById('logout-button').style.display = 'none';
-                sessionStorage.removeItem('username');
-                window.location.href = '/index'; 
-            });
-        </script>
+                    sessionStorage.removeItem('username');
+                    window.location.href = '/index';
+                });
+            </script>
 
-        <div id="content">
-            <span class="background"></span>
-            <div id="home">
-                <!-- כותרת עמוד הבית -->
-                <div class="main-header" style=" margin: 5% 15%; position:relative">
-                    <br><br>
-                    <h1 style="margin-top: 50px; padding-top: 30px; font-size: 36px; color: #FF007F; white-space: nowrap; display: inline; ">
-                        The Healthy Life
-                    </h1>
-                    <p style="margin-top: 15px;  font-size: 18px; color: #333;">
-                        The easy way to healthy, balanced living. Our platform is here to help you create a healthy and balanced routine tailored to your needs.
-                    </p>
-                </div>
-                <div id="containers" style= "display: flex; gap: 40%; width:100%" >
-                <!-- תיבות תוכן -->
-                 <section  style=" background-color: transparent; position: absolute; margin-right: 18%;">
-                <div class="content-section">
-                    <div class="content-box">
-                        <h3>Track Your Meals</h3>
-                        <p>Easily track your meals and analyze the most important nutritional values.</p>
+            <div id="content">
+                <span class="background"></span>
+                <div id="home">
+                    <!-- כותרת עמוד הבית -->
+                    <div class="main-header" style=" margin: 5% 15%; position:relative">
+                        <br><br>
+                        <h1
+                            style="margin-top: 50px; padding-top: 30px; font-size: 36px; color: #FF007F; white-space: nowrap; display: inline; ">
+                            The Healthy Life
+                        </h1>
+                        <p style="margin-top: 15px;  font-size: 18px; color: #333;">
+                            The easy way to healthy, balanced living. Our platform is here to help you create a healthy
+                            and balanced routine tailored to your needs.
+                        </p>
                     </div>
-                    <div class="content-box">
-                        <h3>Personalized Insights</h3>
-                        <p>Get personalized insights that guide you toward smarter decisions.</p>
+                    <div id="containers" style="display: flex; gap: 40%; width:100%">
+                        <!-- תיבות תוכן -->
+                        <section style=" background-color: transparent; position: absolute; margin-right: 18%;">
+                            <div class="content-section">
+                                <div class="content-box">
+                                    <h3>Track Your Meals</h3>
+                                    <p>Easily track your meals and analyze the most important nutritional values.</p>
+                                </div>
+                                <div class="content-box">
+                                    <h3>Personalized Insights</h3>
+                                    <p>Get personalized insights that guide you toward smarter decisions.</p>
+                                </div>
+                                <div class="content-box">
+                                    <h3>Smart Tools</h3>
+                                    <p>Enjoy smart tools, detailed reports, and notifications to maintain a healthy
+                                        lifestyle.</p>
+                                </div>
+                            </div>
+                            <!-- תוכן נוסף -->
+                            <div style="margin-top: 25px;" class="text-content">
+                                <p>Advanced tools for you: Our website combines advanced technology with a simple and
+                                    intuitive user experience. Everything is built to make it easier for you – from
+                                    integrating external services to ensuring easy access from any device, anytime.</p>
+                                <p>The journey to better health starts here! <a href="about">Learn more</a></p>
+                            </div>
+
+                        </section>
+                        <section id="side_menu" style="float:left; background-color: transparent;  position: relative;">
+                            <!-- תפריט צדדי -->
+                            <div class="aside">
+                                <ul>
+                                    <li>
+                                        <a href="index.html"><img src="images/homePic.jpg" alt="Image"
+                                                class="circle-image" /></a>
+                                    </li>
+                                    <li>
+                                        <a href="index.html"><img src="images/homePictu.jpg" alt="Image"
+                                                class="circle-image" /></a>
+                                    </li>
+                                </ul>
+                            </div>
                     </div>
-                    <div class="content-box">
-                        <h3>Smart Tools</h3>
-                        <p>Enjoy smart tools, detailed reports, and notifications to maintain a healthy lifestyle.</p>
-                    </div>
+                    </section>
                 </div>
-                <!-- תוכן נוסף -->
-                <div style="margin-top: 25px;"class="text-content">
-                    <p>Advanced tools for you: Our website combines advanced technology with a simple and intuitive user experience. Everything is built to make it easier for you – from integrating external services to ensuring easy access from any device, anytime.</p>
-                    <p>The journey to better health starts here! <a href="about">Learn more</a></p>
-                </div>
-            
-        </section>
-        <section id="side_menu" style="float:left; background-color: transparent;  position: relative;">
-            <!-- תפריט צדדי -->
-            <div class="aside">
-                <ul>
-                    <li>
-                        <a href="index.html"><img src="images/homePic.jpg" alt="Image" class="circle-image" /></a>
-                    </li>
-                    <li>
-                        <a href="index.html"><img src="images/homePictu.jpg" alt="Image" class="circle-image" /></a>
-                    </li>
-                </ul>
+
             </div>
-        </div>
-    </section>
-</div>
+            <%- include('../partial/footer') %>
+    </div>
 
-</div>
-<%- include('../partial/footer') %> 
-</div>  
-    
 </body>
 
 </html>
