@@ -40,7 +40,7 @@ const userRoutes = require('./routes/userRoutes');
 const mealRoutes = require('./routes/mealsRoutes');
 
 app.use('/api/fetchMeals', mealRoutes);
-app.use('/users', userRoutes);
+app.use('/login', userRoutes);
 app.use('/api/meals', mealRoutes);
 
 

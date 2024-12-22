@@ -4,6 +4,7 @@ module.exports = {
     // פונקציה להתחברות
     login: async (req, res) => {
         const { username, password } = req.body;
+        console.log(username);
 
         try {
             console.log('Login attempt for user:', username);
@@ -11,7 +12,13 @@ module.exports = {
             const user = await getUserByUsername(username);
             if (!user) {
                 console.log('User not found');
+                const data = await response.json();
+                document.getElementById('error-message').textContent = data.message || 'Login failed';
                 return res.status(401).json({ message: 'Invalid username or password' });
+            }
+            else{
+                sessionStorage.setItem('username', username);
+                window.location.reload(); 
             }
 
             if (user.password !== password) {
@@ -41,6 +48,8 @@ module.exports = {
         }
     },
 
+    
+
     // פונקציה ליצירת משתמש חדש
     signup: async (req, res) => {
         const { username, password } = req.body;
@@ -65,7 +74,7 @@ module.exports = {
             res.status(500).json({ message: 'Internal server error' });
         }
     },
-
+/*
     // פונקציה לעדכון סיסמה
     updatePassword: async (req, res) => {
         const { username, newPassword } = req.body;
@@ -106,5 +115,5 @@ module.exports = {
             console.error('Delete user error:', error);
             res.status(500).json({ message: 'Internal server error' });
         }
-    },
+    },*/
 };

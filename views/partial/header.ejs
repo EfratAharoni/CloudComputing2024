@@ -2,6 +2,11 @@
     <div>
         <a href="/"><img src="/images/logo.gif" alt="Logo" /></a>
     </div>
+    <!-- כפתור ה-Log In -->
+    <button id="login-out-button" class="login_out-button">Log in</button>
+    <div id="greeting">
+        <!-- ברכת "שלום, שם משתמש" תוצג כאן -->
+    </div>
     <ul>
         <li class="first current"><a href="/">Home</a></li>
         <li><a href="/meals">Meals</a></li>
@@ -9,26 +14,28 @@
         <li><a href="/blog">Blog</a></li>
         <li><a href="/contact">Contact Us</a></li>
     </ul>
-    <script>
-    window.onload = function() {
+<script>
+    window.onload = function() { 
         const username = sessionStorage.getItem('username');
-        
+
         if (username) {
+            document.getElementById('login-out-button').textContent='Log out';
             document.getElementById('greeting').textContent = `Hi, ${username}`;
-            document.getElementById('login-button').style.display = 'none'; 
-            document.getElementById('logout-button').style.display = 'block';
         } else {
-            document.getElementById('login-button').style.display = 'block';
-            document.getElementById('logout-button').style.display = 'none';
+            document.getElementById('login-out-button').textContent='Log in';
         }
     };
     
-    document.getElementById('logout-button').addEventListener('click', function() {
-        document.getElementById('greeting').textContent = "";
-        document.getElementById('login-button').style.display = 'block'; 
-        document.getElementById('logout-button').style.display = 'none';
-        sessionStorage.removeItem('username');
-        window.location.href = '/index'; 
+    document.getElementById('login-out-button').addEventListener('click', function() {
+        if(document.getElementById('login-out-button').textContent=='Log in'){
+            window.location.href = "/logIn";
+            
+        }
+        else{
+            document.getElementById('greeting').textContent = "";
+            sessionStorage.removeItem('username');
+            window.location.reload();
+        }
     });
 </script>
 </div>

@@ -35,58 +35,6 @@ p a:hover {
 	width: 100%;
 }
 
-#header {
-	height: 130px;
-	margin: 0 auto;
-	overflow: hidden;
-	width: 960px;
-}
-
-#header div {
-	float: left;
-	height: 130px;
-	width: 316px;
-}
-
-#header ul {
-	background: url(../images/bg-navigation.gif) no-repeat top center;
-	float: left;
-	height: 50px;
-	list-style: none;
-	margin: 80px 0 0;
-	padding: 0;
-	width: 644px;
-}
-
-#header ul li {
-	float: left;
-	width: 129px;
-}
-
-#header ul li.first {
-	width: 128px;
-}
-
-#header ul li.last {
-	width: 128px;
-}
-
-#header ul li a {
-	color: #fffbff;
-	display: block;
-	line-height: 50px;
-	text-align: center;
-	text-decoration: none;
-	text-shadow: 1px 1px 0 #cc0850;
-	text-transform: capitalize;
-}
-
-#header ul li a:hover, #header ul li.selected a {
-	background: url(../images/sprites-icons.gif) no-repeat 0 -370px;
-	color: #7c0032;
-	text-shadow: 1px 1px 0 #fde8f7;
-}
-
 
 
 
@@ -522,83 +470,6 @@ p a:hover {
     width: 120px;
 }
 
-#footer {
-	background: #f2e1e9 url(../images/bg-footer2.gif) repeat-x top center;
-	height: auto;
-	width: 100%;
-}
-
-#footer div {
-	background:  url(../images/bg-footer.jpg) no-repeat top center;
-}
-
-#footer div div {
-	margin: 0 auto 10px;
-	width: 960px;
-}
-
-#footer div div ul {
-	clear: both;
-	list-style: none;
-	margin: 0;
-	overflow: hidden;
-	padding: 0;
-}
-
-#footer div div ul li {
-	float: left;
-	width: 320px;
-}
-
-#footer div div ul li h2 {
-	font-size: 20px;
-	font-style: italic;
-	margin: 0 0 0 25px;
-	width: 283px;
-}
-
-#footer div div ul li h2 a {
-	color: #f63c85;
-	display: block;
-	text-decoration: none;
-}
-
-#footer div div ul li p {
-	margin-left: 25px;
-    width: 283px;
-}
-
-#footer div div div {
-	background: none;
-	overflow: hidden;
-	padding-top: 65px;
-    width: auto;
-}
-
-#footer div div div div {
-	float: left;
-    height: auto;
-    margin-left: 35px;
-    width: 282px;
-}
-
-#footer div div div div.first {
-	margin-left: 21px;
-}
-
-#footer div div div div h3 {
-	color: #F63C85;
-	font-size: 18px;
-	font-style: italic;
-	margin: 0;
-}
-
-#footer div div div div h3 a:hover, 
-#footer div div ul li h2 a:hover,
-#content div div.aside ul li a:hover {
-	color: #ab3d69;
-}
-
 #content div#blog div ul {
 	list-style: none;
 	margin: 0;
@@ -701,244 +572,147 @@ p a:hover {
     margin-top: -43px;
 }
 
-#footer div div div div ul {
-	list-style: none;
-	margin: 0;
-    overflow: hidden;
-    padding: 10px 0 0 10px;
-}
 
-#footer div div div div ul li {
-	float: left;
-    padding: 5px 0;
-    width: 125px;
-}
-
-#footer div div div div ul li a {
-	color: #584549;
-	display: block;
-	height: 22px;
-	line-height: 22px;
-	text-decoration: none;
-	text-indent: 30px;
-}
-
-#footer div div div div ul li a:hover {
-	color: #A0496C;
-}
-
-#footer div div div div ul li a.facebook {
-	background: url(../images/sprites-icons.gif) no-repeat 0 -990px;
-}
-
-#footer div div div div ul li a.support {
-	background: url(../images/sprites-icons.gif) no-repeat 43px -1266px;
-	padding-left: 40px;
-}
-
-#footer div div div div ul li a.twitter {
-	background: url(../images/sprites-icons.gif) no-repeat 0 -1300px;
-}
-
-#footer div div div div ul li a.flicker {
-	background: url(../images/sprites-icons.gif) no-repeat 43px -1052px;
-	padding-left: 40px;
-}
-
-#footer div div div div span {
-	background: url(../images/sprites-icons.gif) no-repeat 0 -1114px;
-	display: block;
-	color: #584549;
-	font-family: Georgia;
-	font-size: 30px;
-    height: 40px;
-    line-height: 40px;
-    margin-top: 40px;
-    text-indent: 60px;
-}
-
-#footer div p.footnote {
-	background: url(../images/bg-copyright.gif) no-repeat top center;
-	color: #c48aa0;
-	display: block;
-	height: 60px;
-	line-height: 60px;
-	margin: 0;
+/* עיצוב לכותרת */
+.main-header {
 	text-align: center;
+	margin: 20px;
 }
 
+.main-header h1 {
+	font-size: 36px;
+	color: #FF007F;
+	white-space: nowrap;
+	display: inline;
+}
 
+.main-header p {
+	font-size: 18px;
+	color: #333;
+}
 
+/* עיצוב לתיבות התוכן */
+.content-section {
+	display: flex;
+	justify-content: space-between;
+	margin: 20px;
+	gap: 20px; /* רווח בין הקופסאות */
+}
 
-     /* עיצוב לכפתור ה-Log In */
-	 .login_out-button {
-		position: fixed;
-		display: inline-block; /* הופך את הכפתור לאלמנט בלוק */            top: 15px;
-		right: 15px;
-		padding: 10px 20px;
-		background-color: #A0496C; /* צבע ורוד כהה */
-		color: white; /* צבע טקסט */
-		border: none;
-		cursor: pointer;
-		font-size: 16px;
-		border-radius: 5px; /* עיגול פינות */
-		transition: background-color 0.3s; /* אפקט מעבר */
-	}
+.content-box {
+	background: none; /* אם יש רקע לבן, נוודא שהוא לא מפריע */
+	flex: 1;
+	padding: 20px;
+	border-radius: 15px; /* פינות מעוגלות */
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* צל מתחת לכל קופסה */
+	text-align: center; /* מרכז את הטקסט */
+	transition: transform 0.2s ease, box-shadow 0.2s ease; /* אנימציה */
+}
 
-	/* אפקט כשעוברים מעל הכפתור */
-	.login_out-button:hover {
-		background-color: #c48aa0; /* צבע ורוד בהיר יותר בעת מעבר */
-	}
+.content-box h3 {
+	color: #FF007F;
+	font-size: 22px;
+	margin-bottom: 15px; /* ריווח מתחת לכותרת */
+}
 
-	#greeting {
-		position: absolute;
-		font-size: 18px; /* גודל פונט יפה וקריא */
-		font-weight: bold; /* גודל פונט בולט */
-		color: #333; /* צבע טקסט כהה וברור */
-		margin-left: 1005px; /* רווח בין הברכה לכפתור */
-		margin-top: 25px;
-	}
+.content-box p {
+	color: #555; /* צבע טקסט אפור כהה */
+	font-size: 16px;
+	line-height: 1.5; /* ריווח בין השורות */
+}
 
-	/* עיצוב לכותרת */
-	.main-header {
-		text-align: center;
-		margin: 20px;
-	}
+/* אפקט של ריחוף על קופסה */
+.content-box:hover {
+	transform: translateY(-5px); /* אפקט הרמה בעת מעבר */
+	box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* צל חזק יותר */
+}
 
-	.main-header h1 {
-		font-size: 36px;
-		color: #FF007F;
-		white-space: nowrap;
-		display: inline;
-	}
+/* עיצוב לתוכן הטקסט */
+.text-content {
+	background: none; /* אם יש רקע לבן, נוודא שהוא לא מפריע */
+	text-align: center;
+	margin: 20px;
+}
 
-	.main-header p {
-		font-size: 18px;
-		color: #333;
-	}
+.text-content p {
+	font-size: 18px;
+	color: #333;
+}
 
-	/* עיצוב לתיבות התוכן */
-	.content-section {
-		display: flex;
-		justify-content: space-between;
-		margin: 20px;
-		gap: 20px; /* רווח בין הקופסאות */
-	}
+.text-content a {
+	color: #FF007F;
+	text-decoration: none;
+}
 
-	.content-box {
-		background: none; /* אם יש רקע לבן, נוודא שהוא לא מפריע */
-		flex: 1;
-		padding: 20px;
-		border-radius: 15px; /* פינות מעוגלות */
-		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* צל מתחת לכל קופסה */
-		text-align: center; /* מרכז את הטקסט */
-		transition: transform 0.2s ease, box-shadow 0.2s ease; /* אנימציה */
-	}
+/* סגנון לתמונות עיגול */
+.circle-image {
+	background: none; /* אם יש רקע לבן, נוודא שהוא לא מפריע */
+	width: 180px;  /* גודל התמונה */
+	height: 180px;
+	border-radius: 50%;  /* הפיכת התמונה לעיגול */
+	object-fit: cover;  /* חיתוך התמונה כך שהיא תתמלא בעיגול */
+	margin-right: 10px;  /* מרווח בין התמונה לטקסט */
+}
 
-	.content-box h3 {
-		color: #FF007F;
-		font-size: 22px;
-		margin-bottom: 15px; /* ריווח מתחת לכותרת */
-	}
+/* סגנון ל-ul של האסייד */
+.aside ul {
+	display: flex;
+	flex-direction: column;
+	list-style-type: none;
+	padding: 0;
+	margin-top: -50px; /* התאמת הערך כדי למקם את התמונות למעלה */
+}
 
-	.content-box p {
-		color: #555; /* צבע טקסט אפור כהה */
-		font-size: 16px;
-		line-height: 1.5; /* ריווח בין השורות */
-	}
+/* סגנון לכל אלמנט li */
+.aside ul li {
+	display: flex;
+	align-items: center;  /* סידור התמונה והטקסט לצד אחד */
+	margin-bottom: 15px;
+}
 
-	/* אפקט של ריחוף על קופסה */
-	.content-box:hover {
-		transform: translateY(-5px); /* אפקט הרמה בעת מעבר */
-		box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* צל חזק יותר */
-	}
+.container {
+	background-color: #ffffff;
+	padding: 2rem;
+	box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	width: 80%;
+	max-width: 600px;
+	margin: 20px auto;
+}
 
-	/* עיצוב לתוכן הטקסט */
-	.text-content {
-		background: none; /* אם יש רקע לבן, נוודא שהוא לא מפריע */
-		text-align: center;
-		margin: 20px;
-	}
+.form-input {
+	width: 100%;
+	padding: 0.8rem;
+	margin: 0.5rem 0;
+	border: 1px solid #c4c4c4;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
 
-	.text-content p {
-		font-size: 18px;
-		color: #333;
-	}
+.submit-button {
+	width: 100%;
+	padding: 0.8rem;
+	margin-top: 1rem;
+	background-color: #A0496C;
+	border: none;
+	color: white;
+	font-size: 1rem;
+	font-weight: bold;
+	cursor: pointer;
+	border-radius: 4px;
+	transition: background-color 0.3s;
+}
 
-	.text-content a {
-		color: #FF007F;
-		text-decoration: none;
-	}
+.submit-button:hover {
+	background-color: #c48aa0;
+}
 
-	/* סגנון לתמונות עיגול */
-	.circle-image {
-		background: none; /* אם יש רקע לבן, נוודא שהוא לא מפריע */
-		width: 180px;  /* גודל התמונה */
-		height: 180px;
-		border-radius: 50%;  /* הפיכת התמונה לעיגול */
-		object-fit: cover;  /* חיתוך התמונה כך שהיא תתמלא בעיגול */
-		margin-right: 10px;  /* מרווח בין התמונה לטקסט */
-	}
-
-	/* סגנון ל-ul של האסייד */
-	.aside ul {
-		display: flex;
-		flex-direction: column;
-		list-style-type: none;
-		padding: 0;
-		margin-top: -50px; /* התאמת הערך כדי למקם את התמונות למעלה */
-	}
-
-	/* סגנון לכל אלמנט li */
-	.aside ul li {
-		display: flex;
-		align-items: center;  /* סידור התמונה והטקסט לצד אחד */
-		margin-bottom: 15px;
-	}
-
-	.container {
-		background-color: #ffffff;
-		padding: 2rem;
-		box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-		border-radius: 8px;
-		width: 80%;
-		max-width: 600px;
-		margin: 20px auto;
-	}
-
-	.form-input {
-		width: 100%;
-		padding: 0.8rem;
-		margin: 0.5rem 0;
-		border: 1px solid #c4c4c4;
-		border-radius: 4px;
-		box-sizing: border-box;
-	}
-
-	.submit-button {
-		width: 100%;
-		padding: 0.8rem;
-		margin-top: 1rem;
-		background-color: #A0496C;
-		border: none;
-		color: white;
-		font-size: 1rem;
-		font-weight: bold;
-		cursor: pointer;
-		border-radius: 4px;
-		transition: background-color 0.3s;
-	}
-
-	.submit-button:hover {
-		background-color: #c48aa0;
-	}
-
-	.results-container {
-		margin-top: 20px;
-		padding: 15px;
-		border: 1px solid #ddd;
-		border-radius: 4px;
-	}
+.results-container {
+	margin-top: 20px;
+	padding: 15px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
 
 	
 	

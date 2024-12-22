@@ -1,0 +1,133 @@
+/* Website template by freewebsitetemplates.com */
+
+body {
+	color: #a0496c;
+	font-family: Arial;
+	font-size: 13px;
+	margin: 0;
+	min-width: 960px;
+	padding: 0;
+}
+
+a {
+	outline: none;
+}
+
+img {
+	border: 0;
+}
+
+#page {
+	background: url(../images/bg-header.gif) repeat-x top center;
+	width: 100%;
+}
+
+#header {
+	height: 130px;
+	margin: 0 auto;
+	overflow: hidden;
+	width: 960px;
+}
+
+#header div {
+	float: left;
+	height: 130px;
+	width: 316px;
+}
+
+#header ul {
+	background: url(../images/bg-navigation.gif) no-repeat top center;
+	float: left;
+	height: 50px;
+	list-style: none;
+	margin: 80px 0 0;
+	padding: 0;
+	width: 644px;
+}
+
+#header ul li {
+	float: left;
+	width: 129px;
+}
+
+#header ul li.first {
+	width: 128px;
+}
+
+#header ul li.last {
+	width: 128px;
+}
+
+#header ul li a {
+	color: #fffbff;
+	display: block;
+	line-height: 50px;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: 1px 1px 0 #cc0850;
+	text-transform: capitalize;
+}
+
+#header ul li a:hover, #header ul li.selected a {
+	background: url(../images/sprites-icons.gif) no-repeat 0 -370px;
+	color: #7c0032;
+	text-shadow: 1px 1px 0 #fde8f7;
+}
+
+/* עיצוב לכפתור ה-Log In */
+.login_out-button {
+	position: fixed;
+	display: inline-block; /* הופך את הכפתור לאלמנט בלוק */            top: 15px;
+	right: 15px;
+	margin-top: 1px;
+	padding: 10px 20px;
+	background-color: #A0496C; /* צבע ורוד כהה */
+	color: white; /* צבע טקסט */
+	border: none;
+	cursor: pointer;
+	font-size: 16px;
+	border-radius: 5px; /* עיגול פינות */
+	transition: background-color 0.3s; /* אפקט מעבר */
+}
+
+/* אפקט כשעוברים מעל הכפתור */
+.login_out-button:hover {
+	background-color: #c48aa0; /* צבע ורוד בהיר יותר בעת מעבר */
+}
+
+#greeting {
+	position: absolute;
+	font-size: 18px; /* גודל פונט יפה וקריא */
+	font-weight: bold; /* גודל פונט בולט */
+	color: #333; /* צבע טקסט כהה וברור */
+	margin-left: 1005px; /* רווח בין הברכה לכפתור */
+	margin-top: 25px;
+}
+
+/* עיצוב לכותרת */
+.main-header {
+	text-align: center;
+	margin: 20px;
+}
+
+.main-header h1 {
+	font-size: 36px;
+	color: #FF007F;
+	white-space: nowrap;
+	display: inline;
+}
+
+.main-header p {
+	font-size: 18px;
+	color: #333;
+}
+
+
+	
+
+	
+
+	
+	
+
+	
