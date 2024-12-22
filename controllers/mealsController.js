@@ -4,6 +4,33 @@ const ImageModel = require('../models/imageModel');
 const { getGlucoseFromUSDA } = require('../models/usdaModel');
 
 module.exports = {
+
+    filterMealsByDate: async (req, res) => {
+        const { startDate, endDate } = req.body;  // קבלת התאריכים מה-body
+        const meals = req.session.meals;  // קבלת כל הארוחות
+    
+        // המרת התאריכים לתאריכים ב-JavaScript (אם הם לא null)
+        const from = startDate ? new Date(startDate).setHours(0, 0, 0, 0) : null;
+        const to = endDate ? new Date(endDate).setHours(23, 59, 59, 999) : null;  // עד סוף היום של ה-endDate
+        if (meals.length === 0) {
+            return res.redirect('/meals');  // או החזרת הודעה שמתארת שהיו בעיות בהבאת הארוחות
+        }
+    
+        // סינון הארוחות לפי טווח התאריכים
+        const filteredMeals = meals.filter(meal => {
+            const mealDate = new Date(meal.date).setHours(0, 0, 0, 0);  // המרת תאריך הארוחה לתאריך בלבד
+            const isAfterFromDate = from ? mealDate >= from : true;
+            const isBeforeToDate = to ? mealDate <= to : true;
+            return isAfterFromDate && isBeforeToDate;
+        });
+
+    
+        // עדכון ה-session עם הארוחות המפולטרות
+        req.session.filterMeals = filteredMeals;
+        res.redirect('/meals');
+    },
+    
+    
     // פונקציה להוספת ארוחה
     createMeal: async (req, res, mealType, date, descriptionImage) => {
         try {
@@ -53,7 +80,14 @@ module.exports = {
 
             const newMeal = await Meal.addMeal(meal);
             console.log('Meal saved successfully:', meal);
-            res.status(201).json({ message: 'Meal added successfully!' });
+            if (!req.session.meals) {
+                req.session.meals = []; // אם לא קיימת רשימה, צור חדשה
+            }
+            req.session.meals.push(meal); // הוסף את הארוחה החדשה לרשימה
+            req.session.filterMeals.push(meal); 
+            res.redirect('/meals');
+
+
         } catch (error) {
             console.error('Error creating meal:', error.message);
             console.error('Error details:', error);
@@ -80,7 +114,9 @@ module.exports = {
             }
 
             console.log(`Meals fetched successfully for user: ${username}`, meals);
-            res.status(200).json(meals);
+            req.session.meals = meals; 
+            req.session.filterMeals=meals;      
+            console.log("meals are in");
         } catch (error) {
             console.error('Error fetching meals:', error.message);
             console.error('Error details:', error);

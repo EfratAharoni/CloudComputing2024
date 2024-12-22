@@ -7,7 +7,6 @@
   <link rel="stylesheet" type="text/css" href="css/header.css" />
   <link rel="stylesheet" type="text/css" href="css/footer.css" />
   <script src="/js/mealsTable.js" defer></script>
-  
 </head>
 <body>
   <div id="page">
@@ -19,41 +18,44 @@
 
       <!-- סינון לפי טווח תאריכים -->
       <div class="filter-section">
-        <div class="form-group">
-          <label for="startDate">Start Date:</label>
-          <input type="datetime-local" id="startDate">
-        </div>
-        <div class="form-group">
-          <label for="endDate">End Date:</label>
-          <input type="datetime-local" id="endDate">
-        </div>
-        <button onclick="filterMeals()">Filter</button>
-      </div>
+        <form id="filter" action="/meals/filterMeals" method="POST">
+            <div class="form-group">
+                <label for="startDate">Start Date:</label>
+                <input type="date" id="startDate" name="startDate">
+            </div>
+            <div class="form-group">
+                <label for="endDate">End Date:</label>
+                <input type="date" id="endDate" name="endDate">
+            </div>
+            <button type="submit">Filter</button>
+        </form>
+    </div>
+    
 
       <!-- מודאל להוספת ארוחה -->
       <div id="mealModal" class="modal">
         <div class="modal-content">
           <span class="close-button">&times;</span>
           <h2>Add New Meal</h2>
-          <form id="mealForm" enctype="multipart/form-data">
-            <!-- שדה Select -->
-            <label for="mealType">Meal Type:</label>
-            <select id="mealType" name="mealType" required>
+          <form id="mealForm" enctype="multipart/form-data" action="meals/addMeal" method="POST">
+            <div class="form-group">
+              <label for="mealType">Meal Type:</label>
+              <select id="mealType" name="mealType" required>
                 <option value="breakfast">Breakfast</option>
                 <option value="lunch">Lunch</option>
                 <option value="dinner">Dinner</option>
-            </select>
-    
-            <!-- שדה לקבלת קובץ תמונה (jpg) -->
-            <label for="descriptionImage">Upload Image:</label>
-            <input type="file" id="descriptionImage" name="descriptionImage" accept="image/jpeg" required>    
-            <!-- שדה תאריך ושעה -->
-            <label for="date">Date and Time:</label>
-            <input type="datetime-local" id="date" name="date" required>
-    
-            <!-- כפתור לשליחת הטופס -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="descriptionImage">Upload Image:</label>
+              <input type="file" id="descriptionImage" name="descriptionImage" accept="image/jpeg" required>
+            </div>
+            <div class="form-group">
+              <label for="date">Date and Time:</label>
+              <input type="datetime-local" id="date" name="date" required>
+            </div>
             <button type="submit">Submit Meal</button>
-        </form>
+          </form>
         </div>
       </div>
 
@@ -63,165 +65,101 @@
       </div>
 
       <!-- טבלה להארוחות -->
-      <table id="mealTable" style="display:none;">
+      <table id="mealTable" style="<%= meals.length > 0 ? 'display: table;' : 'display: none;' %>">
         <thead>
-            <tr>
-                <th style="display: none;">Username</th>
-                <th>Meal Type</th>
-                <th>Date & Time</th>
-                <th>Description</th>
-                <th>Blood glucose level</th>
-                <th>Holiday</th>
-            </tr>
+          <tr>
+            <th style="display: none;">Username</th>
+            <th>Meal Type</th>
+            <th>Date & Time</th>
+            <th>Description</th>
+            <th>Blood glucose level</th>
+            <th>Holiday</th>
+          </tr>
         </thead>
         <tbody>
-            <!-- שורות דינמיות יתווספו כאן -->
-          
+          <% if (meals && meals.length > 0) { %>
+            <% meals.forEach(function(meal) { %>
+              <tr>
+                <td style="display: none;"><%= meal.username %></td>
+                <td><%= meal.mealType %></td>
+                <td><%= meal.date %></td>
+                <td><%= meal.description || 'No description' %></td>
+                <td><%= meal.glucoseLevel %></td>
+                <td><%= meal.holiday %></td>
+              </tr>
+            <% }); %>
+          <% } else { %>
+            <tr>
+              <td colspan="6" style="text-align:center;">No meals available.</td>
+            </tr>
+          <% } %>
         </tbody>
-    </table>
+      </table>
     </div>
+
+    <%- include('../partial/footer') %> 
   </div>
 
   <script>
-    // JavaScript לפתיחת וסגירת המודאל
     const addMealButton = document.getElementById('addMealButton');
     const mealModal = document.getElementById('mealModal');
     const closeButton = document.querySelector('.close-button');
     const mealTable = document.getElementById('mealTable');
     const noHistoryMessage = document.getElementById('noHistoryMessage');
-    
-    // בדיקת אם יש שם משתמש ב-sessionStorage
-    const username = sessionStorage.getItem('username');
-    
+    const filterMealsForm = document.getElementById('filter');
+    // בדיקת אם יש שם משתמש ב-session
+    const username = '<%= username || "" %>';
+
     if (username) {
         mealTable.style.display = "table";
-        addMealButton.style.display = "block"
+        addMealButton.style.display = "block";
         noHistoryMessage.style.display = "none";
+        filterMealsForm.style.display = "flex";
     } else {
         mealTable.style.display = "none";
-        addMealButton.style.display = "none"
+        addMealButton.style.display = "none";
         noHistoryMessage.style.display = "block";
+        filterMealsForm.style.display = "none";
     }
 
     // פתיחת המודאל כשנלחץ על כפתור ה-"Add Meal"
     addMealButton.onclick = function() {
         mealModal.style.display = "block";
     }
-
     // סגירת המודאל כאשר לוחצים על כפתור ה-X
     closeButton.onclick = function() {
         mealModal.style.display = "none";
     }
-
     // סגירת המודאל אם לוחצים מחוץ לו
     window.onclick = function(event) {
         if (event.target == mealModal) {
             mealModal.style.display = "none";
         }
     }
-
-    // פונקציה לסינון הארוחות לפי טווח תאריכים
-    function filterMeals() {
+    // שמירת התאריכים ב-sessionStorage
+    document.getElementById('filter').addEventListener('submit', function(event) {
         const startDate = document.getElementById('startDate').value;
         const endDate = document.getElementById('endDate').value;
-
-        const rows = mealTable.getElementsByTagName('tr');
-        
-        for (let i = 1; i < rows.length; i++) {  // התחל מהשורה השנייה (הראשונה היא הכותרות)
-            const dateCell = rows[i].getElementsByTagName('td')[2]; // תא התאריך הוא בעמודה 3 (ה-index הוא 2)
-            if (dateCell) {
-                const mealDate = new Date(dateCell.textContent);
-                
-                // אם לא נמצא תאריך התחלתי או סופי, הצג את כל השורות
-                if (
-                    (startDate && mealDate < new Date(startDate)) || 
-                    (endDate && mealDate > new Date(endDate))
-                ) {
-                    rows[i].style.display = 'none'; // מסתיר את השורה אם התאריך לא מתאים
-                } else {
-                    rows[i].style.display = ''; // מציג את השורה אם התאריך מתאים
-                }
-            }
-        }
-    }
-   // פונקציה להבאת הארוחות מהשרת
-async function fetchMeals() {
-
-    try {
-        const response = await fetch('/api/meals'); // נתיב ה-API לשליפת הארוחות
-        if (!response.ok) {
-            throw new Error(`Failed to fetch meals: ${response.status}`);
-        }
-        const meals = await response.json();
-
-        // בדוק אם יש ארוחות להצגה
-        if (meals.length > 0) {
-            populateMealsTable(meals); // מלא את הטבלה
-            mealTable.style.display = "table";
-            noHistoryMessage.style.display = "none";
-        } else {
-            mealTable.style.display = "none";
-            noHistoryMessage.style.display = "block";
-        }
-    } catch (error) {
-        console.error('Error fetching meals:', error.message);
-        mealTable.style.display = "none";
-        noHistoryMessage.style.display = "block";
-    }
-}
-
-// פונקציה למילוי טבלת הארוחות
-function populateMealsTable(meals) {
-    const tbody = mealTable.querySelector('tbody');
-    tbody.innerHTML = ''; // נקה את התוכן הקיים בטבלה
-
-    meals.forEach(meal => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${meal.mealType}</td>
-            <td>${new Date(meal.date).toLocaleString()}</td>
-            <td>${meal.description || 'N/A'}</td>
-            <td>${meal.glucoseLevel || 'N/A'}</td>
-            <td>${meal.holiday || 'N/A'}</td>
-        `;
-        tbody.appendChild(row);
+        // שמירת הערכים ב-sessionStorage
+        sessionStorage.setItem('startDate', startDate);
+        sessionStorage.setItem('endDate', endDate);
     });
-}
-// קריאה לפונקציה בעת טעינת העמוד
 
-
-
-    document.getElementById('mealForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            console.log('uhvfdi');
-
-            
-            // שליפת הערכים מהשדות
-            const descriptionImage = document.getElementById('descriptionImage').files[0];
-            const date = document.getElementById('date').value;
-            const mealType = document.getElementById('mealType').value;
-
-            // יצירת אובייקט FormData עם הנתונים
-            const formData = new FormData();
-            formData.append('descriptionImage', descriptionImage);
-            formData.append('date', date);
-            formData.append('mealType', mealType);
-
-            // שליחה לשרת
-            const response = await fetch('/submit-meal', {
-                method: 'POST',
-                body: formData
-            });
-
-            if (response.ok) {
-                console.log('Data sent successfully');
-            } else {
-                console.log('Error:', response.status);
-            }
-        });
-  
+    window.addEventListener('load', function() {
+        const startDate = sessionStorage.getItem('startDate');
+        const endDate = sessionStorage.getItem('endDate');
+        
+        if (startDate) {
+            document.getElementById('startDate').value = startDate;
+        }
+        
+        if (endDate) {
+            document.getElementById('endDate').value = endDate;
+        }
+        // פעולה לאיפוס ה-sessionStorage אחרי טעינת הדף (לאחר הצגת הערכים)
+        sessionStorage.removeItem('startDate');
+        sessionStorage.removeItem('endDate');
+    });
   </script>
-<%- include('../partial/footer') %> 
-
 </body>
 </html>

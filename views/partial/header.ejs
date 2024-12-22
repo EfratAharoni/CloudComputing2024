@@ -3,7 +3,12 @@
         <a href="/"><img src="/images/logo.gif" alt="Logo" /></a>
     </div>
     <!-- כפתור ה-Log In -->
-    <button id="login-out-button" class="login_out-button">Log in</button>
+    <form action="/login_out" method="POST" id="login-form">
+        <!-- שדה מוסתר כדי לשלוח את הערך -->
+        <input type="hidden" name="action" id="action-input" value="Log in">
+        <button id="login-out-button" class="login_out-button" type="submit">Log in</button>
+    </form>
+    
     <div id="greeting">
         <!-- ברכת "שלום, שם משתמש" תוצג כאן -->
     </div>
@@ -16,27 +21,37 @@
     </ul>
 <script>
     window.onload = function() { 
-        const username = sessionStorage.getItem('username');
+    fetch('/session-info') // שליחת בקשה לשרת לקבלת שם המשתמש
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Not logged in');
+            }
+            return response.json(); // הפיכת התגובה לאובייקט JSON
+        })
+        .then(data => {
+            // שם משתמש התקבל בהצלחה
+            const username = data.username;
 
-        if (username) {
-            document.getElementById('login-out-button').textContent='Log out';
+            // עדכון הכפתור והברכה
+            document.getElementById('login-out-button').textContent = 'Log out';
             document.getElementById('greeting').textContent = `Hi, ${username}`;
-        } else {
-            document.getElementById('login-out-button').textContent='Log in';
-        }
-    };
-    
-    document.getElementById('login-out-button').addEventListener('click', function() {
-        if(document.getElementById('login-out-button').textContent=='Log in'){
-            window.location.href = "/logIn";
-            
-        }
-        else{
-            document.getElementById('greeting').textContent = "";
-            sessionStorage.removeItem('username');
-            window.location.reload();
-        }
-    });
+        })
+        .catch(error => {
+            // המשתמש לא מחובר
+            console.error('Error fetching session info:', error);
+
+            // עדכון הכפתור במקרה של חוסר התחברות
+            document.getElementById('login-out-button').textContent = 'Log in';
+            document.getElementById('greeting').textContent = '';
+        });
+};
+   
+   // עדכון הערך של השדה המוסתר על פי הטקסט של הכפתור
+document.getElementById('login-out-button').addEventListener('click', function () {
+    const actionInput = document.getElementById('action-input');
+    actionInput.value = this.textContent; // מעדכן את הטקסט בכפתור
+});
+
 </script>
 </div>
 

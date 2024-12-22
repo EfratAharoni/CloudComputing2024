@@ -14,6 +14,8 @@ const storage = multer.diskStorage({
     },
 });
 
+router.post('/filterMeals', mealController.filterMealsByDate);
+
 const upload = multer({ storage });
 
 // נתיב POST להוספת ארוחה
@@ -24,10 +26,11 @@ router.post('/addMeal', upload.single('descriptionImage'), (req, res) => {
     mealController.createMeal(req, res, mealType, date, descriptionImage);
 });
 
+
 // נתיב GET לקבלת ארוחות לפי שם משתמש
-router.get('/meals', (req, res) => {
+/*router.get('/meals', (req, res) => {
     mealController.getMeals(req, res);
-});
+});*/
 
 
 

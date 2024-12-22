@@ -5,14 +5,21 @@ const app = express();
 const port = 5000;
 const session = require('express-session');
 
-app.use(
-    session({
-        secret: 'your-secret-key',
-        resave: false,
-        saveUninitialized: true,
-        cookie: { secure: false },
-    })
-);
+app.use(session({
+    secret: 'your-secret-key', // שים סוד חזק כאן
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false } // שים secure:true בפרודקשן עם HTTPS
+}));
+
+app.get('/session-info', (req, res) => {
+    if (!req.session.username) {
+        return res.status(401).json({ message: 'Not logged in' });
+    }
+    
+    res.status(200).json({ username: req.session.username });
+});
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,17 +45,15 @@ const upload = multer({ storage });
 
 const userRoutes = require('./routes/userRoutes');
 const mealRoutes = require('./routes/mealsRoutes');
-
-app.use('/api/fetchMeals', mealRoutes);
-app.use('/login', userRoutes);
-app.use('/api/meals', mealRoutes);
-
-
-
 const pageRoutes = require('./routes/pageRoutes');
+
+app.use('/user', userRoutes);
+app.use('/meals', mealRoutes);
 app.use('/', pageRoutes);
 
-app.post('/submit-meal', upload.single('descriptionImage'), async (req, res) => {
+
+
+/*app.post('/submit-meal', upload.single('descriptionImage'), async (req, res) => {
     try {
         const mealType = req.body.mealType;
         const date = req.body.date;
@@ -60,7 +65,7 @@ app.post('/submit-meal', upload.single('descriptionImage'), async (req, res) => 
     } catch (error) {
         res.status(500).json({ message: 'Error processing the meal', error: error.message });
     }
-});
+});*/
 
 app.use((req, res) => {
     res.status(404).send('Page not found');

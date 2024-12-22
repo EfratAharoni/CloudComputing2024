@@ -1,8 +1,10 @@
 const { checkIfUserExists, getUserByUsername, createUser, updateUserPassword, deleteUser } = require('../dal/userDAL');
+const { getMeals } = require('../controllers/mealsController'); // ייבוא הפונקציה getMeals
 
 module.exports = {
     // פונקציה להתחברות
     login: async (req, res) => {
+
         const { username, password } = req.body;
         console.log(username);
 
@@ -16,32 +18,24 @@ module.exports = {
                 document.getElementById('error-message').textContent = data.message || 'Login failed';
                 return res.status(401).json({ message: 'Invalid username or password' });
             }
-            else{
-                sessionStorage.setItem('username', username);
-                window.location.reload(); 
-            }
 
             if (user.password !== password) {
                 console.log('Password mismatch for user:', username);
                 return res.status(401).json({ message: 'Invalid username or password' });
             }
-
-              // שמירת שם המשתמש ב-session
-              req.session.username = user.username;
-
             // וודא ש-session מוגדר
             if (!req.session) {
                 console.error('Session is not defined');
                 return res.status(500).json({ message: 'Session not initialized' });
             }
-
           
+            // שמירת שם המשתמש ב-session
+            req.session.username = user.username;
+            await getMeals(req, res); // קריאה לפונקציה getMeals לשמירת הארוחות ב-session
 
+            res.redirect('/index');
             console.log('Login successful for user:', username);
-            res.status(200).json({
-                message: 'Login successful',
-                user: { username: user.username },
-            });
+                    
         } catch (error) {
             console.error('Login error:', error);
             res.status(500).json({ message: 'Internal server error' });
@@ -65,10 +59,11 @@ module.exports = {
 
             const newUser = await createUser(username, password);
             console.log('User created successfully:', username);
-            res.status(201).json({
-                message: 'User created successfully',
-                user: { username: newUser.username },
-            });
+             // שמירת שם המשתמש ב-session
+             req.session.username = user.username;
+             await getMeals(req, res); // קריאה לפונקציה getMeals לשמירת הארוחות ב-session
+ 
+             res.redirect('/index');
         } catch (error) {
             console.error('Signup error:', error);
             res.status(500).json({ message: 'Internal server error' });

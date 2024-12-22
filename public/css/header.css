@@ -76,10 +76,11 @@ img {
 
 /* עיצוב לכפתור ה-Log In */
 .login_out-button {
-	position: fixed;
+	position: absolute;
 	display: inline-block; /* הופך את הכפתור לאלמנט בלוק */            top: 15px;
-	right: 15px;
+	left: 15px;
 	margin-top: 1px;
+	margin-left: 92%;
 	padding: 10px 20px;
 	background-color: #A0496C; /* צבע ורוד כהה */
 	color: white; /* צבע טקסט */
