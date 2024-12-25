@@ -6,16 +6,34 @@
   <link rel="stylesheet" type="text/css" href="css/meals.css" />
   <link rel="stylesheet" type="text/css" href="css/header.css" />
   <link rel="stylesheet" type="text/css" href="css/footer.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="/js/mealsTable.js" defer></script>
+  <style>
+    .chart-container {
+        width: 60%;
+        max-width: 800px;
+        margin: 30px auto;
+        text-align: center;
+    }
+    #glucoseChart {
+        width: 100%;
+        max-height: 300px;
+    }
+    .filter-section {
+        text-align: center;
+        margin: 20px;
+    }
+    .filter-section .form-group {
+        display: inline-block;
+        margin-right: 10px;
+    }
+  </style>
 </head>
 <body>
   <div id="page">
     <%- include('../partial/header') %>
 
     <div id="content">
-      <!-- כפתור לפתיחת המודאל -->
-      <button id="addMealButton" style="display:none;">Add Meal</button>
-
       <!-- סינון לפי טווח תאריכים -->
       <div class="filter-section">
         <form id="filter" action="/meals/filterMeals" method="POST">
@@ -27,36 +45,14 @@
                 <label for="endDate">End Date:</label>
                 <input type="date" id="endDate" name="endDate">
             </div>
-            <button type="submit">Filter</button>
+            <button type="button" id="filterButton">Filter</button>
         </form>
-    </div>
-    
+      </div>
 
-      <!-- מודאל להוספת ארוחה -->
-      <div id="mealModal" class="modal">
-        <div class="modal-content">
-          <span class="close-button">&times;</span>
-          <h2>Add New Meal</h2>
-          <form id="mealForm" enctype="multipart/form-data" action="meals/addMeal" method="POST">
-            <div class="form-group">
-              <label for="mealType">Meal Type:</label>
-              <select id="mealType" name="mealType" required>
-                <option value="breakfast">Breakfast</option>
-                <option value="lunch">Lunch</option>
-                <option value="dinner">Dinner</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="descriptionImage">Upload Image:</label>
-              <input type="file" id="descriptionImage" name="descriptionImage" accept="image/jpeg" required>
-            </div>
-            <div class="form-group">
-              <label for="date">Date and Time:</label>
-              <input type="datetime-local" id="date" name="date" required>
-            </div>
-            <button type="submit">Submit Meal</button>
-          </form>
-        </div>
+      <!-- גרף רמות סוכר -->
+      <div class="chart-container">
+        <h2>Blood Glucose Level Over Time</h2>
+        <canvas id="glucoseChart"></canvas>
       </div>
 
       <!-- הודעה אם אין משתמש מחובר -->
@@ -101,64 +97,80 @@
   </div>
 
   <script>
-    const addMealButton = document.getElementById('addMealButton');
-    const mealModal = document.getElementById('mealModal');
-    const closeButton = document.querySelector('.close-button');
-    const mealTable = document.getElementById('mealTable');
-    const noHistoryMessage = document.getElementById('noHistoryMessage');
-    const filterMealsForm = document.getElementById('filter');
-    // בדיקת אם יש שם משתמש ב-session
-    const username = '<%= username || "" %>';
+    const mealRows = document.querySelectorAll('#mealTable tbody tr');
+    let allMeals = [];
+    let chartInstance = null;
 
-    if (username) {
-        mealTable.style.display = "table";
-        addMealButton.style.display = "block";
-        noHistoryMessage.style.display = "none";
-        filterMealsForm.style.display = "flex";
-    } else {
-        mealTable.style.display = "none";
-        addMealButton.style.display = "none";
-        noHistoryMessage.style.display = "block";
-        filterMealsForm.style.display = "none";
-    }
+    // איסוף כל המידע מהטבלה
+    mealRows.forEach(row => {
+        const date = row.cells[2]?.innerText.trim();
+        const glucoseLevel = row.cells[4]?.innerText.trim();
+        const mealType = row.cells[1]?.innerText.trim();
+        const description = row.cells[3]?.innerText.trim();
+        const holiday = row.cells[5]?.innerText.trim();
 
-    // פתיחת המודאל כשנלחץ על כפתור ה-"Add Meal"
-    addMealButton.onclick = function() {
-        mealModal.style.display = "block";
-    }
-    // סגירת המודאל כאשר לוחצים על כפתור ה-X
-    closeButton.onclick = function() {
-        mealModal.style.display = "none";
-    }
-    // סגירת המודאל אם לוחצים מחוץ לו
-    window.onclick = function(event) {
-        if (event.target == mealModal) {
-            mealModal.style.display = "none";
+        if (date && glucoseLevel) {
+            allMeals.push({
+                date,
+                glucoseLevel: parseInt(glucoseLevel),
+                mealType,
+                description,
+                holiday
+            });
         }
-    }
-    // שמירת התאריכים ב-sessionStorage
-    document.getElementById('filter').addEventListener('submit', function(event) {
-        const startDate = document.getElementById('startDate').value;
-        const endDate = document.getElementById('endDate').value;
-        // שמירת הערכים ב-sessionStorage
-        sessionStorage.setItem('startDate', startDate);
-        sessionStorage.setItem('endDate', endDate);
     });
 
-    window.addEventListener('load', function() {
-        const startDate = sessionStorage.getItem('startDate');
-        const endDate = sessionStorage.getItem('endDate');
-        
-        if (startDate) {
-            document.getElementById('startDate').value = startDate;
+    // יצירת גרף
+    function createGlucoseChart(filteredMeals) {
+        const ctx = document.getElementById('glucoseChart').getContext('2d');
+        if (chartInstance) {
+            chartInstance.destroy();
         }
-        
-        if (endDate) {
-            document.getElementById('endDate').value = endDate;
-        }
-        // פעולה לאיפוס ה-sessionStorage אחרי טעינת הדף (לאחר הצגת הערכים)
-        sessionStorage.removeItem('startDate');
-        sessionStorage.removeItem('endDate');
+
+        const dates = filteredMeals.map(meal => meal.date);
+        const glucoseLevels = filteredMeals.map(meal => meal.glucoseLevel);
+
+        chartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Blood Glucose Level',
+                    data: glucoseLevels,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                }]
+            }
+        });
+    }
+
+    createGlucoseChart(allMeals);
+
+    document.getElementById('filterButton').addEventListener('click', () => {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+
+        const filteredMeals = allMeals.filter(meal => {
+            const mealDate = new Date(meal.date);
+            const start = startDate ? new Date(startDate) : null;
+            const end = endDate ? new Date(endDate) : null;
+
+            return (!start || mealDate >= start) && (!end || mealDate <= end);
+        });
+
+        // עדכון הגרף והטבלה
+        createGlucoseChart(filteredMeals);
+        const tableBody = document.querySelector('#mealTable tbody');
+        tableBody.innerHTML = filteredMeals.map(meal => `
+            <tr>
+                <td style="display: none;">${meal.username || ''}</td>
+                <td>${meal.mealType}</td>
+                <td>${meal.date}</td>
+                <td>${meal.description || 'No description'}</td>
+                <td>${meal.glucoseLevel}</td>
+                <td>${meal.holiday}</td>
+            </tr>
+        `).join('');
     });
   </script>
 </body>
