@@ -3,7 +3,7 @@ body {
 }
 
 button {
-  background-color: #1da02e;
+  background-color: #a0496c;
   color: white;
   padding: 10px 40px;
   border: none;
@@ -16,7 +16,7 @@ button {
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #a0496c;
 }
 
 table {
@@ -95,7 +95,7 @@ table th {
 
 .modal-content button[type="submit"] {
   align-self: center;
-  background-color: #28a745;
+  background-color: #a0496c;
   color: #fff;
   font-size: 16px;
   padding: 10px 20px;
@@ -105,7 +105,7 @@ table th {
 }
 
 .modal-content button[type="submit"]:hover {
-  background-color: #218838;
+  background-color: #a0496c;
 }
 
 .close-button {
@@ -256,3 +256,44 @@ table th {
   display: inline-block;
   margin-right: 10px;
 }
+
+/***************/
+
+
+
+/* עיצוב שדות הטופס */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+
+/* עיצוב שדות קלט */
+input[type="text"],
+input[type="datetime-local"],
+select,
+input[type="file"] {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  font-size: 0.8rem; /* אחידות בגודל */
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="datetime-local"]:focus,
+select:focus,
+input[type="file"]:focus {
+  border-color: #F63C85; /* הדגשה בזמן פוקוס */
+}
+
+
+button:hover {
+  background-color: #d83c74; /* צבע כהה יותר בזמן ריחוף */
+}
+
+
+
+
