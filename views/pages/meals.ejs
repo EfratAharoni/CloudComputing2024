@@ -6,16 +6,17 @@
   <link rel="stylesheet" type="text/css" href="css/meals.css" />
   <link rel="stylesheet" type="text/css" href="css/header.css" />
   <link rel="stylesheet" type="text/css" href="css/footer.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="/js/mealsTable.js" defer></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- הוספת Chart.js -->
 </head>
 <body>
   <div id="page">
     <%- include('../partial/header') %>
-    <%- include('../partial/massages') %>
 
     <div id="content">
+      <!-- כפתור לפתיחת המודאל -->
+      <button id="addMealButton" style="display:none;">Add Meal</button>
+
       <!-- סינון לפי טווח תאריכים -->
       <div class="filter-section">
         <form id="filter" action="/meals/filterMeals" method="POST">
@@ -27,14 +28,41 @@
                 <label for="endDate">End Date:</label>
                 <input type="date" id="endDate" name="endDate">
             </div>
-            <button type="button" id="filterButton">Filter</button>
+            <button type="submit">Filter</button>
         </form>
       </div>
-
+      
       <!-- גרף רמות סוכר -->
-      <div class="chart-container">
-        <h2>Blood Glucose Level Over Time</h2>
+      <h3 style="text-align: center; margin-top: 30px;">Blood Glucose Levels Over Time</h3>
+      <div style="width: 80%; margin: 20px auto;">
         <canvas id="glucoseChart"></canvas>
+      </div>
+
+      <!-- מודאל להוספת ארוחה -->
+      <div id="mealModal" class="modal" style="display: none;">
+        <div class="modal-content">
+          <span class="close-button">&times;</span>
+          <h2>Add New Meal</h2>
+          <form id="mealForm" enctype="multipart/form-data" action="meals/addMeal" method="POST">
+            <div class="form-group">
+              <label for="mealType">Meal Type:</label>
+              <select id="mealType" name="mealType" required>
+                <option value="breakfast">Breakfast</option>
+                <option value="lunch">Lunch</option>
+                <option value="dinner">Dinner</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="descriptionImage">Upload Image:</label>
+              <input type="file" id="descriptionImage" name="descriptionImage" accept="image/jpeg" required>
+            </div>
+            <div class="form-group">
+              <label for="date">Date and Time:</label>
+              <input type="datetime-local" id="date" name="date" required>
+            </div>
+            <button type="submit">Submit Meal</button>
+          </form>
+        </div>
       </div>
 
       <!-- הודעה אם אין משתמש מחובר -->
@@ -48,7 +76,7 @@
           <tr>
             <th style="display: none;">Username</th>
             <th>Meal Type</th>
-            <th>Date</th>
+            <th>Date & Time</th>
             <th>Description</th>
             <th>Blood glucose level</th>
             <th>Holiday</th>
@@ -60,7 +88,7 @@
               <tr>
                 <td style="display: none;"><%= meal.username %></td>
                 <td><%= meal.mealType %></td>
-                <td><%= new Date(meal.date).toLocaleDateString() %></td>
+                <td><%= meal.date %></td>
                 <td><%= meal.description || 'No description' %></td>
                 <td><%= meal.glucoseLevel %></td>
                 <td><%= meal.holiday %></td>
@@ -79,68 +107,60 @@
   </div>
 
   <script>
-    const mealRows = document.querySelectorAll('#mealTable tbody tr');
-    let allMeals = [];
-    let chartInstance = null;
+    // 🎯 משתנים כלליים
+    const addMealButton = document.getElementById('addMealButton');
+    const mealModal = document.getElementById('mealModal');
+    const closeButton = document.querySelector('.close-button');
+    const mealTable = document.getElementById('mealTable');
+    const noHistoryMessage = document.getElementById('noHistoryMessage');
+    const username = '<%= username || "" %>';
 
-    // איסוף כל המידע מהטבלה
-    mealRows.forEach(row => {
-        const date = row.cells[2]?.innerText.trim();
-        const glucoseLevel = row.cells[4]?.innerText.trim();
-        const mealType = row.cells[1]?.innerText.trim();
-        const description = row.cells[3]?.innerText.trim();
-        const holiday = row.cells[5]?.innerText.trim();
-
-        if (date && glucoseLevel) {
-            allMeals.push({
-                date: new Date(date).toLocaleDateString(),
-                glucoseLevel: parseInt(glucoseLevel),
-                mealType,
-                description,
-                holiday
-            });
-        }
-    });
-
-    // יצירת גרף
-    function createGlucoseChart(filteredMeals) {
-        const ctx = document.getElementById('glucoseChart').getContext('2d');
-        if (chartInstance) {
-            chartInstance.destroy();
-        }
-
-        const dates = filteredMeals.map(meal => meal.date);
-        const glucoseLevels = filteredMeals.map(meal => meal.glucoseLevel);
-
-        chartInstance = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: dates,
-                datasets: [{
-                    label: 'Blood Glucose Level',
-                    data: glucoseLevels,
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                }]
-            }
-        });
+    if (username) {
+        mealTable.style.display = "table";
+        addMealButton.style.display = "block";
+        noHistoryMessage.style.display = "none";
+    } else {
+        mealTable.style.display = "none";
+        addMealButton.style.display = "none";
+        noHistoryMessage.style.display = "block";
     }
 
-    createGlucoseChart(allMeals);
+    // ✅ פתיחת מודאל
+    addMealButton.onclick = () => {
+        mealModal.style.display = "block";
+    };
 
-    document.getElementById('filterButton').addEventListener('click', () => {
-        const startDate = document.getElementById('startDate').value;
-        const endDate = document.getElementById('endDate').value;
+    // ✅ סגירת מודאל בלחיצה על X
+    closeButton.onclick = () => {
+        mealModal.style.display = "none";
+    };
 
-        const filteredMeals = allMeals.filter(meal => {
-            const mealDate = new Date(meal.date);
-            const start = startDate ? new Date(startDate) : null;
-            const end = endDate ? new Date(endDate) : null;
+    // ✅ סגירת מודאל בלחיצה מחוץ לחלון
+    window.onclick = (event) => {
+        if (event.target === mealModal) {
+            mealModal.style.display = "none";
+        }
+    };
 
-            return (!start || mealDate >= start) && (!end || mealDate <= end);
-        });
+    // 🎯 תאריכים בטבלה עם שעות
+    document.querySelectorAll('#mealTable tbody tr').forEach(row => {
+        const dateCell = row.cells[2];
+        const parsedDate = new Date(dateCell.textContent.trim());
+        dateCell.textContent = parsedDate.toLocaleDateString('en-GB') + ' ' +
+                               parsedDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    });
 
-        createGlucoseChart(filteredMeals);
+    // 🎯 גרף עם תאריכים בלבד
+    const glucoseData = [];
+    const dateLabels = [];
+    document.querySelectorAll('#mealTable tbody tr').forEach(row => {
+        dateLabels.push(new Date(row.cells[2].textContent).toLocaleDateString('en-GB'));
+        glucoseData.push(parseFloat(row.cells[4].textContent.trim()));
+    });
+
+    new Chart(document.getElementById('glucoseChart'), {
+        type: 'line',
+        data: { labels: dateLabels, datasets: [{ label: 'Blood Glucose Level', data: glucoseData, borderColor: '#9C27B0' }] }
     });
   </script>
 </body>

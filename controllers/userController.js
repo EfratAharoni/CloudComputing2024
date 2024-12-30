@@ -42,33 +42,43 @@ module.exports = {
         }
     },
 
-    
 
+    
+    
     // פונקציה ליצירת משתמש חדש
     signup: async (req, res) => {
         const { username, password } = req.body;
-
+    
         try {
             console.log('Signup attempt:', username);
-
+    
+            // בדיקה אם המשתמש כבר קיים
             const userExists = await checkIfUserExists(username);
             if (userExists) {
                 console.log('User already exists:', username);
                 return res.status(400).json({ message: 'User already exists' });
             }
-
+    
+            // יצירת משתמש חדש
             const newUser = await createUser(username, password);
-            console.log('User created successfully:', username);
-             // שמירת שם המשתמש ב-session
-             req.session.username = user.username;
-             await getMeals(req, res); // קריאה לפונקציה getMeals לשמירת הארוחות ב-session
- 
-             res.redirect('/index');
+            console.log('User created successfully:', newUser.username);
+    
+            // הגדרת session
+            if (!req.session) {
+                console.error('Session is not defined');
+                return res.status(500).json({ message: 'Session not initialized' });
+            }
+            req.session.username = newUser.username;
+    
+            // הפניה לאחר הרשמה מוצלחת
+            res.status(201).json({ message: 'User created successfully', username: newUser.username });
         } catch (error) {
             console.error('Signup error:', error);
             res.status(500).json({ message: 'Internal server error' });
         }
     },
+    };
+    
 /*
     // פונקציה לעדכון סיסמה
     updatePassword: async (req, res) => {
@@ -111,4 +121,3 @@ module.exports = {
             res.status(500).json({ message: 'Internal server error' });
         }
     },*/
-};
