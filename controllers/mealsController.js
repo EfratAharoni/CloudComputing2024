@@ -109,6 +109,8 @@ module.exports = {
 
             const meals = await Meal.getMealsByUsername(username);
             if (meals.length === 0) {
+                req.session.meals = []; 
+                req.session.filterMeals=[];
                 console.log(`No meals found for user: ${username}`);
                 return res.status(404).json({ message: 'No meals found for this user' });
             }

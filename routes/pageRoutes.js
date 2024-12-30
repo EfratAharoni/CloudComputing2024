@@ -3,6 +3,7 @@ const router = express.Router();
 
 
 router.get('/index', (req, res) => {
+    console.log("hi");
     res.render('pages/index'); // עמוד הבית
 });
 

@@ -69,9 +69,13 @@ module.exports = {
                 return res.status(500).json({ message: 'Session not initialized' });
             }
             req.session.username = newUser.username;
+            req.session.meals = []; 
+            req.session.filterMeals=[]; 
+            console.log("ghyn");
+            res.redirect('/index');
+            console.log('signup successful for user:', username);
     
-            // הפניה לאחר הרשמה מוצלחת
-            res.status(201).json({ message: 'User created successfully', username: newUser.username });
+            
         } catch (error) {
             console.error('Signup error:', error);
             res.status(500).json({ message: 'Internal server error' });
