@@ -236,3 +236,23 @@ table th {
   gap: 15px;
   width: 100%;
 }
+
+/*היה בMEALS במקום בCSS*/
+.chart-container {
+  width: 60%;
+  max-width: 800px;
+  margin: 30px auto;
+  text-align: center;
+}
+#glucoseChart {
+  width: 100%;
+  max-height: 300px;
+}
+.filter-section {
+  text-align: center;
+  margin: 20px;
+}
+.filter-section .form-group {
+  display: inline-block;
+  margin-right: 10px;
+}

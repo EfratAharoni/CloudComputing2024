@@ -10,7 +10,6 @@ router.get('/db', (req, res) => {
     res.render('dal/db'); // עמוד הבית
 });
 
-
 router.get('/', (req, res) => {
     res.render('pages/index'); // אותו עמוד הבית
 });
@@ -34,7 +33,6 @@ router.get('/meals', (req, res) => {
         username: username 
     });
 });
-
 
 router.get('/blog', (req, res) => {
     console.log('Blog page requested');
@@ -72,6 +70,9 @@ router.get('/signUp', (req, res) => {
     res.render('pages/signUp'); // עמוד "Sign Up"
 });
 
+router.get('/logIn', (req, res) => {
+    res.render('pages/logIn'); // עמוד "log In"
+});
 
 router.get('/fetchMeals', (req, res) => {
     res.render('pages/meals'); // עמוד הבית
