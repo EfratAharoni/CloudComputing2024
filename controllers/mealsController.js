@@ -2,6 +2,7 @@ const Meal = require('../models/mealModel');
 const { getHolidayFromHebcal } = require('../models/hebcalModel');
 const ImageModel = require('../models/imageModel');
 const { getGlucoseFromUSDA } = require('../models/usdaModel');
+const { predictGlucose } = require('../models/predictionModel'); 
 
 module.exports = {
 
@@ -126,4 +127,20 @@ module.exports = {
             res.status(500).json({ message: 'Error fetching meals', error: error.message });
         }
     },
+    predictGlucose: async (req, res) => {
+        try {
+            const meals = req.session?.meals || [];
+            if (meals.length === 0) {
+                return res.status(404).json({ message: 'No meal data available for prediction.' });
+            }
+
+            const predictions = await predictGlucose(meals);
+            res.json({ message: 'Prediction successful', predictions });
+        } catch (error) {
+            console.error('Prediction error:', error.message);
+            res.status(500).json({ message: 'Prediction failed', error: error.message });
+        }
+    }
 };
+
+
