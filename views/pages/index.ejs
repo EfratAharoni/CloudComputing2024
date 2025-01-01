@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - HealthyLife</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" type="text/css" href="css/header.css" />
     <link rel="stylesheet" type="text/css" href="css/footer.css" />
 </head>
@@ -15,68 +15,44 @@
         
         <%- include('../partial/header') %>
         <%- include('../partial/massages') %><!--להוסיף בכל דף שהמשתמש יכול לראות אחרי שהוא מתחבר -->
-
-            <div id="content">
-                <span class="background"></span>
-                <div id="home">
-                    <!-- כותרת עמוד הבית -->
-                    <div class="main-header" style=" margin: 5% 15%; position:relative">
-                        <br><br>
-                        <h1
-                            style="margin-top: 50px; padding-top: 30px; font-size: 36px; color: #FF007F; white-space: nowrap; display: inline; ">
-                            The Healthy Life
-                        </h1>
-                        <p style="margin-top: 15px;  font-size: 18px; color: #333;">
-                            The easy way to healthy, balanced living. Our platform is here to help you create a healthy
-                            and balanced routine tailored to your needs.
-                        </p>
-                    </div>
-                    <div id="containers" style="display: flex; gap: 40%; width:100%">
-                        <!-- תיבות תוכן -->
-                        <section style=" background-color: transparent; position: absolute; margin-right: 18%;">
-                            <div class="content-section">
-                                <div class="content-box">
-                                    <h3>Track Your Meals</h3>
-                                    <p>Easily track your meals and analyze the most important nutritional values.</p>
-                                </div>
-                                <div class="content-box">
-                                    <h3>Personalized Insights</h3>
-                                    <p>Get personalized insights that guide you toward smarter decisions.</p>
-                                </div>
-                                <div class="content-box">
-                                    <h3>Smart Tools</h3>
-                                    <p>Enjoy smart tools, detailed reports, and notifications to maintain a healthy
-                                        lifestyle.</p>
-                                </div>
-                            </div>
-                            <!-- תוכן נוסף -->
-                            <div style="margin-top: 25px;" class="text-content">
-                                <p>Advanced tools for you: Our website combines advanced technology with a simple and
-                                    intuitive user experience. Everything is built to make it easier for you – from
-                                    integrating external services to ensuring easy access from any device, anytime.</p>
-                                <p>The journey to better health starts here! <a href="about">Learn more</a></p>
-                            </div>
-
-                        </section>
-                        <section id="side_menu" style="float:left; background-color: transparent;  position: relative;">
-                            <!-- תפריט צדדי -->
-                            <div class="aside">
-                                <ul>
-                                    <li>
-                                        <a href="index.html"><img src="images/homePic.jpg" alt="Image"
-                                                class="circle-image" /></a>
-                                    </li>
-                                    <li>
-                                        <a href="index.html"><img src="images/homePictu.jpg" alt="Image"
-                                                class="circle-image" /></a>
-                                    </li>
-                                </ul>
-                            </div>
-                    </div>
-                    </section>
-                </div>
+        <header>
+            <h1>Your Journey to a Sweeter Life</h1>
+            <div>
+                <img src="/images/homeImage.jpg" alt="A healthy person enjoying a fruit salad">
+                <img src="/images/2.jpg" alt="A healthy person enjoying a fruit salad">
 
             </div>
+        </header>
+    
+        <section id="track-meals">
+            <h2>Track Your Meals</h2>
+            <p>Tracking your meals is crucial as it allows you to see exactly what you're eating and in what quantities. This way, you can maintain a balanced diet, understand where you're consuming too many or too few calories, and improve your health accordingly. It's an excellent way to identify nutritional patterns we're not always aware of and make more informed decisions about what you put into your body. <a href="meals.html">Click here</a> to get started.</p>
+        </section>
+
+        <div class="card-container">
+            <div class="card">
+                <h3>Drink Plenty of Water</h3>
+                <p>Stay hydrated throughout the day for better health.</p>
+            </div>
+            <div class="card">
+                <h3>Eat Colorful Vegetables</h3>
+                <p>Daily intake of various vegetables enriches your diet.</p>
+            </div>
+            <div class="card">
+                <h3>Choose Whole Grains</h3>
+                <p>Opt for whole grains to get more fiber and nutrients.</p>
+            </div>
+        </div>
+            <!-- Add more cards here if needed -->
+        </div>
+    
+        <section id="community">
+            <h2>Success Stories</h2>
+            <p>Be inspired by real-life success stories of individuals who have managed to overcome diabetes. Learn from their experiences and find motivation for your own journey. <a href="success-stories.html">Read their stories here</a>.</p>
+            <img src="community.jpg" alt="A group of people smiling and talking">
+        </section>
+    
+          
             <%- include('../partial/footer') %>
     </div>
 

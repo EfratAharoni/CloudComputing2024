@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    text-align: center;
+    background-color: #f2f2f2;
+    padding: 50px;
+}
+
+section {
+    padding: 50px;
+    text-align: center;
+}
+
+header img {
+    max-width: 20%;
+}
+.card {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: inline-block;
+    width: 25%;
+    text-align: center;
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: nowrap; /* Ensures they stay in one row */
+    overflow-x: auto; /* For responsiveness if cards exceed viewport width */
+}
