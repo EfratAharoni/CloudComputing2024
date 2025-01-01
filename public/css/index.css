@@ -3,36 +3,137 @@ body {
     margin: 0;
     padding: 0;
 }
-
-header {
+h1{
+    margin-top: 3%;
     text-align: center;
-    background-color: #f2f2f2;
-    padding: 50px;
+    font-size: 5vh;
+    letter-spacing: 1vh;
+    word-spacing: 2vh;
+	color: #FF007F;
 }
+
+h2{
+    text-align: center;
+    font-size: 3.5vh;
+    color:#555;
+    margin-top: 5%;
+
+}
+
+
+#images {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5% 0;
+    margin-left: 5%;
+    width: 85%;
+}
+
+#lineImages {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+#lineImages img {
+    width: 20%; /* ניתן לשנות לפי הגודל הרצוי */
+    height: auto;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 0; /* כל תמונה בתור */
+}
+
+#lineImages img:hover {
+    transform: translateY(-10px) rotate(-5deg); /* זווית אלכסונית ותזוזה */
+    filter: brightness(1.1);
+    z-index: 2; /* הדגשה של התמונה שמעל */
+}
+
+/* יצירת חפיפות */
+#lineImages img:nth-child(1) {
+    transform: translateX(-10px) rotate(5deg);
+}
+
+#lineImages img:nth-child(2) {
+    transform: translateX(-5px) rotate(3deg);
+}
+
+#lineImages img:nth-child(3) {
+    transform: translateX(0px) rotate(0deg);
+}
+
+#lineImages img:nth-child(4) {
+    transform: translateX(5px) rotate(-3deg);
+}
+
+#lineImages img:nth-child(5) {
+    transform: translateX(10px) rotate(-5deg);
+}
+
+/* מוסיף מרווח ביניהם */
+#lineImages {
+    gap: 15px; /* מרווח בין התמונות */
+}
+
+
 
 section {
-    padding: 50px;
     text-align: center;
 }
 
-header img {
-    max-width: 20%;
+section p {
+    width: 80%;
+    font-size: 2.5vh;
+    margin-left: 10%;
+    line-height: 1.7;
+    text-align: center;  /* עיצוב ממורכז */
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background-color: transparent;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease-in-out;
+    margin-bottom: 50px;
 }
+
+
+
+
+.card-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    width: 80%;
+    margin-left: 10%;
+}
+
 .card {
     background-color: #f9f9f9;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 15px;
-    margin: 5px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    display: inline-block;
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 25%;
     text-align: center;
+    transition: transform 0.3s ease;
 }
 
-.card-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: nowrap; /* Ensures they stay in one row */
-    overflow-x: auto; /* For responsiveness if cards exceed viewport width */
+.card h3 {
+	color: #c2136b;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 1em;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.card:hover {
+    transform: scale(1.05);
 }

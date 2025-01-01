@@ -21,18 +21,13 @@ const upload = multer({ storage });
 
 // ✅ **נתיב POST להוספת ארוחה**
 router.post('/addMeal', upload.single('descriptionImage'), (req, res) => {
-    const { mealType, date } = req.body;
+    const { mealType, date, BloodSugarLevel} = req.body;
     const descriptionImage = req.file ? req.file.path : null;
 
-    mealController.createMeal(req, res, mealType, date, descriptionImage);
+    mealController.createMeal(req, res, mealType, date, BloodSugarLevel, descriptionImage);
 });
 
 // ✅ **נתיב GET לחיזוי רמות סוכר**
 router.get('/predictGlucose', mealController.predictGlucose);
-
-// ✅ **נתיב GET לקבלת ארוחות לפי שם משתמש (כרגע מושבת)** 
-/*router.get('/meals', (req, res) => {
-    mealController.getMeals(req, res);
-});*/
 
 module.exports = router;

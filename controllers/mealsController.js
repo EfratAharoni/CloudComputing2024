@@ -33,7 +33,7 @@ module.exports = {
     
     
     // פונקציה להוספת ארוחה
-    createMeal: async (req, res, mealType, date, descriptionImage) => {
+    createMeal: async (req, res, mealType, date, BloodSugarLevel, descriptionImage) => {
         try {
             const username = req.session?.username || 'guest';
             console.log(`Creating meal for user: ${username}`);
@@ -67,6 +67,7 @@ module.exports = {
                 date: parsedDate,
                 description,
                 glucoseLevel: glucoseLevel.glucoseLevel,
+                BloodSugarLevel,
                 holiday,
             });
 
@@ -76,6 +77,7 @@ module.exports = {
                 date: parsedDate.toISOString().split('T')[0], // פורמט YYYY-MM-DD בלבד
                 description: description || null,
                 glucoseLevel: glucoseLevel.glucoseLevel, // ערך ברירת מחדל לגלוקוז
+                BloodSugarLevel,
                 holiday: holiday || 'Regular Day', // ודא שיש ערך תמיד
             };
 
@@ -101,7 +103,6 @@ module.exports = {
         }
     },
 
-    // פונקציה להחזרת רשימת ארוחות לפי שם משתמש
     getMeals: async (req, res) => {
         console.log("try to get the meals");
         try {
@@ -127,6 +128,7 @@ module.exports = {
             res.status(500).json({ message: 'Error fetching meals', error: error.message });
         }
     },
+
     predictGlucose: async (req, res) => {
         try {
             const meals = req.session?.meals || [];

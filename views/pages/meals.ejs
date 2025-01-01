@@ -6,7 +6,6 @@
   <link rel="stylesheet" type="text/css" href="css/meals.css" />
   <link rel="stylesheet" type="text/css" href="css/header.css" />
   <link rel="stylesheet" type="text/css" href="css/footer.css" />
-  <script src="/js/mealsTable.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -31,15 +30,18 @@
             <button type="submit">Filter</button>
         </form>
       </div>
-      
+      <div id="chart" style="<%= meals && meals.length > 0 ? 'display: block;' : 'display: none;' %>">
+        <h3>
+            <span>Actual Blood Glucose Levels</span> and 
+            <span>Predicted Blood Glucose Levels</span>
+        </h3>
+        <div class="chart-container">
+            <canvas id="glucoseChart"></canvas>
+        </div>
+    </div>
+    
       <!-- גרף רמות סוכר -->
-      <h3 style="text-align: center; margin-top: 30px;">
-        <span style="color: #9C27B0;">Actual Blood Glucose Levels</span> and 
-        <span style="color: #FF6384;">Predicted Blood Glucose Levels</span>
-      </h3>
-      <div style="width: 80%; margin: 20px auto;">
-        <canvas id="glucoseChart"></canvas>
-      </div>
+      
 
       <!-- מודאל להוספת ארוחה -->
       <div id="mealModal" class="modal" style="display: none;">
@@ -60,11 +62,15 @@
               <input type="file" id="descriptionImage" name="descriptionImage" accept="image/jpeg" required>
             </div>
             <div class="form-group">
-              <label for="date">Date and Time:</label>
-              <input type="datetime-local" id="date" name="date" required>
+              <label for="date">Date:</label>
+              <input type="date" id="date" name="date" required>
+            </div>
+            <div class="form-group">
+              <label for="BloodSugarLevel">Blood Sugar Level (after meal):</label>
+              <input type="number" id="BloodSugarLevel" name="BloodSugarLevel" step="0.1" min="0" required>
             </div>
             <button type="submit">Submit Meal</button>
-          </form>
+          </form>          
         </div>
       </div>
 
@@ -79,9 +85,10 @@
           <tr>
             <th style="display: none;">Username</th>
             <th>Meal Type</th>
-            <th>Date & Time</th>
+            <th>Date</th>
             <th>Description</th>
-            <th>Blood glucose level</th>
+            <th>Glucose level in the food</th>
+            <th>Glucose level in blood after meal</th>
             <th>Holiday</th>
           </tr>
         </thead>
@@ -91,9 +98,10 @@
               <tr>
                 <td style="display: none;"><%= meal.username %></td>
                 <td><%= meal.mealType %></td>
-                <td><%= meal.date %></td>
+                <td><%= meal.date.split('T')[0] %></td>
                 <td><%= meal.description || 'No description' %></td>
                 <td><%= meal.glucoseLevel %></td>
+                <td><%= meal.BloodSugarLevel %></td>
                 <td><%= meal.holiday %></td>
               </tr>
             <% }); %>
