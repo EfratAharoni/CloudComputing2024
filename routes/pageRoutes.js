@@ -3,7 +3,7 @@ const router = express.Router();
 
 
 router.get('/index', (req, res) => {
-    console.log("hi");
+    console.log("hkhjgi");
     res.render('pages/index'); // עמוד הבית
 });
 
@@ -70,6 +70,7 @@ router.post('/logIn_out', (req, res) => {
 router.get('/signUp', (req, res) => {
     res.render('pages/signUp'); // עמוד "Sign Up"
 });
+
 
 router.get('/logIn', (req, res) => {
     res.render('pages/logIn'); // עמוד "log In"

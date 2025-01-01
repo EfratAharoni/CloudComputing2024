@@ -1,4 +1,4 @@
-const { checkIfUserExists, getUserByUsername, createUser, updateUserPassword, deleteUser } = require('../dal/userDAL');
+const { getUserByUsername, createUser, updateUserPassword, deleteUser } = require('../dal/userDAL');
 const { getMeals } = require('../controllers/mealsController'); // ייבוא הפונקציה getMeals
 
 module.exports = {
@@ -47,33 +47,40 @@ module.exports = {
     
     // פונקציה ליצירת משתמש חדש
     signup: async (req, res) => {
-        const { username, password } = req.body;
-    
+
+        const { username, password, confirmPassword } = req.body;
+        if(password==="" || password!==confirmPassword){
+                console.log('inncorrect input!');
+                return res.status(400).json({ message: 'inncorrect input' });
+        }
         try {
             console.log('Signup attempt:', username);
     
             // בדיקה אם המשתמש כבר קיים
-            const userExists = await checkIfUserExists(username);
+            const userExists = await getUserByUsername(username);
             if (userExists) {
-                console.log('User already exists:', username);
-                return res.status(400).json({ message: 'User already exists' });
+                console.log('User name already exists:', username);
+                return res.status(400).json({ message: 'User name already exists' });
             }
     
             // יצירת משתמש חדש
             const newUser = await createUser(username, password);
-            console.log('User created successfully:', newUser.username);
+            if(newUser){
+                console.log('User created successfully:', newUser.username);
+            }
     
-            // הגדרת session
+            // וודא ש-session מוגדר
             if (!req.session) {
                 console.error('Session is not defined');
-                return res.status(500).json({ message: 'Session not initialized' });
+                return ;//res.status(500).json({ message: 'Session not initialized' });
             }
-            req.session.username = newUser.username;
-            req.session.meals = []; 
-            req.session.filterMeals=[]; 
-            console.log("ghyn");
+          
+            // שמירת שם המשתמש ב-session
+            req.session.username = username;
+            await getMeals(req, res); // קריאה לפונקציה getMeals לשמירת הארוחות ב-session
+            console.log("very good!");
+
             res.redirect('/index');
-            console.log('signup successful for user:', username);
     
             
         } catch (error) {
@@ -81,7 +88,7 @@ module.exports = {
             res.status(500).json({ message: 'Internal server error' });
         }
     },
-    };
+};
     
 /*
     // פונקציה לעדכון סיסמה

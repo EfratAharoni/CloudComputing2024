@@ -21,18 +21,19 @@
     </ul>
 <script>
     window.onload = function() { 
-    fetch('/session-info') // שליחת בקשה לשרת לקבלת שם המשתמש
+        console.log("header here!");
+        fetch('/session-info')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Not logged in');
             }
-            return response.json(); // הפיכת התגובה לאובייקט JSON
+            return response.json();
         })
         .then(data => {
             // שם משתמש התקבל בהצלחה
             const username = data.username;
+            console.log("session here!");
 
-            // עדכון הכפתור והברכה
             document.getElementById('login-out-button').textContent = 'Log out';
             document.getElementById('greeting').textContent = `Hi, ${username}`;
         })
@@ -40,16 +41,14 @@
             // המשתמש לא מחובר
             console.error('Error fetching session info:', error);
 
-            // עדכון הכפתור במקרה של חוסר התחברות
             document.getElementById('login-out-button').textContent = 'Log in';
             document.getElementById('greeting').textContent = '';
         });
 };
    
-   // עדכון הערך של השדה המוסתר על פי הטקסט של הכפתור
 document.getElementById('login-out-button').addEventListener('click', function () {
     const actionInput = document.getElementById('action-input');
-    actionInput.value = this.textContent; // מעדכן את הטקסט בכפתור
+    actionInput.value = this.textContent; 
 });
 
 </script>

@@ -6,17 +6,17 @@ const port = 5000;
 const session = require('express-session');
 
 app.use(session({
-    secret: 'your-secret-key', // שים סוד חזק כאן
+    secret: 'healtyLife', // שים סוד חזק כאן
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false } // שים secure:true בפרודקשן עם HTTPS
 }));
 
 app.get('/session-info', (req, res) => {
+    console.log("session app");
     if (!req.session.username) {
         return res.status(401).json({ message: 'Not logged in' });
     }
-    
     res.status(200).json({ username: req.session.username });
 });
 
@@ -52,21 +52,6 @@ app.use('/meals', mealRoutes);
 app.use('/', pageRoutes);
 
 
-
-/*app.post('/submit-meal', upload.single('descriptionImage'), async (req, res) => {
-    try {
-        const mealType = req.body.mealType;
-        const date = req.body.date;
-        const descriptionImage = req.file ? req.file.path : null;
-
-        const mealController = require('./controllers/mealsController');
-        await mealController.createMeal(req, res, mealType, date, descriptionImage);
-        console.log('Meal processed successfully!');
-    } catch (error) {
-        res.status(500).json({ message: 'Error processing the meal', error: error.message });
-    }
-});*/
-
 app.use((req, res) => {
     res.status(404).send('Page not found');
 });
@@ -75,10 +60,6 @@ app.use((err, req, res, next) => {
     console.error('Server error:', err);
     res.status(500).send('Internal server error');
 });
-
-//app.listen(port, () => {
-//   console.log(`Server is running on http://localhost:${port}`);
-//});
 
 const http = require('http');
 const WebSocket = require('ws');
@@ -173,50 +154,3 @@ run().catch(console.error);
 server.listen(5000, () => {
   console.log('Server is running on http://localhost:5000');
 });
-/**
- * 
- * 
- * 
- * 
- * <div id="messages"></div>
-
-<script>
-    fetch('/session-info') // שליחת בקשה לשרת לקבלת שם המשתמש
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Not logged in');
-            }
-            return response.json(); // הפיכת התגובה לאובייקט JSON
-        })
-        .then(data => {const username = data.username;})
-            // שם משתמש התקבל בהצלחה
-
-
-    const ws = new WebSocket('ws://' + window.location.host);
-
-    ws.addEventListener('open', () => {
-        ws.send(username);
-    });
-
-    ws.addEventListener('message', (event) => {
-        const data = JSON.parse(event.data);
-        const messagesList = document.getElementById('messages');
-        
-        messagesList.innerHTML = ''; // Clear previous notification
-
-        if (data.hasNewMessage && data.messages && data.messages.length > 0) {
-            data.messages.forEach(message => {
-                const jsMsg=JSON.parse(message)
-                const p = document.createElement('p');
-                p.innerHTML=`
-                <h5 class="fw-bolder">Message:</h5>
-                <p>${jsMsg.message}</p>;`
-               
-                messagesList.appendChild(p);
-            });
-        }
-    });
-  
-</script>
-
- */

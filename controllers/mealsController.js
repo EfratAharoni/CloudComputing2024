@@ -113,7 +113,7 @@ module.exports = {
                 req.session.meals = []; 
                 req.session.filterMeals=[];
                 console.log(`No meals found for user: ${username}`);
-                return res.status(404).json({ message: 'No meals found for this user' });
+                return;
             }
 
             console.log(`Meals fetched successfully for user: ${username}`, meals);

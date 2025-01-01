@@ -74,7 +74,7 @@
       </div>
 
       <!-- טבלה להארוחות -->
-      <table id="mealTable" style="<%= meals.length > 0 ? 'display: table;' : 'display: none;' %>">
+      <table id="mealTable" style="<%= meals && meals.length > 0 ? 'display: table;' : 'display: none;' %>">
         <thead>
           <tr>
             <th style="display: none;">Username</th>
