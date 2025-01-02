@@ -13,7 +13,6 @@ app.use(session({
 }));
 
 app.get('/session-info', (req, res) => {
-    console.log("session app");
     if (!req.session.username) {
         return res.status(401).json({ message: 'Not logged in' });
     }
@@ -42,13 +41,12 @@ const storage = multer.diskStorage({
     },
 });
 const upload = multer({ storage });
-
 const userRoutes = require('./routes/userRoutes');
 const mealRoutes = require('./routes/mealsRoutes');
 const pageRoutes = require('./routes/pageRoutes');
 
 app.use('/user', userRoutes);
-app.use('/meals', mealRoutes);
+app.use('/meal', mealRoutes);
 app.use('/', pageRoutes);
 
 

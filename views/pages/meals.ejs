@@ -19,7 +19,7 @@
       <!-- סינון לפי טווח תאריכים -->
       <div class="filter-section">
         <% if (username) { %>
-          <form id="filter" action="/meals/filterMeals" method="POST">
+          <form id="filter" action="/meal/filterMeals" method="POST">
               <div class="form-group">
                   <label for="startDate">Start Date:</label>
                   <input type="date" id="startDate" name="startDate">
@@ -51,7 +51,7 @@
         <div class="modal-content">
           <span class="close-button">&times;</span>
           <h2>Add New Meal</h2>
-          <form id="mealForm" enctype="multipart/form-data" action="meals/addMeal" method="POST">
+          <form id="mealForm" enctype="multipart/form-data" action="meal/addMeal" method="POST">
             <div class="form-group">
               <label for="mealType">Meal Type:</label>
               <select id="mealType" name="mealType" required>
@@ -156,7 +156,7 @@
         bloodSugarData.push(parseFloat(row.cells[5].textContent.trim())); // שימוש ב-BloodSugarLevel (עמודה 6)
     });
 
-    fetch('/meals/predictGlucose')
+    fetch('/meal/predictGlucose')
         .then(response => response.json())
         .then(data => {
             if (data && Array.isArray(data.predictions)) {

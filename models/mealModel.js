@@ -7,7 +7,7 @@ const config = {
     server: 'HealthyLifeDB.mssql.somee.com',
     database: 'HealthyLifeDB',
     options: {
-        encrypt: false, // יש מקרים שבהם צריך להגדיר false עבור חיבור ל-somee.com
+        encrypt: false, 
     },
 };
 
@@ -17,10 +17,7 @@ async function addMeal(meal) {
     try {
         // התחברות למסד הנתונים
         let pool = await sql.connect(config);
-        console.log('Connected to the database.');
 
-        console.log(meal)
-        // שאילתה להוספת השורה
         const result = await pool.request()
             .input('username', sql.VarChar, meal.username)
             .input('mealType', sql.VarChar, meal.mealType)
@@ -38,7 +35,6 @@ async function addMeal(meal) {
     } catch (err) {
         console.error('Error adding meal:', err);
     } finally {
-        // נתק את החיבור
         sql.close();
     }
 }
@@ -48,9 +44,7 @@ async function getMealsByUsername(username) {
     try {
         // התחברות למסד הנתונים
         let pool = await sql.connect(config);
-        console.log('Connected to the database.');
 
-        // שאילתה להחזרת הארוחות של המשתמש
         const result = await pool.request()
             .input('username', sql.VarChar, username)
             .query(`
@@ -60,13 +54,11 @@ async function getMealsByUsername(username) {
                 ORDER BY date ASC; 
             `);
 
-        console.log('Meals fetched successfully:', result.recordset);
-        return result.recordset; // החזרת התוצאות
+        return result.recordset; 
     } catch (err) {
         console.error('Error fetching meals:', err);
-        throw err; // להעביר את השגיאה למעלה במידה וצריך
+        throw err;
     } finally {
-        // נתק את החיבור
         sql.close();
     }
 }

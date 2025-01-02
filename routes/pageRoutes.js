@@ -3,7 +3,6 @@ const router = express.Router();
 
 
 router.get('/index', (req, res) => {
-    console.log("hkhjgi");
     res.render('pages/index'); // עמוד הבית
 });
 
@@ -28,12 +27,14 @@ router.get('/about', (req, res) => {
 router.get('/meals', (req, res) => {
     const username = req.session.username || "";  // יכול להיות גם null או כל ערך אחר.
     const meals = req.session.filterMeals || [];
+    console.log(meals);
 
     res.render('pages/meals', { 
         meals: meals, 
         username: username 
     });
 });
+
 
 router.get('/blog', (req, res) => {
     console.log('Blog page requested');

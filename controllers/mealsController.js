@@ -7,89 +7,59 @@ const { predictGlucose } = require('../models/predictionModel');
 module.exports = {
 
     filterMealsByDate: async (req, res) => {
-        const { startDate, endDate } = req.body;  // קבלת התאריכים מה-body
-        const meals = req.session.meals;  // קבלת כל הארוחות
+        const { startDate, endDate } = req.body;  
+        const meals = req.session.meals;  
     
-        // המרת התאריכים לתאריכים ב-JavaScript (אם הם לא null)
         const from = startDate ? new Date(startDate).setHours(0, 0, 0, 0) : null;
-        const to = endDate ? new Date(endDate).setHours(23, 59, 59, 999) : null;  // עד סוף היום של ה-endDate
+        const to = endDate ? new Date(endDate).setHours(23, 59, 59, 999) : null;  
         if (meals.length === 0) {
-            return res.redirect('/meals');  // או החזרת הודעה שמתארת שהיו בעיות בהבאת הארוחות
+            return res.redirect('/meals');  
         }
     
-        // סינון הארוחות לפי טווח התאריכים
         const filteredMeals = meals.filter(meal => {
-            const mealDate = new Date(meal.date).setHours(0, 0, 0, 0);  // המרת תאריך הארוחה לתאריך בלבד
+            const mealDate = new Date(meal.date).setHours(0, 0, 0, 0); 
             const isAfterFromDate = from ? mealDate >= from : true;
             const isBeforeToDate = to ? mealDate <= to : true;
             return isAfterFromDate && isBeforeToDate;
         });
 
-    
-        // עדכון ה-session עם הארוחות המפולטרות
         req.session.filterMeals = filteredMeals;
         res.redirect('/meals');
     },
     
-    
-    // פונקציה להוספת ארוחה
     createMeal: async (req, res, mealType, date, BloodSugarLevel, descriptionImage) => {
         try {
-            const username = req.session?.username || 'guest';
-            console.log(`Creating meal for user: ${username}`);
-            console.log('Session username:', req.session.username);
 
-            // המרת תאריך ובדיקה
+            const username = req.session?.username || 'guest';
+
             const parsedDate = new Date(date);
             if (isNaN(parsedDate)) {
                 console.error('Invalid date format received:', date);
                 return res.status(400).json({ message: 'Invalid date format' });
             }
-            console.log('Parsed date:', parsedDate);
-
-            // בדיקת חג
             const holiday = await getHolidayFromHebcal(parsedDate);
-            console.log('Holiday result:', holiday);
-
-            // ניתוח תמונה
             const description = await ImageModel.getDescriptionFromImage(descriptionImage);
-            console.log('Image description:', description);
-
-            // בדיקת גלוקוז
             const glucoseLevel = await getGlucoseFromUSDA(description);
-            console.log('Glucose level:', glucoseLevel);
-
-            // שמירת ארוחה
-            console.log('Attempting to save meal with the following data:');
-            console.log({
-                username,
-                mealType,
-                date: parsedDate,
-                description,
-                glucoseLevel: glucoseLevel.glucoseLevel,
-                BloodSugarLevel,
-                holiday,
-            });
 
             const meal = {
                 username,
                 mealType,
-                date: parsedDate.toISOString().split('T')[0], // פורמט YYYY-MM-DD בלבד
+                date: parsedDate.toISOString().split('T')[0],
                 description: description || null,
-                glucoseLevel: glucoseLevel.glucoseLevel, // ערך ברירת מחדל לגלוקוז
+                glucoseLevel: glucoseLevel.glucoseLevel, 
                 BloodSugarLevel,
-                holiday: holiday || 'Regular Day', // ודא שיש ערך תמיד
+                holiday: holiday || 'Regular Day', 
             };
 
             const newMeal = await Meal.addMeal(meal);
             console.log('Meal saved successfully:', meal);
             if (!req.session.meals) {
-                req.session.meals = []; // אם לא קיימת רשימה, צור חדשה
+                req.session.meals = []; 
             }
-            req.session.meals.push(meal); // הוסף את הארוחה החדשה לרשימה
+            req.session.meals.push(meal); 
             req.session.filterMeals.push(meal); 
             res.redirect('/meals');
-
+            console.log("bye bye")
 
         } catch (error) {
             console.error('Error creating meal:', error.message);
@@ -104,12 +74,11 @@ module.exports = {
     },
 
     getMeals: async (req, res) => {
-        console.log("try to get the meals");
         try {
-            const username = req.session?.username || 'guest';
-            console.log(`Fetching meals for user: ${username}`);
 
+            const username = req.session?.username || 'guest';
             const meals = await Meal.getMealsByUsername(username);
+
             if (meals.length === 0) {
                 req.session.meals = []; 
                 req.session.filterMeals=[];
@@ -117,10 +86,9 @@ module.exports = {
                 return;
             }
 
-            console.log(`Meals fetched successfully for user: ${username}`, meals);
             req.session.meals = meals; 
-            req.session.filterMeals=meals;      
-            console.log("meals are in");
+            req.session.filterMeals= meals;   
+
         } catch (error) {
             console.error('Error fetching meals:', error.message);
             console.error('Error details:', error);
@@ -136,14 +104,12 @@ module.exports = {
                 return res.status(404).json({ message: 'No meal data available for prediction.' });
             }
     
-            // ✅ ודא שהפרמטר החדש נמצא בנתונים
             meals.forEach(meal => {
                 if (!meal.BloodSugarLevel) {
-                    meal.BloodSugarLevel = 0; // ערך ברירת מחדל אם חסר
+                    meal.BloodSugarLevel = 0; 
                 }
             });
     
-            // ✅ שליחת הנתונים למודל עם הפרמטר החדש
             const predictions = await predictGlucose(meals);
             res.json({ message: 'Prediction successful', predictions });
         } catch (error) {

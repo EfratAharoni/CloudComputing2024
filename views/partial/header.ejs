@@ -21,7 +21,6 @@
     </ul>
 <script>
     window.onload = function() { 
-        console.log("header here!");
         fetch('/session-info')
         .then(response => {
             if (!response.ok) {
@@ -32,15 +31,11 @@
         .then(data => {
             // שם משתמש התקבל בהצלחה
             const username = data.username;
-            console.log("session here!");
-
             document.getElementById('login-out-button').textContent = 'Log out';
             document.getElementById('greeting').textContent = `Hi, ${username}`;
         })
         .catch(error => {
-            // המשתמש לא מחובר
             console.error('Error fetching session info:', error);
-
             document.getElementById('login-out-button').textContent = 'Log in';
             document.getElementById('greeting').textContent = '';
         });
