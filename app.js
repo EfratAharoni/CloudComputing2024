@@ -132,9 +132,6 @@ const run = async () => {
         // Notify connected WebSocket client
         const ws = wsConnections[userId];
         console.log(userId)
-        console.log( wsConnections['hod'])
-        console.log( wsConnections["hod"])
-        console.log( wsConnections['"hod"'])
          
         if (ws) {
           ws.send(JSON.stringify({

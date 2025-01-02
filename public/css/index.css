@@ -137,3 +137,44 @@ section p {
 .card:hover {
     transform: scale(1.05);
 }
+
+/* Styling for message elements */
+.message {
+    background-color: #F63C85; /* צבע רקע להודעה */
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: fixed; /* משנה את המיקום למיקום קבוע על הדף */
+    top: 120px; /* קובע את המרחק שלה מהחלק העליון של הדף (מתחת להדר) */
+    left: 10px; /* ממקם את ההודעה בצד שמאל של הדף */
+    width: auto; /* רוחב אוטומטי לפי התוכן */
+    max-width: 25%; /* מגביל את הרוחב המקסימלי של ההודעה */
+    z-index: 9999; /* מוודא שההודעה תהיה מעל לתוכן */
+    font-family: 'Arial', sans-serif;
+    margin: 0; /* מסיר רווחים מיותרים */
+}
+
+/* Optional: Add a subtle fade-out effect when the message disappears */
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.message.fade-out {
+    animation: fadeOut 2s forwards;
+}
+
+.message-content h5 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.message-content p {
+    margin: 5px 0;
+}
+
+.message p strong {
+    font-weight: bold;
+}

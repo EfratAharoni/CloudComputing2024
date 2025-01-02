@@ -26,7 +26,8 @@ module.exports = {
         req.session.filterMeals = filteredMeals;
         res.redirect('/meals');
     },
-    
+
+
     createMeal: async (req, res, mealType, date, BloodSugarLevel, descriptionImage) => {
         try {
 
@@ -72,6 +73,7 @@ module.exports = {
             res.status(500).json({ message: 'Error adding meal', error: error.message });
         }
     },
+    
 
     getMeals: async (req, res) => {
         try {
