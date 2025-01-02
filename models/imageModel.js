@@ -3,8 +3,8 @@ const fs = require('fs');
 const FormData = require('form-data');
 
 class ImageModel {
-    static apiKey = 'acc_5c046915611dbb6';
-    static apiSecret = '6f6901e718ec0464462451b5419f4903';
+    static apiKey = 'acc_c0c982c9e1559ca';
+    static apiSecret = '3042ba139cd30fb0ff73902079731e70';
     static CONFIDENCE_THRESHOLD = 70;
 
     static async analyzeImage(imagePath) {
