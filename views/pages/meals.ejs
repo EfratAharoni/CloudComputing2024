@@ -219,61 +219,11 @@
         })
         .catch(error => console.error('Error fetching prediction data:', error));
         // ריענון לאחר שליחת טופס
-    // ✅ מניעת שליחה רגילה של הטופס ועדכון דינאמי של הטבלה והגרף
-document.getElementById('mealForm').onsubmit = (event) => {
-    event.preventDefault(); // מניעת שליחה רגילה של הטופס
-
-    const formData = new FormData(document.getElementById('mealForm'));
-
-    fetch('/meals/addMeal', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to add meal');
-        }
-        return response.json();
-    })
-    .then(newMeal => {
-        console.log('Meal added successfully:', newMeal);
-
-        // ✅ הוספת הארוחה החדשה לטבלה
-        const newRow = document.createElement('tr');
-        newRow.innerHTML = `
-            <td style="display: none;">${newMeal.username}</td>
-            <td>${newMeal.mealType}</td>
-            <td>${newMeal.date.split('T')[0]}</td>
-            <td>${newMeal.description || 'No description'}</td>
-            <td>${newMeal.glucoseLevel}</td>
-            <td>${newMeal.BloodSugarLevel}</td>
-            <td>${newMeal.holiday}</td>
-        `;
-        document.querySelector('#mealTable tbody').appendChild(newRow);
-
-        // ✅ עדכון הנתונים בגרף
-        dateLabels.push(new Date(newMeal.date).toLocaleDateString('en-GB'));
-        bloodSugarData.push(parseFloat(newMeal.BloodSugarLevel));
-        predictionData.push(null); // מוסיפים נקודת חיזוי ריקה
-
-        const chart = Chart.getChart('glucoseChart');
-        if (chart) {
-            chart.data.labels = dateLabels;
-            chart.data.datasets[0].data = bloodSugarData;
-            chart.data.datasets[1].data = predictionData;
-            chart.update();
-        }
-
-        // ✅ סגירת המודאל ואיפוס הטופס
-        mealModal.style.display = "none";
-        document.getElementById('mealForm').reset();
-    })
-    .catch(error => {
-        console.error('Error adding meal:', error.message);
-        alert('Failed to add meal. Please try again.');
-    });
-};
-
+    document.getElementById('mealForm').onsubmit = () => {
+      setTimeout(() => {
+          location.reload();
+      }, 1000); // ריענון לאחר שנייה
+  };
 </script>
 </body>
 </html>
