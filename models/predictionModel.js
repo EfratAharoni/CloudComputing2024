@@ -12,9 +12,10 @@ async function predictGlucose(mealData) {
 
         // ✅ המרת המידע למבנה נתונים מתאים
         const inputs = mealData.map(meal => [
-            mealTypeEncoding[meal.mealType] || 0,  // אם mealType לא תואם, הגדר כ-0
-            holidayEncoding[meal.holiday] || 0,   // אם holiday לא תואם, הגדר כ-0
-            meal.glucoseLevel || 0               // ודא שערך הגלוקוז תקין
+            mealTypeEncoding[meal.mealType] || 0,  // קידוד סוג הארוחה
+            holidayEncoding[meal.holiday] || 0,   // קידוד חג
+            meal.glucoseLevel || 0,               // רמת גלוקוז לפני הארוחה
+            meal.BloodSugarLevel || 0            // 🆕 רמת סוכר אחרי הארוחה
         ]);
 
         const labels = mealData.map(meal => meal.glucoseLevel || 0);

@@ -43,7 +43,7 @@
         </div>
     </div>
     
-      <!-- גרף רמות סוכר -->
+      
       
 
       <!-- מודאל להוספת ארוחה -->
@@ -138,7 +138,6 @@
         mealTable.style.display = "none";
         addMealButton.style.display = "none";
         noHistoryMessage.style.display = "block";
-
     }
 
     // ✅ פתיחת מודאל
@@ -149,65 +148,76 @@
     };
 
     // 🎯 נתונים לגרף
-    const glucoseData = [];
+    const bloodSugarData = [];
     const predictionData = [];
     const dateLabels = [];
     document.querySelectorAll('#mealTable tbody tr').forEach(row => {
         dateLabels.push(new Date(row.cells[2].textContent).toLocaleDateString('en-GB'));
-        glucoseData.push(parseFloat(row.cells[4].textContent.trim()));
+        bloodSugarData.push(parseFloat(row.cells[5].textContent.trim())); // שימוש ב-BloodSugarLevel (עמודה 6)
     });
 
     fetch('/meals/predictGlucose')
-    .then(response => response.json())
-    .then(data => {
-        if (data && Array.isArray(data.predictions)) {
-            predictionData.push(...data.predictions);
-        }
-
-        // התאמת אורך המערכים
-        if (predictionData.length !== glucoseData.length) {
-            console.warn('Mismatch in data length! Adjusting arrays.');
-            while (predictionData.length < glucoseData.length) {
-                predictionData.push(null); // הוספת ערך ריק אם יש חוסר
+        .then(response => response.json())
+        .then(data => {
+            if (data && Array.isArray(data.predictions)) {
+                predictionData.push(...data.predictions);
             }
-        }
 
-        console.log('Prediction Data:', predictionData);
+            // התאמת אורך המערכים
+            if (predictionData.length !== bloodSugarData.length) {
+                console.warn('Mismatch in data length! Adjusting arrays.');
+                while (predictionData.length < bloodSugarData.length) {
+                    predictionData.push(null); // הוספת ערך ריק אם יש חוסר
+                }
+            }
 
-        new Chart(document.getElementById('glucoseChart'), {
-            type: 'line',
-            data: {
-                labels: dateLabels,
-                datasets: [
-                    { label: 'Actual Glucose Level', data: glucoseData, borderColor: '#9C27B0', fill: false },
-                    { label: 'Predicted Glucose Level', data: predictionData, borderColor: '#FF6384', borderDash: [5, 5], fill: false }
-                ]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    }
+            console.log('Prediction Data:', predictionData);
+
+            new Chart(document.getElementById('glucoseChart'), {
+                type: 'line',
+                data: {
+                    labels: dateLabels,
+                    datasets: [
+                        { 
+                            label: 'Blood Sugar Level (after meal)', 
+                            data: bloodSugarData, 
+                            borderColor: '#6A0DAD', // סגול
+                            fill: false 
+                        },
+                        { 
+                            label: 'Predicted Blood Sugar Level', 
+                            data: predictionData, 
+                            borderColor: '#FF69B4', // ורוד
+                            borderDash: [5, 5],
+                            fill: false 
+                        }
+                    ]
                 },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Date'
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
                         }
                     },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Glucose Level'
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Blood Sugar Level'
+                            }
                         }
                     }
                 }
-            }
-        });
-    })
-    .catch(error => console.error('Error fetching prediction data:', error));
-  </script>
+            });
+        })
+        .catch(error => console.error('Error fetching prediction data:', error));
+</script>
 </body>
 </html>

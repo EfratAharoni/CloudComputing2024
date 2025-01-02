@@ -135,7 +135,15 @@ module.exports = {
             if (meals.length === 0) {
                 return res.status(404).json({ message: 'No meal data available for prediction.' });
             }
-
+    
+            // ✅ ודא שהפרמטר החדש נמצא בנתונים
+            meals.forEach(meal => {
+                if (!meal.BloodSugarLevel) {
+                    meal.BloodSugarLevel = 0; // ערך ברירת מחדל אם חסר
+                }
+            });
+    
+            // ✅ שליחת הנתונים למודל עם הפרמטר החדש
             const predictions = await predictGlucose(meals);
             res.json({ message: 'Prediction successful', predictions });
         } catch (error) {
@@ -143,6 +151,7 @@ module.exports = {
             res.status(500).json({ message: 'Prediction failed', error: error.message });
         }
     }
+    
 };
 
 
