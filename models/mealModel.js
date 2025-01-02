@@ -74,6 +74,3 @@ async function getMealsByUsername(username) {
 // ייצוא הפונקציות כמודול
 module.exports = { addMeal, getMealsByUsername };
 
-//Meal.createMeal=addMeal
-
-//module.exports = {addMeal};
