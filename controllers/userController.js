@@ -13,6 +13,7 @@ module.exports = {
 
             const user = await getUserByUsername(username);
             if (!user) {
+                res.send('Invalid username or password');
                 console.log('User not found');
                 const data = await response.json();
                 document.getElementById('error-message').textContent = data.message || 'Login failed';

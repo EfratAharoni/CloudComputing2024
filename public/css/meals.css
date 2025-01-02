@@ -116,6 +116,7 @@ table th {
 
 
 /**************************add meal modal************************/
+
 .modal {
   display: none;
   position: fixed;
@@ -124,17 +125,21 @@ table th {
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow: hidden; /* מבטל גלילה בעמוד עצמו */
   background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto;
+  top: 22%; /* מרחק מהחלק העליון של העמוד */
+  margin: auto; /* מרכז את המודל */
   padding: 20px;
   border: 1px solid #888;
   width: 50%;
+  max-height: 80vh; /* מגביל את הגובה של המודל */
+  overflow-y: auto; /* מאפשר גלילה פנימית אם התוכן עולה על הגובה */
   border-radius: 10px;
+  position: relative; /* מיקום יחסי עבור כפתור הסגירה */
 }
 
 .modal-content form {

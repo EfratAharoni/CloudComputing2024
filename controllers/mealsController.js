@@ -59,7 +59,7 @@ module.exports = {
             }
             req.session.meals.push(meal); 
             req.session.filterMeals.push(meal); 
-            res.redirect('/meals');
+            res.redirect('/a');
             console.log("bye bye")
 
         } catch (error) {

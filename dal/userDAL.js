@@ -1,6 +1,5 @@
 const User = require('../models/userModel'); // ייבוא המודל
 
-// בדיקה אם משתמש קיים
 const checkIfUserExists = async (username) => {
     try {
         const user = await User.findOne({ where: { username } });
@@ -11,7 +10,6 @@ const checkIfUserExists = async (username) => {
     }
 };
 
-// הבאת משתמש לפי שם משתמש
 const getUserByUsername = async (username) => {
     try {
         console.log('Fetching user:', username); // לוג לתיעוד שם המשתמש שנשלח
@@ -24,7 +22,6 @@ const getUserByUsername = async (username) => {
     }
 };
 
-// יצירת משתמש חדש
 const createUser = async (username, password) => {
     try {
         const newUser = await User.create({ username, password });
@@ -51,7 +48,6 @@ const updateUserPassword = async (username, newPassword) => {
     }
 };
 
-// מחיקת משתמש
 const deleteUser = async (username) => {
     try {
         const result = await User.destroy({ where: { username } });

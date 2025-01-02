@@ -36,6 +36,18 @@ router.get('/meals', (req, res) => {
 });
 
 
+
+router.get('/a', (req, res) => {
+    const username = req.session.username || "";  // יכול להיות גם null או כל ערך אחר.
+    const meals = req.session.filterMeals || [];
+    console.log(meals);
+
+    res.render('pages/meals', { 
+        meals: meals, 
+        username: username 
+    });
+});
+
 router.get('/blog', (req, res) => {
     console.log('Blog page requested');
     res.render('pages/blog'); // עמוד "Blog"

@@ -128,7 +128,6 @@
     const closeButton = document.querySelector('.close-button');
     const mealTable = document.getElementById('mealTable');
     const noHistoryMessage = document.getElementById('noHistoryMessage');
-    const filterMeals = document.getElementById('filter');
     const username = '<%= username || "" %>';
 
     if (username) {
@@ -141,7 +140,6 @@
         noHistoryMessage.style.display = "block";
     }
 
-    // ✅ פתיחת מודאל
     addMealButton.onclick = () => mealModal.style.display = "block";
     closeButton.onclick = () => mealModal.style.display = "none";
     window.onclick = (event) => {
@@ -219,12 +217,7 @@
             });
         })
         .catch(error => console.error('Error fetching prediction data:', error));
-        // ריענון לאחר שליחת טופס
-    document.getElementById('mealForm').onsubmit = () => {
-      setTimeout(() => {
-          location.reload();
-      }, 1000); // ריענון לאחר שנייה
-  };
+        
 </script>
 </body>
 </html>
