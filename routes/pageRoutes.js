@@ -29,7 +29,9 @@ router.get('/meals', (req, res) => {
     res.render('pages/meals', { 
         meals: meals, 
         username: username, 
-        currentPage: 'meals' 
+        currentPage: 'meals',
+        startDate: "",
+        endDate: "" 
     });
 });
 
@@ -39,7 +41,9 @@ router.get('/trackMeals', (req, res) => {
     res.render('pages/meals', { 
         meals: meals, 
         username: username, 
-        currentPage: 'meals' 
+        currentPage: 'meals',
+        startDate: "",
+        endDate: ""  
     });
 });
 
@@ -55,7 +59,7 @@ router.post('/logIn_out', (req, res) => {
     const { action } = req.body; 
 
     if (action === 'Log in') {
-        res.render('pages/logIn',{errorMessage: ""}); 
+        res.render('pages/logIn',{errorMessage: "",username:""}); 
     } else if (action === 'Log out') {
         console.log("Logging out...");
         req.session.destroy(err => {
@@ -73,12 +77,12 @@ router.post('/logIn_out', (req, res) => {
 
 
 router.get('/signUp', (req, res) => {
-    res.render('pages/signUp',{errorMessage: ""}); 
+    res.render('pages/signUp',{errorMessage: "",username:""}); 
 });
 
 
 router.get('/logIn', (req, res) => {
-    res.render('pages/logIn',{errorMessage: ""}); 
+    res.render('pages/logIn',{errorMessage: "",username: ""}); 
 });
 
 module.exports = router;

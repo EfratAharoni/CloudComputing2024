@@ -22,7 +22,7 @@ module.exports = {
                 console.log('Password mismatch for user:', username);
                 return res.render('pages/login', { 
                     errorMessage: 'Invalid password',
-                    username: username // נשמור את שם המשתמש כך שהמשתמש לא יצטרך להקליד אותו מחדש
+                    username: username 
                 });
             }
     
@@ -47,7 +47,7 @@ module.exports = {
         const { username, password, confirmPassword } = req.body;
         if (password === "" || password !== confirmPassword) {
             console.log('Incorrect input!');
-            return res.render('pages/signup', { errorMessage: 'Passwords do not match or are empty' });
+            return res.render('pages/signup', { errorMessage: 'Passwords do not match or are empty' , username: username});
         }
         try {
 
