@@ -37,7 +37,7 @@ router.get('/meals', (req, res) => {
 
 
 
-router.get('/a', (req, res) => {
+router.get('/trackMeals', (req, res) => {
     const username = req.session.username || "";  // יכול להיות גם null או כל ערך אחר.
     const meals = req.session.filterMeals || [];
     console.log(meals);
