@@ -10,8 +10,10 @@
     <div class="signup-container">
         <h2>Create a New Account</h2>
         <form id="signupForm" action="/user/signup" method="POST">
-            <input type="text" name="username" placeholder="Username" value="<%= username || '' %>"required>
-            <input type="password" name="password" placeholder="Password" required>
+            <input type="text" name="username" placeholder="Username" value="<%= username || '' %>"   minlength="4" maxlength="20" pattern="[a-zA-Z0-9]+" 
+            title="Username must be 4-20 characters long and contain only letters and numbers." required>
+            <input type="password" name="password" placeholder="Password" minlength="8" 
+            title="Password must be at least 8 characters long." required>
             <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
             <button class="signup-button" type="submit">Sign Up</button>
         </form>

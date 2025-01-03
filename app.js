@@ -28,9 +28,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
 //print to the console every request
 app.use((req, res, next) => {
-    console.log(`Request received: ${req.method} ${req.url}`);
+    console.log(`${req.method} ${req.url}`);
     next();
 });
 //save the upload file in the upload directory
@@ -78,17 +79,12 @@ const wsConnections = {};
 wss.on('connection', (ws, req) => {
   ws.on('message', (message) => {
     const userId = message.toString().replace(/"/g, ''); // הסרת מרכאות
-    console.log(456)
-    console.log(message)
-    console.log(userId)
     // Associate WebSocket connection with the user ID
     wsConnections[userId] = ws;
-
     // Initialize dictionary entry for this user if not present
     if (!messagesDictionary[userId]) {
       messagesDictionary[userId] = { messages: [], hasNewMessage: false };
     }
-
     // Send existing messages and "new message" status for this user
     ws.send(JSON.stringify({
       messages: messagesDictionary[userId].messages,
@@ -96,7 +92,6 @@ wss.on('connection', (ws, req) => {
     }));
   });
 });
-
 
 // Kafka consumer setup
 const kafka = new Kafka({
@@ -117,22 +112,17 @@ const run = async () => {
       const key = message.key?.toString();
       const userId =key.toString().replace(/"/g, '');
       const value = message.value?.toString();
-      console.log(123)
-      console.log(userId)
 
       if (userId && value) {
         // Add message and set hasNewMessage to true
         if (!messagesDictionary[userId]) {
           messagesDictionary[userId] = { messages: [], hasNewMessage: false };
         }
-        console.log(value)
         messagesDictionary[userId].messages.push(value);
         messagesDictionary[userId].hasNewMessage = true;
-        console.log(messagesDictionary)
 
         // Notify connected WebSocket client
         const ws = wsConnections[userId];
-        console.log(userId)
          
         if (ws) {
           ws.send(JSON.stringify({

@@ -116,7 +116,6 @@ module.exports = {
                 Number(mealTypeEncoding[meal.mealType] || 0),  
                 Number(holidayEncoding[meal.holiday] || 0),   
                 Number(meal.glucoseLevel || 0),              
-                Number(meal.BloodSugarLevel || 0)             
             ]);
     
             const labels = meals.map(meal => Number(meal.BloodSugarLevel || 0));
@@ -141,7 +140,6 @@ module.exports = {
                 return cart.predict([input])[0];
             });
     
-            console.log('Predicted Values:', predictedValues);
             res.json({ message: 'Prediction successful', predictions: predictedValues });
         } catch (error) {
             console.error('Prediction error:', error.message);

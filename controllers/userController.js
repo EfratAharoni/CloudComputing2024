@@ -6,10 +6,7 @@ module.exports = {
     login: async (req, res) => {
         const { username, password } = req.body;    
         try {
-
-            console.log('Login attempt for user:', username);
             const user = await getUserByUsername(username);
-
             if (!user) {
                 console.log('User not found');
                 return res.render('pages/login', { 
@@ -50,15 +47,12 @@ module.exports = {
             return res.render('pages/signup', { errorMessage: 'Passwords do not match or are empty' , username: username});
         }
         try {
-
-            console.log('Signup attempt:', username);
             const userExists = await getUserByUsername(username);
             if (userExists) {
                 console.log('User name already exists:', username);
-                return res.render('pages/signup', { errorMessage: 'User name already exists' });
+                return res.render('pages/signup', { errorMessage: 'User name already exists', username:username });
             }
-    
-            const newUser = await createUser(username, password);
+            await createUser(username, password);
             if (!req.session) {
                 return res.status(500).json({ message: 'Session not initialized' });
             }
