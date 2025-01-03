@@ -13,12 +13,12 @@
         <!-- ברכת "שלום, שם משתמש" תוצג כאן -->
     </div>
     <ul>
-        <li class="first current"><a href="/">Home</a></li>
-        <li><a href="/meals">Meals</a></li>
-        <li><a href="/about">About us</a></li>
-        <li><a href="/blog">Your shares</a></li>
-        <li><a href="/contact">Contact Us</a></li>
-    </ul>
+        <li class="first <%= currentPage === 'index' ? 'current' : '' %>"><a href="/">Home</a></li>
+        <li class="<%= currentPage === 'meals' ? 'current' : '' %>"><a href="/meals">Meals</a></li>
+        <li class="<%= currentPage === 'about' ? 'current' : '' %>"><a href="/about">About us</a></li>
+        <li class="<%= currentPage === 'blog' ? 'current' : '' %>"><a href="/blog">Your shares</a></li>
+        <li class="<%= currentPage === 'contact' ? 'current' : '' %>"><a href="/contact">Contact Us</a></li>
+    </ul>    
 <script>
     window.onload = function() { 
         fetch('/session-info')

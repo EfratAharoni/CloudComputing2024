@@ -1,4 +1,4 @@
-const Meal = require('../models/mealModel');
+const Meal = require('../dal/mealDal');
 const { getHolidayFromHebcal } = require('../models/hebcalModel');
 const ImageModel = require('../models/imageModel');
 const { getGlucoseFromUSDA } = require('../models/usdaModel');
@@ -11,6 +11,7 @@ module.exports = {
     
         const from = startDate ? new Date(startDate).setHours(0, 0, 0, 0) : null;
         const to = endDate ? new Date(endDate).setHours(23, 59, 59, 999) : null;  
+
         if (meals.length === 0) {
             return res.redirect('/meals');  
         }
@@ -63,11 +64,9 @@ module.exports = {
         } catch (error) {
             console.error('Error creating meal:', error.message);
             console.error('Error details:', error);
-
             if (error.message.includes('Failed to fetch')) {
                 return res.status(500).json({ message: 'External service error', error: error.message });
             }
-
             res.status(500).json({ message: 'Error adding meal', error: error.message });
         }
     },
@@ -104,29 +103,24 @@ module.exports = {
                 return res.status(404).json({ message: 'No meal data available for prediction.' });
             }
     
-            // ✅ ודא שהנתונים הדרושים קיימים
             meals.forEach(meal => {
                 if (!meal.BloodSugarLevel) {
                     meal.BloodSugarLevel = 0;
                 }
             });
     
-            // ✅ קידוד נתונים
             const mealTypeEncoding = { breakfast: 0, lunch: 1, dinner: 2 };
             const holidayEncoding = { 'Regular Day': 0, 'Holiday': 1 };
     
-            // ✅ המרת נתוני הקלט למספרים
             const inputs = meals.map(meal => [
-                Number(mealTypeEncoding[meal.mealType] || 0),  // קידוד סוג הארוחה
-                Number(holidayEncoding[meal.holiday] || 0),   // קידוד חג
-                Number(meal.glucoseLevel || 0),               // רמת גלוקוז במזון
-                Number(meal.BloodSugarLevel || 0)             // רמת סוכר בדם אחרי הארוחה
+                Number(mealTypeEncoding[meal.mealType] || 0),  
+                Number(holidayEncoding[meal.holiday] || 0),   
+                Number(meal.glucoseLevel || 0),              
+                Number(meal.BloodSugarLevel || 0)             
             ]);
     
-            // ✅ ודא שכל הערכים מספריים
             const labels = meals.map(meal => Number(meal.BloodSugarLevel || 0));
     
-            // בדיקה שהנתונים מספריים
             if (!inputs.every(row => row.every(value => typeof value === 'number' && !isNaN(value)))) {
                 throw new Error('Inputs array contains non-numeric values.');
             }
@@ -134,13 +128,11 @@ module.exports = {
                 throw new Error('Labels array contains non-numeric values.');
             }
     
-            // ✅ יצירת Decision Tree וחיזוי
+            // יצירת Decision Tree וחיזוי
             const { DecisionTreeClassifier } = require('ml-cart');
             const cart = new DecisionTreeClassifier();
             cart.train(inputs, labels);
-    
-            console.log('Model trained successfully');
-    
+        
             const predictedValues = inputs.map(input => {
                 if (!Array.isArray(input) || input.length === 0) {
                     console.warn('Invalid input for prediction:', input);

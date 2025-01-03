@@ -57,6 +57,14 @@ img {
 	width: 128px;
 }
 
+#header ul li.current a {
+    background-color: #fde8f7; 
+	color: #cc0850 !important;
+	text-shadow: none;
+
+}
+
+
 #header ul li a {
 	color: #fffbff;
 	display: block;
@@ -121,6 +129,7 @@ img {
 	font-size: 18px;
 	color: #333;
 }
+
 
 
 

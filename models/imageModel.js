@@ -9,24 +9,20 @@ class ImageModel {
 
     static async analyzeImage(imagePath) {
         try {
-            console.log("Processing image at path:", imagePath);
 
-            // בדיקת קיום הקובץ
             if (!fs.existsSync(imagePath)) {
                 throw new Error("File does not exist at the given path.");
             }
 
-            // קריאת התמונה כ-buffer
             const fileBuffer = fs.readFileSync(imagePath);
 
             // יצירת אובייקט FormData
             const formData = new FormData();
             formData.append('image', fileBuffer, {
                 filename: imagePath.split('\\').pop(),
-                contentType: 'image/jpeg', // תוכן התמונה
+                contentType: 'image/jpeg', 
             });
 
-            // שליחת בקשה ל-API
             const response = await axios.post(
                 'https://api.imagga.com/v2/tags',
                 formData,
@@ -59,7 +55,6 @@ class ImageModel {
         }
     }
 
-    // פונקציה נוספת לממשק ידידותי
     static async getDescriptionFromImage(imagePath) {
         return this.analyzeImage(imagePath);
     }

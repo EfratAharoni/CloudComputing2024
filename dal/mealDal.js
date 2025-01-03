@@ -1,6 +1,5 @@
 const sql = require('mssql');
 
-// הגדרות החיבור למסד הנתונים שלך
 const config = {
     user: 'EfratAharoni_SQLLogin_2',
     password: 'wlstybw2ax',
@@ -11,13 +10,10 @@ const config = {
     },
 };
 
-
-// פונקציה להוספת השורה
 async function addMeal(meal) {
     try {
-        // התחברות למסד הנתונים
-        let pool = await sql.connect(config);
 
+        let pool = await sql.connect(config);
         const result = await pool.request()
             .input('username', sql.VarChar, meal.username)
             .input('mealType', sql.VarChar, meal.mealType)
@@ -42,7 +38,6 @@ async function addMeal(meal) {
 
 async function getMealsByUsername(username) {
     try {
-        // התחברות למסד הנתונים
         let pool = await sql.connect(config);
 
         const result = await pool.request()
@@ -63,6 +58,4 @@ async function getMealsByUsername(username) {
     }
 }
 
-// ייצוא הפונקציות כמודול
 module.exports = { addMeal, getMealsByUsername };
-

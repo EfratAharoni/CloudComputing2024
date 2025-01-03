@@ -12,8 +12,8 @@ const User = sequelize.define('User', {
         allowNull: false,
     },
 }, {
-    tableName: 'users', // שם הטבלה במסד הנתונים
-    timestamps: false, // ביטול עמודות createdAt ו-updatedAt
+    tableName: 'users', 
+    timestamps: false, 
 });
 
 module.exports = User;

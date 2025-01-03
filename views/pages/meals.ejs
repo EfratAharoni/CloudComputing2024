@@ -14,6 +14,11 @@
     
     
     <div id="content">
+
+      <div id="noHistoryMessage" class="no-history-message" style="display:none;">
+        No meals history, need to connect.
+      </div>
+
       <!-- כפתור לפתיחת המודאל -->
       <button id="addMealButton" style="display:none;">Add Meal</button>
 
@@ -78,10 +83,6 @@
         </div>
       </div>
 
-      <!-- הודעה אם אין משתמש מחובר -->
-      <div id="noHistoryMessage" class="no-history-message" style="display:none;">
-        No meals history, need to connect.
-      </div>
 
       <!-- טבלה להארוחות -->
       <table id="mealTable" style="<%= meals && meals.length > 0 ? 'display: table;' : 'display: none;' %>">

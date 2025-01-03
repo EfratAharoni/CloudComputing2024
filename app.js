@@ -4,12 +4,14 @@ const path = require('path');
 const app = express();
 const port = 5000;
 const session = require('express-session');
+const http = require('http');
 
+//create session for commincation between server and client
 app.use(session({
-    secret: 'healtyLife', // שים סוד חזק כאן
+    secret: 'healtyLife', 
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false } // שים secure:true בפרודקשן עם HTTPS
+    cookie: { secure: false } 
 }));
 
 app.get('/session-info', (req, res) => {
@@ -19,19 +21,19 @@ app.get('/session-info', (req, res) => {
     res.status(200).json({ username: req.session.username });
 });
 
-
+//convert json to object
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+//for public folder
 app.use(express.static('public'));
-
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
+//print to the console every request
 app.use((req, res, next) => {
     console.log(`Request received: ${req.method} ${req.url}`);
     next();
 });
-
+//save the upload file in the upload directory
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads/');
@@ -41,6 +43,8 @@ const storage = multer.diskStorage({
     },
 });
 const upload = multer({ storage });
+
+//routes
 const userRoutes = require('./routes/userRoutes');
 const mealRoutes = require('./routes/mealsRoutes');
 const pageRoutes = require('./routes/pageRoutes');
@@ -49,30 +53,27 @@ app.use('/user', userRoutes);
 app.use('/meal', mealRoutes);
 app.use('/', pageRoutes);
 
-
+//request that does not find path
 app.use((req, res) => {
     res.status(404).send('Page not found');
 });
-
+//catch errors
 app.use((err, req, res, next) => {
     console.error('Server error:', err);
     res.status(500).send('Internal server error');
 });
 
-const http = require('http');
+//kafka
+
 const WebSocket = require('ws');
 const { Kafka } = require('kafkajs');
-
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
-
 // Global dictionary for storing messages by user ID and message status
 //const messagesDictionary = require('./controllers/messagesController');
 const messagesDictionary = {};
-
 // WebSocket connections by user ID
 const wsConnections = {};
-
 // WebSocket server setup
 wss.on('connection', (ws, req) => {
   ws.on('message', (message) => {
@@ -143,6 +144,7 @@ const run = async () => {
     },
   });
 };
+
 
 run().catch(console.error);
 

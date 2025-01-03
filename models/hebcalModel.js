@@ -1,6 +1,5 @@
 const axios = require('axios');
 
-// פונקציה לחישוב אם זה חג או לא באמצעות Hebcal
 const getHolidayFromHebcal = async (date) => {
     try {
         const response = await axios.get('https://www.hebcal.com/converter', {

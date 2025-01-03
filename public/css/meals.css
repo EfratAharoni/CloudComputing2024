@@ -280,6 +280,7 @@ input[type="file"]:focus {
 /**********************chart***************************/
 #chart {
   display: none; 
+  margin-bottom: 2%;
 }
 
 #chart h3 {
