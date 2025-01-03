@@ -15,7 +15,11 @@
             <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
             <button class="signup-button" type="submit">Sign Up</button>
         </form>
-        <div id="error-message" class="error-message"></div>
+       <% if (errorMessage!=="") { %>
+            <div class="error-message">
+                <%= errorMessage %>
+            </div>
+        <% } %>
         <a class="login-link" href="/logIn">Already have an account? Log In</a>
     </div>
 

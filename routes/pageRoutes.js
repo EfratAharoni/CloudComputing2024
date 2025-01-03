@@ -62,7 +62,7 @@ router.post('/logIn_out', (req, res) => {
 
     if (action === 'Log in') {
         console.log("bfvdcs - Log In");
-        res.render('pages/logIn'); // עמוד "Log In"
+        res.render('pages/logIn',{errorMessage: ""}); // עמוד "log In"
     } else if (action === 'Log out') {
         console.log("Logging out...");
         // קריאה לפונקציית logout
@@ -81,12 +81,12 @@ router.post('/logIn_out', (req, res) => {
 
 
 router.get('/signUp', (req, res) => {
-    res.render('pages/signUp'); // עמוד "Sign Up"
+    res.render('pages/signUp',{errorMessage: ""}); // עמוד "Sign Up"
 });
 
 
 router.get('/logIn', (req, res) => {
-    res.render('pages/logIn'); // עמוד "log In"
+    res.render('pages/logIn',{errorMessage: ""}); // עמוד "log In"
 });
 
 router.get('/fetchMeals', (req, res) => {

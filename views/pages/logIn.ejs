@@ -15,7 +15,14 @@
            <input type="password" name="password" placeholder="Password" required>
            <button class="login-button" type="submit">Log In</button>
        </form>
-       <div id="error-message" class="error-message"></div>
+
+       <% if (errorMessage!=="") { %>
+            <div class="error-message">
+                <%= errorMessage %>
+            </div>
+        <% } %>
+
+
        <a class="signup-link" href="/signUp">Create a New Account</a>
    </div>
 
