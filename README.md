@@ -12,24 +12,24 @@
 
 #### דרישות פונקציונליות
 - **זיהוי משתמש**: התחברות מאובטחת למערכת לצפייה ועריכת נתונים אישיים.
-- **עדכון ארוחות**: ארוחת בוקר, צהריים וערב; תאריך ותיאור; תמונת הארוחה; רמת סוכר אחרי שעתיים; סוג יום (יום חול, חג או מועד).
+- **עדכון ארוחות**: ארוחת בוקר, צהריים וערב. תאריך ותיאור, תמונת הארוחה, רמת סוכר אחרי שעתיים, סוג יום (יום חול, חג או מועד).
 - **היסטוריית ארוחות**: הצגת הארוחות לפי טווח תאריכים או לפי סוג הארוחה.
 - **הודעות בדחיפה**: קבלת התראות בזמן אמת מרופא.
-- **בונוס אופציונלי - חיזוי רמות סוכר**: חיזוי לפי סוג ארוחה, יום ותמונה; בדיקת תוכן תמונה; בדיקת תאריך לחג או מועד; הצגת נתונים היסטוריים; תמונה דרך Telegram API.
+- **בונוס אופציונלי - חיזוי רמות סוכר**: חיזוי לפי סוג ארוחה, יום ותמונה, בדיקת תוכן תמונה, בדיקת תאריך לחג או מועד, הצגת נתונים היסטוריים..
 
 #### דרישות לא פונקציונליות
 - Node.js / Express.js
 - שני תתי-פרויקטים: ניהול נתונים ושליחת מסרים בזמן אמת
 - API Gateway עם Controllers ו-Models נפרדים
-- DBaaS (למשל Somee.com)
-- שילוב עם שירותי ענן: Imagga (תמונות), USDA ERS (תזונה), Telegram API (אופציונלי)
+- DBaaS (Somee.com)
+- שילוב עם שירותי ענן: Imagga (תמונות), USDA ERS (תזונה),)
 - שירות מסרים בזמן אמת עם Kafka (Upstash / CloudKarafka)
 
 ### טכנולוגיות
 - Backend: Node.js, Express.js
 - Frontend: Web (HTML, CSS, JavaScript)
 - Database: DBaaS (SQL)
-- Cloud APIs: Imagga, USDA ERS, Telegram (אופציונלי)
+- Cloud APIs: Imagga, USDA ERS
 - Messaging: Kafka (Upstash / CloudKarafka)
 
 ### ארכיטקטורת המערכת
@@ -57,29 +57,27 @@ A web-based system for lifestyle management and nutrition analysis, integrating 
   - Day type: weekday, holiday, or special occasion  
 - **Meal History Display**: View historical meals filtered by date range or meal type.  
 - **Push Notifications**: Receive real-time notifications from a doctor regarding newly available test results.  
-- **Optional Bonus - Blood Sugar Prediction**:  
+- **Blood Sugar Prediction**:  
   - Predict blood sugar based on meal type, day, and photo  
   - Validate image content to ensure it contains food  
   - Check if the date is a holiday or special occasion  
   - Display historical data in tables or charts  
-  - Optional photo upload via Telegram API
 
 ### Non-Functional Requirements
 - Built with **Node.js** and **Express.js**  
 - Two sub-projects: Data Management and Real-Time Messaging  
 - Access via **API Gateway**, with separate **Controllers** and **Models** for each service  
-- Database hosted as **DBaaS** (e.g., Somee.com)  
+- Database hosted as **DBaaS** (Somee.com)  
 - Integration with cloud services:  
   - **Imagga** for image analysis  
   - **USDA ERS Data APIs** for nutritional information  
-  - Optional: **Telegram API** for photo upload  
 - Real-time messaging sub-project uses a broker such as **Kafka** (Upstash / CloudKarafka)
 
 ## Technologies
 - **Backend:** Node.js, Express.js  
 - **Frontend:** Web interface (HTML, CSS, JavaScript)  
 - **Database:** DBaaS (SQL)  
-- **Cloud APIs:** Imagga, USDA ERS, Telegram (optional)  
+- **Cloud APIs:** Imagga, USDA ERS  
 - **Messaging:** Kafka (Upstash / CloudKarafka)
 
 ## System Architecture
