@@ -1,72 +1,91 @@
 # מערכת ניהול אורח חיים ותזונה מבוססת ענן
 # Cloud-Based Nutrition and Lifestyle Management System
 
-## תיאור / Overview
+---
+
+## חלק 1: עברית / Hebrew Version
+
+### תיאור
 מערכת Web לניהול אורח חיים וניתוח תזונה, המשתלבת עם שירותי ענן שונים כדי לבצע את המשימות הנדרשות. המערכת כוללת אופציה לאנליטיקה וחיזוי רמות סוכר בזמן מסוים.
-A web-based system for lifestyle management and nutrition analysis, integrating multiple cloud services. Optionally supports analytics and blood sugar prediction at specific times.
 
-## תכונות / Features
+### תכונות
 
-### דרישות פונקציונליות / Functional Requirements
-- **זיהוי משתמש / User Authentication**  
-  התחברות מאובטחת למערכת לצפייה ועריכת נתונים אישיים.  
-  Secure login functionality for accessing personal data.
+#### דרישות פונקציונליות
+- **זיהוי משתמש**: התחברות מאובטחת למערכת לצפייה ועריכת נתונים אישיים.
+- **עדכון ארוחות**: ארוחת בוקר, צהריים וערב; תאריך ותיאור; תמונת הארוחה; רמת סוכר אחרי שעתיים; סוג יום (יום חול, חג או מועד).
+- **היסטוריית ארוחות**: הצגת הארוחות לפי טווח תאריכים או לפי סוג הארוחה.
+- **הודעות בדחיפה**: קבלת התראות בזמן אמת מרופא.
+- **בונוס אופציונלי - חיזוי רמות סוכר**: חיזוי לפי סוג ארוחה, יום ותמונה; בדיקת תוכן תמונה; בדיקת תאריך לחג או מועד; הצגת נתונים היסטוריים; תמונה דרך Telegram API.
 
-- **עדכון ארוחות / Meal Logging**  
-  - ארוחת בוקר, צהריים וערב  
-  - תאריך ותיאור הארוחה  
-  - תמונת הארוחה  
-  - רמת סוכר נמדדת אחרי שעתיים  
-  - סוג יום: יום חול, חג או מועד  
-  Breakfast, lunch, and dinner with date, description, meal photo, measured blood sugar after 2 hours, and day type (weekday, holiday, or special occasion).
+#### דרישות לא פונקציונליות
+- Node.js / Express.js
+- שני תתי-פרויקטים: ניהול נתונים ושליחת מסרים בזמן אמת
+- API Gateway עם Controllers ו-Models נפרדים
+- DBaaS (למשל Somee.com)
+- שילוב עם שירותי ענן: Imagga (תמונות), USDA ERS (תזונה), Telegram API (אופציונלי)
+- שירות מסרים בזמן אמת עם Kafka (Upstash / CloudKarafka)
 
-- **היסטוריית ארוחות / Meal History Display**  
-  הצגת הארוחות לפי טווח תאריכים או לפי סוג הארוחה.  
-  View historical meals filtered by date range or meal type (breakfast, lunch, dinner).
+### טכנולוגיות
+- Backend: Node.js, Express.js
+- Frontend: Web (HTML, CSS, JavaScript)
+- Database: DBaaS (SQL)
+- Cloud APIs: Imagga, USDA ERS, Telegram (אופציונלי)
+- Messaging: Kafka (Upstash / CloudKarafka)
 
-- **הודעות בדחיפה / Push Notifications**  
-  קבלת התראות בזמן אמת מרופא אודות תוצאות בדיקות חדשות.  
-  Receive real-time notifications from a doctor regarding newly available test results.
+### ארכיטקטורת המערכת
+1. API Gateway מנהל קריאות לשירותים
+2. שירות ניהול נתונים: הזנת ארוחות, הצגת היסטוריה, שילוב עם APIs תזונתיים
+3. שירות הודעות בזמן אמת: טיפול בדחיפות והודעות
+4. ממשק Web למשתמש
+5. מודול אנליטיקה אופציונלי לחיזוי רמות סוכר
 
-- **בונוס אופציונלי: חיזוי רמות סוכר / Optional Bonus: Blood Sugar Prediction**  
-  - חיזוי רמות סוכר לפי סוג הארוחה, יום ותמונה  
-  - בדיקת תוכן תמונה לוודא שמדובר במאכל  
-  - בדיקת תאריך לחג או מועד  
-  - הצגת נתונים היסטוריים בטבלה או בגרף  
-  - תמונה יכולה להגיע גם דרך Telegram API  
-  Predict blood sugar levels based on meal type, day, and meal photo; validate image content; check if date is holiday/special occasion; visualize historical data in tables or charts; optional photo via Telegram API.
 
-### דרישות לא פונקציונליות / Non-Functional Requirements
-- Node.js / Express.js  
-- שני תתי-פרויקטים: ניהול נתונים ושליחת מסרים בזמן אמת  
-- גישה לשירותים דרך API Gateway, עם Controllers ו-Models נפרדים לכל שירות  
-- DBaaS (למשל Somee.com)  
-- שילוב עם שירותי ענן:  
-  - ניתוח תמונות: Imagga  
-  - מידע תזונתי: USDA ERS Data APIs  
-  - אפשרות: Telegram API  
-- שירות מסרים בזמן אמת משתמש במתווך כמו Kafka (Upstash / CloudKarafka)  
+# Cloud-Based Nutrition and Lifestyle Management System
 
-Node.js / Express.js, two sub-projects (Data Management and Real-Time Messaging), API Gateway with separate Controllers and Models, DBaaS (e.g., Somee.com), cloud integrations: Imagga for image analysis, USDA ERS Data APIs for nutritional info, optional Telegram API. Real-time messaging uses a broker like Kafka (Upstash / CloudKarafka).
+## Overview
+A web-based system for lifestyle management and nutrition analysis, integrating multiple cloud services to perform the required tasks. The system optionally supports analytics and blood sugar prediction at specific times.
 
-## טכנולוגיות / Technologies
+## Features
+
+### Functional Requirements
+- **User Authentication**: Secure login functionality for accessing and editing personal data.
+- **Meal Logging**:  
+  - Breakfast, lunch, and dinner  
+  - Date and description of the meal  
+  - Meal photo  
+  - Blood sugar measured 2 hours after the meal  
+  - Day type: weekday, holiday, or special occasion  
+- **Meal History Display**: View historical meals filtered by date range or meal type.  
+- **Push Notifications**: Receive real-time notifications from a doctor regarding newly available test results.  
+- **Optional Bonus - Blood Sugar Prediction**:  
+  - Predict blood sugar based on meal type, day, and photo  
+  - Validate image content to ensure it contains food  
+  - Check if the date is a holiday or special occasion  
+  - Display historical data in tables or charts  
+  - Optional photo upload via Telegram API
+
+### Non-Functional Requirements
+- Built with **Node.js** and **Express.js**  
+- Two sub-projects: Data Management and Real-Time Messaging  
+- Access via **API Gateway**, with separate **Controllers** and **Models** for each service  
+- Database hosted as **DBaaS** (e.g., Somee.com)  
+- Integration with cloud services:  
+  - **Imagga** for image analysis  
+  - **USDA ERS Data APIs** for nutritional information  
+  - Optional: **Telegram API** for photo upload  
+- Real-time messaging sub-project uses a broker such as **Kafka** (Upstash / CloudKarafka)
+
+## Technologies
 - **Backend:** Node.js, Express.js  
-- **Frontend:** Web Interface (HTML, CSS, JavaScript)  
+- **Frontend:** Web interface (HTML, CSS, JavaScript)  
 - **Database:** DBaaS (SQL)  
-- **Cloud APIs:** Imagga, USDA ERS, optional Telegram  
+- **Cloud APIs:** Imagga, USDA ERS, Telegram (optional)  
 - **Messaging:** Kafka (Upstash / CloudKarafka)
 
-## ארכיטקטורת המערכת / System Architecture
-1. API Gateway מנהל את כל הקריאות לשירותים השונים.  
-2. שירות ניהול נתונים - אחראי על הזנת ארוחות, הצגת היסטוריה ושילוב עם APIs תזונתיים.  
-3. שירות הודעות בזמן אמת - טיפול בהודעות ודחיפות.  
-4. ממשק Web למשתמש.  
-5. מודול אנליטיקה אופציונלי לחיזוי רמות סוכר.  
+## System Architecture
+1. **API Gateway** routes requests to the appropriate services.  
+2. **Data Management Service** handles meal logging, history retrieval, and integration with nutritional APIs.  
+3. **Real-Time Messaging Service** handles notifications and push messages.  
+4. **Web Interface** for user interaction.  
+5. **Optional Analytics Module** for blood sugar prediction.
 
-1. API Gateway routes requests to services.  
-2. Data Management Service handles meal logging, history retrieval, and integration with nutritional APIs.  
-3. Real-Time Messaging Service handles notifications.  
-4. Web interface for user interaction.  
-5. Optional analytics module for blood sugar prediction.
-
-## התקנה והפעלה / Setup and Installation
